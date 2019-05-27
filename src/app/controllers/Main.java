@@ -14,6 +14,13 @@ public class Main extends Application {
         primaryStage.setTitle("yeet World");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
+
+        int i = 1;
+
+        while(i == 1){
+            System.out.println("Rekt son");
+        }
+
     }
 
 
