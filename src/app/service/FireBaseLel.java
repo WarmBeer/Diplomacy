@@ -24,7 +24,7 @@ public class FireBaseLel {
         System.out.println("Start firebase");
 
         // Use a service account
-        InputStream serviceAccount = new FileInputStream("service/iipsen-database-firebase-adminsdk-rpnmc-85360e6053.json");
+        InputStream serviceAccount = new FileInputStream("source/iipsen-database-firebase-adminsdk-rpnmc-85360e6053.json");
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(credentials)
