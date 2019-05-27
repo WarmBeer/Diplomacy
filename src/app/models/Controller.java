@@ -1,4 +1,4 @@
-package sample.models;
+package app.models;
 
 public class Controller {
 }
