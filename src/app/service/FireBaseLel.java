@@ -1,11 +1,6 @@
 package app.service;
 
-        import com.google.api.core.ApiFuture;
-        import com.google.auth.oauth2.GoogleCredentials;
-        import com.google.cloud.firestore.*;
-        import com.google.firebase.FirebaseApp;
-        import com.google.firebase.FirebaseOptions;
-        import com.google.firebase.cloud.FirestoreClient;
+
 
         import java.io.FileInputStream;
         import java.io.FileNotFoundException;
@@ -22,6 +17,15 @@ public class FireBaseLel {
     public static void startFirebase() throws IOException, InterruptedException, ExecutionException {
 
         System.out.println("Start firebase");
+
+        /*
+
+        import com.google.api.core.ApiFuture;
+        import com.google.auth.oauth2.GoogleCredentials;
+        import com.google.cloud.firestore.*;
+        import com.google.firebase.FirebaseApp;
+        import com.google.firebase.FirebaseOptions;
+        import com.google.firebase.cloud.FirestoreClient;
 
         // Use a service account
         InputStream serviceAccount = new FileInputStream("source/iipsen-database-firebase-adminsdk-rpnmc-85360e6053.json");
@@ -76,7 +80,9 @@ public class FireBaseLel {
             System.out.println("Born: " + document.getLong("born"));
         }
 
-        System.out.println("Gelukt, facking cool");
+         */
+
+        System.out.println("Niet Gelukt, facking cool");
 
     }
 }
