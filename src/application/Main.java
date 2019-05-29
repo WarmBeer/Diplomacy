@@ -38,6 +38,7 @@ public class Main extends Application {
                 stage.setScene(scene);
                 stage.setTitle("Diplomacy");
                 //stage.getIcons().add(ICON);
+                stage.setFullScreen(true);
                 stage.show();
         }
 }
