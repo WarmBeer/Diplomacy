@@ -12,22 +12,15 @@ import static javafx.fxml.FXMLLoader.load;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage){
+    public void start(Stage primaryStage) throws Exception{
 
         System.out.print("test");
 
-        try{
-            Parent root = load(getClass().getClassLoader().getResource("app.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../views/app.fxml"));
             primaryStage.setTitle("yeet World");
             primaryStage.setScene(new Scene(root, 300, 275));
             primaryStage.show();
             System.out.print("test");
-
-        }
-        catch (Exception e){
-            System.out.print(e);
-        }
-
     }
 
     public static void main(String[] args) {
