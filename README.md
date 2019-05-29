@@ -1,2 +1,0 @@
-# Diplomacy
-IIPSEN Project Diplomacy
