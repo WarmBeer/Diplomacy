@@ -20,7 +20,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Hyperlink?>
 
-<Group xmlns:fx="http://javafx.com/fxml" fx:controller="Main" fx:id="area">
+<Group xmlns:fx="http://javafx.com/fxml" fx:controller="application.Main" fx:id="area">
     <Circle fx:id="ball" radius="10.0" fill="BLACK" />
     <Rectangle fx:id="borderTop" x="0" y="30" width="500" height="2" />
     <Rectangle fx:id="borderBottom"  x="0" y="500" width="500" height="2"/>
