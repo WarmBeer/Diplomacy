@@ -7,14 +7,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="TotaleChatbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="TotaleChatbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.999-ea"
+      xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <TextArea fx:id="berichtInput"  layoutX="20.0" layoutY="398.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="88.0" prefWidth="270.0" promptText="Typ hier uw bericht (max 50 tekens)">
-        </TextArea>
-
-        <Button fx:id="VerzendButton"  layoutX="290.0" layoutY="398.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="88.0" prefWidth="89.0" text="Verzend">
-        </Button>
-      <VBox fx:id="VerticaleBox" layoutX="20.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="376.0" prefWidth="360.0" />
-      <ScrollBar fx:id="Scrollbar"  layoutX="377.0" layoutY="20.0" max="30.0" orientation="VERTICAL" prefHeight="368.0" prefWidth="17.0" value="15.0" />
+        <TextArea fx:id="berichtInput" layoutX="20.0" layoutY="398.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                  minHeight="-Infinity" minWidth="-Infinity" prefHeight="88.0" prefWidth="270.0"
+                  promptText="Typ hier uw bericht (max 50 tekens)"></TextArea>
+        <Button fx:id="VerzendButton" layoutX="290.0" layoutY="398.0" maxHeight="-Infinity" maxWidth="-Infinity"
+                minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="88.0" prefWidth="89.0"
+                text="Verzend"></Button>
+        <VBox fx:id="VerticaleBox" layoutX="20.0" layoutY="14.0" maxHeight="1.7976931348623157E308"
+              maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="376.0"
+              prefWidth="360.0"/>
+        <ScrollBar fx:id="Scrollbar" layoutX="377.0" layoutY="20.0" max="30.0" orientation="VERTICAL" prefHeight="368.0"
+                   prefWidth="17.0" value="15.0"/>
     </children>
 </Pane>
