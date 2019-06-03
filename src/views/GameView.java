@@ -5,10 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.SceneBuilder;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -63,11 +63,11 @@ public class GameView {
     @FXML
     private Scrollbar Scrollbarretje;
 
-//    @FXML
-//    private void verzendString(ActionEvent event) {
-//        System.out.println("Verzendbutton Gedrukt");
-//        //firebaseservice.addMessage(); --> Send messaage to firebase, than update the chat and get all messages from firebase
-//
-//    }
+    @FXML
+    private void verzendString(ActionEvent event) {
+        System.out.println("Verzendbutton Gedrukt");
+        //firebaseservice.addMessage(); --> Send messaage to firebase, than update the chat and get all messages from firebase
+
+    }
 }
 
