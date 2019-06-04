@@ -2,52 +2,43 @@ package application;
 
 import controllers.MainController;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SceneBuilder;
+import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import views.MainMenu;
+import javafx.collections.ObservableList;
 
+import javax.print.DocFlavor;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class Main extends Application {
 
-        private static String GAME_VIEW = "/resources/GameView.fxml";
-        private static String STYLESHEET_FILE = "/resources/style.css";
+        //private static String GAME_VIEW = "/resources/GameViewNew.fxml";
+        //private static String STYLESHEET_FILE = "/resources/style.css";
 
         public static void main(String[] args) {
                 launch(args);
         }
 
-    /**
-     * @param stage
-     * @throws Exception
-     */
-    @Override
-        public void start(Stage stage) throws Exception {
-                initGui(stage);
-        }
-
-    /**
-     *
-     * @param stage
-     * @throws IOException
-     */
-    private void initGui(Stage stage) throws IOException {
-            Parent root = FXMLLoader.load(getClass().getResource(GAME_VIEW));
-            Scene scene = SceneBuilder.create().root(root).width(1280).height(720)
-                    .fill(Color.GRAY).build();
-            scene.getStylesheets().add(STYLESHEET_FILE);
-            stage.setScene(scene);
-            stage.setTitle("Diplomacy");
-            //stage.getIcons().add(ICON);
-            stage.show();
-
-            MainController mainController = new MainController();
-
-            MainMenu mainMenu = new MainMenu(stage, mainController);
-            mainMenu.show();
+        /**
+         * Hello World,
+         * by calling this, the application will be started.
+         */
+        @Override
+        public void start(Stage primaryStage) throws Exception {
+                Parent panel;
+                panel = FXMLLoader.load(getClass().getResource("/Resources/GameViewNew.fxml"));
+                Scene scene = new Scene(panel);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("Diplomacy v0.1");
+                stage.show();
         }
 }
