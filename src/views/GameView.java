@@ -7,10 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import sun.reflect.generics.scope.Scope;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -24,6 +21,7 @@ public class GameView {
     private double vboxHeight = 0;
     private double labelHeight = 20;
     ArrayList<String> firebaseArrayMetBerichten = new ArrayList<String>();
+    private String gebruikersnaam = "Thomas";
 
     @FXML
     private Pane TotaleChatbox;
@@ -35,15 +33,10 @@ public class GameView {
     private Button VerzendButton;
 
     @FXML
-    private VBox VerticaleBox;
-
-    @FXML
-    private ScrollPane Scrollbarretje;
-
+    private ListView berichtenLijst;
 
     public GameView(Stage stage){
         chatboxLaunch(stage);
-        vulFirebaseBerichten();
         updateMenu(firebaseArrayMetBerichten);
     }
 
@@ -58,7 +51,7 @@ public class GameView {
 
             primaryStage.setTitle("Welkom!");
             primaryStage.setScene(new Scene(content, 400, 500));
-            VerticaleBox.snappedBottomInset();
+
             primaryStage.show();
         }
         catch(IOException IOE){
@@ -70,31 +63,23 @@ public class GameView {
 
     }
 
-
     @FXML
     private void verzendString(ActionEvent event) {
         System.out.println("Verzendbutton Gedrukt");
-        String nieuwBericht = berichtInput.getText();
+        String nieuwBericht = (gebruikersnaam + ": " + berichtInput.getText());
         System.out.println("Bericht ontvangen: " + nieuwBericht);
         addMessageToFirebase(nieuwBericht);
         updateMenu(firebaseArrayMetBerichten);
-
     }
 
-
     private void updateMenu(ArrayList<String> firebaseArrayMetBerichten){
+        berichtenLijst.getItems().clear();
+
         for(String bericht : firebaseArrayMetBerichten){
-            VerticaleBox.getChildren().add(stringToLabel(bericht));
+            berichtenLijst.getItems().add(berichtenLijst.getItems().size(), bericht);
+            berichtenLijst.scrollTo(bericht);
             vboxHeight = vboxHeight + labelHeight;
-            Scrollbarretje.setVmax(Scrollbarretje.getVvalue() + 1);
-            System.out.println("V max: "+ Scrollbarretje.getVmax());
-            Scrollbarretje.setVvalue(Scrollbarretje.getVvalue() + 1);
-            System.out.println("V value: "+ Scrollbarretje.getVmax());
         }
-        VerticaleBox.setPrefHeight(vboxHeight);
-
-
-
     }
 
     private Label stringToLabel(String text){
@@ -105,57 +90,7 @@ public class GameView {
     }
 
     public void addMessageToFirebase(String message){
-
         firebaseArrayMetBerichten.add(message);
-    }
-
-    private void vulFirebaseBerichten(){
-        firebaseArrayMetBerichten.add("lol");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("lel");
-        firebaseArrayMetBerichten.add("fight me bitch");
-        firebaseArrayMetBerichten.add("sebash is cute");
-
     }
 
 }
