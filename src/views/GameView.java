@@ -1,5 +1,6 @@
 package views;
 
+import com.google.cloud.firestore.Firestore;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,9 +9,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import services.FirebaseService;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.logging.LogManager;
 
 
 public class GameView {
@@ -20,8 +25,9 @@ public class GameView {
     private Parent content;
     private double vboxHeight = 0;
     private double labelHeight = 20;
-    ArrayList<String> firebaseArrayMetBerichten = new ArrayList<String>();
+    private ArrayList<String> firebaseArrayMetBerichten = new ArrayList<String>();
     private String gebruikersnaam = "Thomas";
+    private FirebaseService fb = new FirebaseService();
 
     @FXML
     private Pane TotaleChatbox;
@@ -36,8 +42,14 @@ public class GameView {
     private ListView berichtenLijst;
 
     public GameView(Stage stage){
-        chatboxLaunch(stage);
-        updateMenu(firebaseArrayMetBerichten);
+        //chatboxLaunch(stage);
+        //updateMenu(firebaseArrayMetBerichten);
+
+        Firestore Fbobject =  fb.testFB();
+        fb.leesEnPrintTestData(Fbobject);
+        fb.schrijfTestData(Fbobject);
+
+
     }
 
     public void chatboxLaunch(Stage primaryStage) {
@@ -78,7 +90,7 @@ public class GameView {
         for(String bericht : firebaseArrayMetBerichten){
             berichtenLijst.getItems().add(berichtenLijst.getItems().size(), bericht);
             berichtenLijst.scrollTo(bericht);
-            vboxHeight = vboxHeight + labelHeight;
+            LogManager.getLogManager().reset();
         }
     }
 
