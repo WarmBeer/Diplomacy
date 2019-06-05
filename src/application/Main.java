@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.SceneBuilder;
 import javafx.scene.control.ComboBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.collections.ObservableList;
 
@@ -25,8 +26,8 @@ import java.util.ResourceBundle;
  */
 public class Main extends Application {
 
-        //private static String GAME_VIEW = "/resources/GameViewNew.fxml";
-        //private static String STYLESHEET_FILE = "/resources/style.css";
+        private static String GAME_VIEW = "/resources/Diplomacy.fxml";
+        private static String STYLESHEET_FILE = "/resources/style.css";
 
         public static void main(String[] args) {
                 launch(args);
@@ -38,12 +39,15 @@ public class Main extends Application {
          */
         @Override
         public void start(Stage primaryStage) throws Exception {
+                String fxmlResource = GAME_VIEW;
                 Parent panel;
-                panel = FXMLLoader.load(getClass().getResource("/Resources/GameViewNew.fxml"));
+                panel = FXMLLoader.load(getClass().getResource(fxmlResource));
                 Scene scene = new Scene(panel);
                 Stage stage = new Stage();
+                stage.setHeight(1040);
                 stage.setScene(scene);
-                stage.setTitle("Diplomacy v0.1");
+                stage.setResizable(false);
+                stage.setAlwaysOnTop(true);
                 stage.show();
         }
 
