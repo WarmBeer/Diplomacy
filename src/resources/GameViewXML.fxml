@@ -7,7 +7,7 @@
 
 <Pane fx:id="TotaleChatbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <TextArea fx:id="berichtInput" layoutX="20.0" layoutY="398.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="88.0" prefWidth="270.0" promptText="Typ hier uw bericht (max 50 tekens)" />
+        <TextArea fx:id="berichtInput" layoutX="20.0" layoutY="398.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="88.0" prefWidth="270.0" promptText="Typ hier uw bericht..." />
         <Button fx:id="VerzendButton" layoutX="290.0" layoutY="398.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#verzendString" prefHeight="88.0" prefWidth="89.0" text="Verzend" />
         <ListView fx:id="berichtenLijst" prefHeight="388.0" prefWidth="400.0">
             

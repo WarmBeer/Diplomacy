@@ -10,50 +10,59 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class FirebaseService {
 
-    public Firestore testFB(){
+    private final String ARRAYNAME = "messageArray";
+    private final String CHILDPATH = "Chatbox";
+    private String playerName;
+    private String gameName;
 
-        try{
-            InputStream serviceAccount = new FileInputStream("src/resources/iipsen-database-firebase-adminsdk-rpnmc-2910ea15ab.json");
-            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(credentials)
-                    .build();
-            FirebaseApp.initializeApp(options);
-            Firestore db = FirestoreClient.getFirestore();
 
-            return db;
-        }
-        catch (IOException IOE){
-            IOE.printStackTrace();
-            Firestore db = null;
-            System.out.print("NIET GOED! NIET GOED! NIET GOED! NIET GOED! NIET GOED! NIET GOED!");
-            System.exit(0);
-            return db;
-        }
+    public Firestore makeFirebaseConnection(String playerName, String gameName) throws IOException {
+
+        //Inisaliseer en autoriseer cloud firestore connectie
+        InputStream serviceAccount = new FileInputStream("src/resources/iipsen-database-firebase-adminsdk-rpnmc-2910ea15ab.json");
+        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setCredentials(credentials)
+                .build();
+        FirebaseApp.initializeApp(options);
+        Firestore db = FirestoreClient.getFirestore();
+
+        //initialiseer playernaam en gamenaam
+        this.playerName = playerName;
+        this.gameName = gameName;
+
+        return db;
+
     }
 
-    public void schrijfTestData(Firestore db){
+    public void makeSaveLocationChat(Firestore db){
 
         try{
-            DocumentReference docRef = db.collection("Producten").document("Lijsten");
-            // Add document data  with id "alovelace" using a hashmap
-            Map<String, Object> data = new HashMap<>();
-            data.put("12233", "14,95");
-            data.put("23321", "9,95");
-            data.put("23123", "19,95");
-            //asynchronously write data
-            ApiFuture<WriteResult> result = docRef.set(data);
-            // ...
-            // result.get() blocks on response
-            System.out.println("Update time : " + result.get().getUpdateTime());
-            System.out.println("Schrijftest gelukt!");
+
+            //Make root hashmap
+            Map<String, Object> chatMap = new HashMap<>();
+
+            //Make first message
+            String systemNameAndTimestamp = ("(" + (new SimpleDateFormat("HH:mm:ss").format(new Date())) + ") " + "System");
+            String systemMessage = "Welkom to Diplomacy!";
+            String TotaleMessage = systemNameAndTimestamp + ": " + systemMessage;
+
+            ArrayList<Object> messageArray = new ArrayList<>();
+            Collections.addAll(messageArray, TotaleMessage);
+            chatMap.put(ARRAYNAME, messageArray);
+
+            // Add a new document (asynchronously) in collection gameName with id childpath
+            ApiFuture<WriteResult> future = db.collection(gameName).document(CHILDPATH).set(chatMap);
+
+            //Console update
+            System.out.println("Update time : " + future.get().getUpdateTime());
+
         }
 
         catch(ExecutionException EE){
@@ -66,30 +75,45 @@ public class FirebaseService {
         }
     }
 
-    public void leesEnPrintTestData(Firestore db){
+
+    public ArrayList<String> getData(Firestore db) throws ExecutionException, InterruptedException {
+
+        //Get right document from firebase
+        DocumentReference docRef = db.collection(gameName).document(CHILDPATH);
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+
+        //Get the hashmap
+        Map <String, Object> messagesInHashmap = document.getData();
+
+        //Get the arraylist as object from the hastmap
+        Object messagesAsObject = messagesInHashmap.get(ARRAYNAME);
+
+        //Convert the object to een arraylist
+        ArrayList <String> messagesInArraylist = ((ArrayList<String>) messagesAsObject);
+
+        return messagesInArraylist;
+    }
+
+
+    public void addMessageToChat(Firestore db, String message){
+
         try{
-            // asynchronously retrieve all users
-            ApiFuture<QuerySnapshot> query = db.collection("Producten").get();
+            //Make new message
+            String systemNameAndTimestamp = ("(" + (new SimpleDateFormat("HH:mm:ss").format(new Date())) + ") " + playerName);
+            String newMessage = systemNameAndTimestamp + ": " + message;
 
-            // query.get() blocks on response
-            QuerySnapshot querySnapshot = query.get();
-            List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
-            for (QueryDocumentSnapshot document : documents) {
-                System.out.println("Producten: " + document.getId());
-                System.out.println("Lijst: " + document.getString("12233"));
-                System.out.println("Lijst: " + document.getString("23321"));
-                System.out.println("Lijst: " + document.getString("23123"));
-                System.out.println("Leestest gelukt!");
-            }
+            DocumentReference chatbox = db.collection(gameName).document(CHILDPATH);
 
+            // Atomically add a new region to the "regions" array field.
+            ApiFuture<WriteResult> writeResult = chatbox.update(ARRAYNAME, FieldValue.arrayUnion(newMessage));
+            System.out.println("Update time : " + writeResult.get());
         }
-        catch(ExecutionException EE){
+            catch(ExecutionException EE){
             EE.printStackTrace();
         }
-        catch(InterruptedException IE){
+            catch(InterruptedException IE){
             IE.printStackTrace();
         }
-
-
     }
 }

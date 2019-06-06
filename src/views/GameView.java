@@ -10,24 +10,25 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import services.FirebaseService;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.LogManager;
 
 
 public class GameView {
 
+    //Variables for javaFX
     private static String GAME_VIEW = "/resources/GameViewXML.fxml";
-    private static String STYLESHEET_FILE = "/resources/style.css";
     private Parent content;
-    private double vboxHeight = 0;
-    private double labelHeight = 20;
-    private ArrayList<String> firebaseArrayMetBerichten = new ArrayList<String>();
-    private String gebruikersnaam = "Thomas";
+
+    //Variables for firebase usage
+    Firestore firebaseConnection;
+    private String userName;
+    private String gameName;
     private FirebaseService fb = new FirebaseService();
+    private ArrayList<String> messageArraylist = new ArrayList<String>();
 
     @FXML
     private Pane TotaleChatbox;
@@ -41,18 +42,28 @@ public class GameView {
     @FXML
     private ListView berichtenLijst;
 
-    public GameView(Stage stage){
-        //chatboxLaunch(stage);
-        //updateMenu(firebaseArrayMetBerichten);
 
-        Firestore Fbobject =  fb.testFB();
-        fb.leesEnPrintTestData(Fbobject);
-        fb.schrijfTestData(Fbobject);
-
-
+    public GameView(Stage stage, String userName, String gameName){
+        this.userName = userName;
+        this.gameName = gameName;
+        launchChatbox(stage);
     }
 
-    public void chatboxLaunch(Stage primaryStage) {
+
+    private void launchChatbox(Stage stage){
+        try{
+            makeLayout(stage);
+            firebaseConnection =  fb.makeFirebaseConnection(userName,gameName);
+            fb.makeSaveLocationChat(firebaseConnection);
+            updateMessages();
+        }
+        catch (IOException IOE){
+            IOE.printStackTrace();
+        }
+    }
+
+
+    private void makeLayout(Stage primaryStage) {
         String sceneFile = GAME_VIEW;
 
         try{
@@ -63,7 +74,6 @@ public class GameView {
 
             primaryStage.setTitle("Welkom!");
             primaryStage.setScene(new Scene(content, 400, 500));
-
             primaryStage.show();
         }
         catch(IOException IOE){
@@ -72,37 +82,49 @@ public class GameView {
         catch(Exception E){
             E.printStackTrace();
         }
-
     }
+
 
     @FXML
     private void verzendString(ActionEvent event) {
-        System.out.println("Verzendbutton Gedrukt");
-        String nieuwBericht = (gebruikersnaam + ": " + berichtInput.getText());
-        System.out.println("Bericht ontvangen: " + nieuwBericht);
+        String nieuwBericht = (berichtInput.getText());
         addMessageToFirebase(nieuwBericht);
-        updateMenu(firebaseArrayMetBerichten);
+        updateMessages();
+        berichtInput.clear();
     }
 
-    private void updateMenu(ArrayList<String> firebaseArrayMetBerichten){
-        berichtenLijst.getItems().clear();
 
-        for(String bericht : firebaseArrayMetBerichten){
+    private void updateMessages(){
+        berichtenLijst.getItems().clear();
+        ArrayList<String> updatedMessageArraylist = getUpdatedArraylistFB();
+
+        for(String bericht : updatedMessageArraylist){
             berichtenLijst.getItems().add(berichtenLijst.getItems().size(), bericht);
             berichtenLijst.scrollTo(bericht);
             LogManager.getLogManager().reset();
         }
     }
 
-    private Label stringToLabel(String text){
-        Label label = new Label(text);
-        label.setMinHeight(labelHeight);
-        label.maxHeight(labelHeight);
-        return label;
+
+    private ArrayList<String> getUpdatedArraylistFB(){
+        try{
+            ArrayList<String> updatedMessageArraylist = fb.getData(firebaseConnection);
+            return updatedMessageArraylist;
+        }
+        catch (ExecutionException EE){
+            EE.printStackTrace();
+            return null;
+        }
+        catch(InterruptedException IE){
+            IE.printStackTrace();
+            return null;
+        }
+
     }
 
-    public void addMessageToFirebase(String message){
-        firebaseArrayMetBerichten.add(message);
+
+    private void addMessageToFirebase(String message){
+        fb.addMessageToChat(firebaseConnection,message);
     }
 
 }

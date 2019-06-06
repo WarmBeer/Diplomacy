@@ -14,7 +14,9 @@ public class Main extends Application {
 
         @Override
         public void start(Stage stage) throws Exception {
-                game = new GameView(stage);
+                String userName = "Thomas";
+                String gameName = "Game4";
+                game = new GameView(stage,userName,gameName);
         }
 
 }
