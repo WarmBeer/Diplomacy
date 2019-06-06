@@ -70,8 +70,6 @@ public class GameView {
             if(host == true){
                 fb.makeSaveLocationChat(firebaseConnection);
             }
-
-            updateMessages();
             keepUpdatingChat();
         }
         catch (IOException IOE){
@@ -120,8 +118,6 @@ public class GameView {
             messagesList.scrollTo(bericht);
             LogManager.getLogManager().reset();
         }
-
-        System.out.println("Chat updated!");
     }
 
 
