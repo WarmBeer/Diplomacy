@@ -1,6 +1,7 @@
 package views;
 
 import com.google.cloud.firestore.Firestore;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,8 +13,15 @@ import javafx.stage.Stage;
 import services.FirebaseService;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.LogManager;
 
 
@@ -29,6 +37,7 @@ public class GameView {
     private String gameName;
     private FirebaseService fb = new FirebaseService();
     private ArrayList<String> messageArraylist = new ArrayList<String>();
+    private boolean host = false;
 
     @FXML
     private Pane TotaleChatbox;
@@ -43,7 +52,8 @@ public class GameView {
     private ListView berichtenLijst;
 
 
-    public GameView(Stage stage, String userName, String gameName){
+    public GameView(Stage stage, String userName, String gameName, boolean host){
+        this.host = host;
         this.userName = userName;
         this.gameName = gameName;
         launchChatbox(stage);
@@ -53,8 +63,13 @@ public class GameView {
     private void launchChatbox(Stage stage){
         try{
             makeLayout(stage);
-            firebaseConnection =  fb.makeFirebaseConnection(userName,gameName);
-            fb.makeSaveLocationChat(firebaseConnection);
+            firebaseConnection =  fb.makeFirebaseConnection(gameName);
+
+            //Sorry henk
+            if(host == true){
+                fb.makeSaveLocationChat(firebaseConnection);
+            }
+
             updateMessages();
         }
         catch (IOException IOE){
@@ -103,6 +118,8 @@ public class GameView {
             berichtenLijst.scrollTo(bericht);
             LogManager.getLogManager().reset();
         }
+
+        System.out.println("Chat updated!");
     }
 
 
@@ -124,8 +141,17 @@ public class GameView {
 
 
     private void addMessageToFirebase(String message){
-        fb.addMessageToChat(firebaseConnection,message);
+        String newMessage = makeNewMessage(message);
+        fb.addMessageToChat(firebaseConnection,newMessage);
     }
+
+
+    private String makeNewMessage(String message){
+        String systemNameAndTimestamp = ("(" + (new SimpleDateFormat("HH:mm:ss").format(new Date())) + ") " + userName);
+        String newMessage = systemNameAndTimestamp + ": " + message;
+        return newMessage;
+    }
+
 
 }
 

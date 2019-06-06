@@ -16,7 +16,8 @@ public class Main extends Application {
         public void start(Stage stage) throws Exception {
                 String userName = "Thomas";
                 String gameName = "Game4";
-                game = new GameView(stage,userName,gameName);
+                boolean host = true;
+                game = new GameView(stage,userName,gameName,host);
         }
 
 }

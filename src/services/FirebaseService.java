@@ -18,43 +18,32 @@ public class FirebaseService {
 
     private final String ARRAYNAME = "messageArray";
     private final String CHILDPATH = "Chatbox";
-    private String playerName;
+    private final String FIRSTMESSAGE = "System: Welkom bij Diplomacy!";
     private String gameName;
 
 
-    public Firestore makeFirebaseConnection(String playerName, String gameName) throws IOException {
+    public Firestore makeFirebaseConnection(String gameName) throws IOException {
+        //initialiseer playernaam en gamenaam
+        this.gameName = gameName;
 
         //Inisaliseer en autoriseer cloud firestore connectie
         InputStream serviceAccount = new FileInputStream("src/resources/iipsen-database-firebase-adminsdk-rpnmc-2910ea15ab.json");
         GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(credentials)
-                .build();
+        FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(credentials).build();
         FirebaseApp.initializeApp(options);
         Firestore db = FirestoreClient.getFirestore();
 
-        //initialiseer playernaam en gamenaam
-        this.playerName = playerName;
-        this.gameName = gameName;
-
         return db;
-
     }
 
     public void makeSaveLocationChat(Firestore db){
 
         try{
-
             //Make root hashmap
             Map<String, Object> chatMap = new HashMap<>();
 
-            //Make first message
-            String systemNameAndTimestamp = ("(" + (new SimpleDateFormat("HH:mm:ss").format(new Date())) + ") " + "System");
-            String systemMessage = "Welkom to Diplomacy!";
-            String TotaleMessage = systemNameAndTimestamp + ": " + systemMessage;
-
             ArrayList<Object> messageArray = new ArrayList<>();
-            Collections.addAll(messageArray, TotaleMessage);
+            Collections.addAll(messageArray, FIRSTMESSAGE);
             chatMap.put(ARRAYNAME, messageArray);
 
             // Add a new document (asynchronously) in collection gameName with id childpath
@@ -77,7 +66,6 @@ public class FirebaseService {
 
 
     public ArrayList<String> getData(Firestore db) throws ExecutionException, InterruptedException {
-
         //Get right document from firebase
         DocumentReference docRef = db.collection(gameName).document(CHILDPATH);
         ApiFuture<DocumentSnapshot> future = docRef.get();
@@ -97,16 +85,11 @@ public class FirebaseService {
 
 
     public void addMessageToChat(Firestore db, String message){
-
         try{
-            //Make new message
-            String systemNameAndTimestamp = ("(" + (new SimpleDateFormat("HH:mm:ss").format(new Date())) + ") " + playerName);
-            String newMessage = systemNameAndTimestamp + ": " + message;
-
             DocumentReference chatbox = db.collection(gameName).document(CHILDPATH);
 
             // Atomically add a new region to the "regions" array field.
-            ApiFuture<WriteResult> writeResult = chatbox.update(ARRAYNAME, FieldValue.arrayUnion(newMessage));
+            ApiFuture<WriteResult> writeResult = chatbox.update(ARRAYNAME, FieldValue.arrayUnion(message));
             System.out.println("Update time : " + writeResult.get());
         }
             catch(ExecutionException EE){
