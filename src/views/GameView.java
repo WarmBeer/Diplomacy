@@ -38,18 +38,19 @@ public class GameView {
     private FirebaseService fb = new FirebaseService();
     private ArrayList<String> messageArraylist = new ArrayList<String>();
     private boolean host = false;
+    private int chatUpdateInSeconden = 2;
 
     @FXML
-    private Pane TotaleChatbox;
+    private Pane chatPane;
 
     @FXML
-    private TextArea berichtInput;
+    private TextArea textInput;
 
     @FXML
-    private Button VerzendButton;
+    private Button sendButton;
 
     @FXML
-    private ListView berichtenLijst;
+    private ListView messagesList;
 
 
     public GameView(Stage stage, String userName, String gameName, boolean host){
@@ -71,6 +72,7 @@ public class GameView {
             }
 
             updateMessages();
+            keepUpdatingChat();
         }
         catch (IOException IOE){
             IOE.printStackTrace();
@@ -101,21 +103,21 @@ public class GameView {
 
 
     @FXML
-    private void verzendString(ActionEvent event) {
-        String nieuwBericht = (berichtInput.getText());
+    private void sendMessage(ActionEvent event) {
+        String nieuwBericht = (textInput.getText());
         addMessageToFirebase(nieuwBericht);
         updateMessages();
-        berichtInput.clear();
+        textInput.clear();
     }
 
 
     private void updateMessages(){
-        berichtenLijst.getItems().clear();
+        messagesList.getItems().clear();
         ArrayList<String> updatedMessageArraylist = getUpdatedArraylistFB();
 
         for(String bericht : updatedMessageArraylist){
-            berichtenLijst.getItems().add(berichtenLijst.getItems().size(), bericht);
-            berichtenLijst.scrollTo(bericht);
+            messagesList.getItems().add(messagesList.getItems().size(), bericht);
+            messagesList.scrollTo(bericht);
             LogManager.getLogManager().reset();
         }
 
@@ -150,6 +152,22 @@ public class GameView {
         String systemNameAndTimestamp = ("(" + (new SimpleDateFormat("HH:mm:ss").format(new Date())) + ") " + userName);
         String newMessage = systemNameAndTimestamp + ": " + message;
         return newMessage;
+    }
+
+
+    private void keepUpdatingChat(){
+        Runnable helloRunnable = new Runnable() {
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        updateMessages();
+                    }
+                });
+            }
+        };
+
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(helloRunnable, 0, chatUpdateInSeconden, TimeUnit.SECONDS);
     }
 
 
