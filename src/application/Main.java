@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import models.GameModel;
 import models.Model;
+import models.SuperModel;
 
 /**
  * Bevat alle code om het programma te kunnen starten.
@@ -23,6 +24,7 @@ public class Main extends Application {
         private Stage stage;
 
         private Model gameModel;
+        private Model superModel;
 
         public static void main(String[] args) {
                 launch(args);
@@ -37,6 +39,8 @@ public class Main extends Application {
         public void start(Stage primaryStage) throws Exception {
 
                 this.gameModel = new GameModel();
+                this.superModel = new SuperModel();
+
                 Parent panel;
                 panel = FXMLLoader.load(getClass().getResource(MAIN_MENU));
                 Scene scene = new Scene(panel);
