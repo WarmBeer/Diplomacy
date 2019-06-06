@@ -1,21 +1,12 @@
 package application;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.SceneBuilder;
-import javafx.scene.control.ComboBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-import javafx.collections.ObservableList;
-
-import javax.print.DocFlavor;
-import java.io.IOException;
-import java.util.ResourceBundle;
+import models.GameModel;
+import models.Model;
 
 /**
  * Bevat alle code om het programma te kunnen starten.
@@ -26,8 +17,12 @@ import java.util.ResourceBundle;
  */
 public class Main extends Application {
 
-        private static String GAME_VIEW = "/resources/Diplomacy.fxml";
-        private static String STYLESHEET_FILE = "/resources/style.css";
+        public static String GAME_VIEW = "/resources/views/GameView.fxml";
+        public static String MAIN_MENU = "/resources/views/MainMenu.fxml";
+        public static String STYLESHEET_FILE = "/resources/style.css";
+        private Stage stage;
+
+        private Model gameModel;
 
         public static void main(String[] args) {
                 launch(args);
@@ -37,18 +32,21 @@ public class Main extends Application {
          * Hello World,
          * by calling this, the application will be started.
          */
+
         @Override
         public void start(Stage primaryStage) throws Exception {
-                String fxmlResource = GAME_VIEW;
+
+                this.gameModel = new GameModel();
                 Parent panel;
-                panel = FXMLLoader.load(getClass().getResource(fxmlResource));
+                panel = FXMLLoader.load(getClass().getResource(MAIN_MENU));
                 Scene scene = new Scene(panel);
-                Stage stage = new Stage();
-                stage.setHeight(1040);
+                stage = new Stage();
                 stage.setScene(scene);
-                stage.setResizable(false);
-                stage.setAlwaysOnTop(true);
+                stage.setTitle("Diplomacy v0.1");
+                stage.setMaximized(true);
                 stage.show();
+
+                gameModel.show(stage);
         }
 
 //        @FXML

@@ -1,4 +1,4 @@
-package models;
+package domains;
 
 public class Province {
 }
