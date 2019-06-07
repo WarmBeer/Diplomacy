@@ -1,13 +1,21 @@
 package application;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SceneBuilder;
+import javafx.scene.control.ComboBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import models.GameModel;
-import models.Model;
-import models.SuperModel;
+import javafx.collections.ObservableList;
+import views.GameView;
+
+import javax.print.DocFlavor;
+import java.io.IOException;
+import java.util.ResourceBundle;
 
 /**
  * Bevat alle code om het programma te kunnen starten.
@@ -18,39 +26,28 @@ import models.SuperModel;
  */
 public class Main extends Application {
 
-        public static String GAME_VIEW = "/resources/views/GameView.fxml";
-        public static String MAIN_MENU = "/resources/views/MainMenu.fxml";
-        public static String STYLESHEET_FILE = "/resources/style.css";
-        private Stage stage;
-
-        private Model gameModel;
-        private Model superModel;
+        //private static String GAME_VIEW = "/resources/GameViewNew.fxml";
+        //private static String STYLESHEET_FILE = "/resources/style.css";
 
         public static void main(String[] args) {
                 launch(args);
         }
-
         /**
          * Hello World,
          * by calling this, the application will be started.
          */
-
         @Override
         public void start(Stage primaryStage) throws Exception {
 
-                this.gameModel = new GameModel();
-                this.superModel = new SuperModel();
+                GameView game = new GameView(primaryStage);
 
-                Parent panel;
-                panel = FXMLLoader.load(getClass().getResource(MAIN_MENU));
-                Scene scene = new Scene(panel);
-                stage = new Stage();
-                stage.setScene(scene);
-                stage.setTitle("Diplomacy v0.1");
-                stage.setMaximized(true);
-                stage.show();
-
-                gameModel.show(stage);
+//                Parent panel;
+//                panel = FXMLLoader.load(getClass().getResource("/Resources/GameViewNew.fxml"));
+//                Scene scene = new Scene(panel);
+//                Stage stage = new Stage();
+//                stage.setScene(scene);
+//                stage.setTitle("Diplomacy v0.1");
+//                stage.show();
         }
 
 //        @FXML
