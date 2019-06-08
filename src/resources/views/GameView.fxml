@@ -23,9 +23,9 @@
          <center>
             <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <ImageView fitHeight="1011.0" fitWidth="1500.0" pickOnBounds="true">
+                  <ImageView fitHeight="1017.0" fitWidth="1500.0" pickOnBounds="true">
                      <image>
-                        <Image url="/DiplomacyMapHQ.png" />
+                        <Image url="/Resources/DiplomacyMapOriginal.png" />
                      </image>
                   </ImageView>
                   <VBox prefHeight="1017.0" prefWidth="420.0">

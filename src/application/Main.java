@@ -18,9 +18,9 @@ import models.SuperModel;
  */
 public class Main extends Application {
 
-        public static String GAME_VIEW = "/resources/views/GameView.fxml";
-        public static String MAIN_MENU = "/resources/views/MainMenu.fxml";
-        public static String STYLESHEET_FILE = "/resources/style.css";
+        public static String GAME_VIEW = "/Resources/views/GameView.fxml";
+        public static String MAIN_MENU = "/Resources/views/MainMenu.fxml";
+        public static String STYLESHEET_FILE = "/Resources/style.css";
         private Stage stage;
 
         private Model gameModel;
@@ -48,6 +48,7 @@ public class Main extends Application {
                 stage.setScene(scene);
                 stage.setTitle("Diplomacy v0.1");
                 stage.setMaximized(true);
+                //stage.setResizable(false);
                 stage.show();
 
                 gameModel.show(stage);
