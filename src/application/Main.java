@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import models.GameModel;
 import models.Model;
@@ -54,13 +56,11 @@ public class Main extends Application {
                 gameModel.show(stage);
         }
 
-//        @FXML
-//        private ComboBox<String> dbtypeCbx;
-//
-//        private ObservableList<String> dbTypeList = FXCollections.observableArrayList("SQLite");
-//
-//        //@Override
-//        public void initialize(DocFlavor.URL location, ResourceBundle resources) {
-//                dbtypeCbx.setItems(dbTypeList);
-//        }
+        private Circle MakeCircles() {
+                Circle circle1 = new Circle(100.0f, 100.0f, 50.f);
+                circle1.setFill(Color.BLUE);
+                circle1.setStroke(Color.RED);
+                circle1.setStrokeWidth(3);
+                return circle1;
+        }
 }
