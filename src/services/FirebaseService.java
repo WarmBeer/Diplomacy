@@ -40,7 +40,7 @@ public class FirebaseService {
 
         try{
             //Make root hashmap
-            Map<String, Object> chatMap = new HashMap<>();
+            Map<String, Object> chatMap = new HashMap<String, Object>();
 
             ArrayList<Object> messageArray = new ArrayList<>();
             Collections.addAll(messageArray, FIRSTMESSAGE);

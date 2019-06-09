@@ -27,8 +27,8 @@ import models.SuperModel;
  */
 public class Main extends Application {
 
-        public static String GAME_VIEW = "/Resources/views/GameView.fxml";
-        public static String MAIN_MENU = "/Resources/views/MainMenu.fxml";
+        public static String GAME_VIEW = "/resources/views/GameView.fxml";
+        public static String MAIN_MENU = "/resources/views/MainMenu.fxml";
         public static String STYLESHEET_FILE = "/Resources/style.css";
         private Stage stage;
 
@@ -51,7 +51,7 @@ public class Main extends Application {
                 this.superModel = new SuperModel();
 
                 Parent panel;
-                panel = FXMLLoader.load(getClass().getResource(MAIN_MENU));
+                panel = FXMLLoader.load(getClass().getResource(GAME_VIEW));
                 Scene scene = new Scene(panel);
                 Stage stage = new Stage();
                 stage.setScene(scene);
