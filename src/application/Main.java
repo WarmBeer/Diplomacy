@@ -1,5 +1,6 @@
 package application;
 
+import controllers.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,6 +8,12 @@ import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import views.MainMenu;
+import javafx.collections.ObservableList;
+
+import javax.print.DocFlavor;
+import java.io.IOException;
+import java.util.ResourceBundle;
 import models.GameModel;
 import models.Model;
 import models.SuperModel;
@@ -46,7 +53,7 @@ public class Main extends Application {
                 Parent panel;
                 panel = FXMLLoader.load(getClass().getResource(MAIN_MENU));
                 Scene scene = new Scene(panel);
-                stage = new Stage();
+                Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.setTitle("Diplomacy v0.1");
                 stage.setMaximized(true);
