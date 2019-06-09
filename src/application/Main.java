@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import models.GameModel;
 import models.Model;
@@ -18,9 +20,9 @@ import models.SuperModel;
  */
 public class Main extends Application {
 
-        public static String GAME_VIEW = "/resources/views/GameView.fxml";
-        public static String MAIN_MENU = "/resources/views/MainMenu.fxml";
-        public static String STYLESHEET_FILE = "/resources/style.css";
+        public static String GAME_VIEW = "/Resources/views/GameView.fxml";
+        public static String MAIN_MENU = "/Resources/views/MainMenu.fxml";
+        public static String STYLESHEET_FILE = "/Resources/style.css";
         private Stage stage;
 
         private Model gameModel;
@@ -48,18 +50,17 @@ public class Main extends Application {
                 stage.setScene(scene);
                 stage.setTitle("Diplomacy v0.1");
                 stage.setMaximized(true);
+                //stage.setResizable(false);
                 stage.show();
 
                 gameModel.show(stage);
         }
 
-//        @FXML
-//        private ComboBox<String> dbtypeCbx;
-//
-//        private ObservableList<String> dbTypeList = FXCollections.observableArrayList("SQLite");
-//
-//        //@Override
-//        public void initialize(DocFlavor.URL location, ResourceBundle resources) {
-//                dbtypeCbx.setItems(dbTypeList);
-//        }
+        private Circle MakeCircles() {
+                Circle circle1 = new Circle(100.0f, 100.0f, 50.f);
+                circle1.setFill(Color.BLUE);
+                circle1.setStroke(Color.RED);
+                circle1.setStrokeWidth(3);
+                return circle1;
+        }
 }
