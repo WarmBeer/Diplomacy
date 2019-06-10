@@ -1,4 +1,8 @@
 package domains;
 
-public class Army {
+public class Army extends Unit{
+
+    public Army() {
+        super("/France-Army.png");
+    }
 }

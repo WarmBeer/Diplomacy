@@ -25,8 +25,8 @@ public class Main extends Application {
         public static String STYLESHEET_FILE = "/Resources/style.css";
         private Stage stage;
 
-        private Model gameModel;
-        private Model superModel;
+        private GameModel gameModel;
+        private SuperModel superModel;
 
         public static void main(String[] args) {
                 launch(args);
@@ -50,10 +50,10 @@ public class Main extends Application {
                 stage.setScene(scene);
                 stage.setTitle("Diplomacy v0.1");
                 stage.setMaximized(true);
-                //stage.setResizable(false);
                 stage.show();
 
                 gameModel.show(stage);
+                gameModel.init();
         }
 
         private Circle MakeCircles() {
