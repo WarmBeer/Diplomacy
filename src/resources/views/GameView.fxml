@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.in_GameMenuController">
+<VBox fx:id="rootPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.in_GameMenuController">
   <children>
       <BorderPane prefHeight="1010.0" prefWidth="640.0">
          <center>
@@ -88,7 +88,7 @@
                               <Font name="Gabriola" size="35.0" />
                            </font>
                         </Button>
-                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Load Game" translateX="50.0">
+                        <Button fx:id="LadenKnop" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Load Game" translateX="50.0">
                            <VBox.margin>
                               <Insets top="33.0" />
                            </VBox.margin>
@@ -96,7 +96,7 @@
                               <Font name="Gabriola" size="35.0" />
                            </font>
                         </Button>
-                        <Button layoutX="10.0" layoutY="80.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Rules" translateX="50.0">
+                        <Button fx:id="SpelregelsKnop" layoutX="10.0" layoutY="80.0" mnemonicParsing="false" onMouseClicked="#CreerPagina" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Rules" translateX="50.0">
                            <VBox.margin>
                               <Insets top="33.0" />
                            </VBox.margin>
@@ -104,7 +104,7 @@
                               <Font name="Gabriola" size="35.0" />
                            </font>
                         </Button>
-                        <Button layoutX="10.0" layoutY="150.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Options" translateX="50.0">
+                        <Button fx:id="OptiesKnop" layoutX="10.0" layoutY="150.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Options" translateX="50.0">
                            <VBox.margin>
                               <Insets top="33.0" />
                            </VBox.margin>
@@ -120,7 +120,7 @@
                               <Font name="Gabriola" size="35.0" />
                            </font>
                         </Button>
-                        <Button layoutX="10.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#AfsluitenGame" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Exit Game" translateX="50.0">
+                        <Button fx:id="AfsluitenKnop" layoutX="10.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#AfsluitenGame" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Exit Game" translateX="50.0">
                            <font>
                               <Font name="Gabriola" size="35.0" />
                            </font>
