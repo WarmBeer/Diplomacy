@@ -6,37 +6,57 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+import controllers.GameController;
+import observers.GameObservable;
+import observers.GameObserver;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class FirebaseService {
 
+    static FirebaseService firebaseservice;
     private final String ARRAYNAME = "messageArray";
     private final String CHILDPATH = "Chatbox";
     private final String FIRSTMESSAGE = "System: Welkom bij Diplomacy!";
     private String gameName;
+    Firestore db;
 
 
-    public Firestore makeFirebaseConnection(String gameName) throws IOException {
-        //initialiseer playernaam en gamenaam
+    public FirebaseService(String gameName){
         this.gameName = gameName;
-
-        //Inisaliseer en autoriseer cloud firestore connectie
-        InputStream serviceAccount = new FileInputStream("src/resources/iipsen-database-firebase-adminsdk-rpnmc-2910ea15ab.json");
-        GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-        FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(credentials).build();
-        FirebaseApp.initializeApp(options);
-        Firestore db = FirestoreClient.getFirestore();
-
-        return db;
+        makeFirebaseConnection(gameName);
     }
 
-    public void makeSaveLocationChat(Firestore db){
+
+    // Singleton Pattern.
+    // now we can call: SpelbordController.getInstance()  from everywhere
+    // AND it guarantees there is only 1 instance.
+    public static FirebaseService getInstance(String gameName) {
+        if (firebaseservice == null) {
+            firebaseservice = new FirebaseService(gameName);
+        }
+        return firebaseservice;
+    }
+
+
+    public void makeFirebaseConnection(String gameName){
+        try{
+            InputStream serviceAccount = new FileInputStream("src/resources/iipsen-database-firebase-adminsdk-rpnmc-2910ea15ab.json");
+            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+            FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(credentials).build();
+            FirebaseApp.initializeApp(options);
+            db = FirestoreClient.getFirestore();
+        }
+        catch(IOException IOE){
+            IOE.printStackTrace();
+        }
+    }
+
+
+    public void makeChatInFirebase(){
 
         try{
             //Make root hashmap
@@ -53,7 +73,6 @@ public class FirebaseService {
             System.out.println("Save location made. - time : " + future.get().getUpdateTime());
 
         }
-
         catch(ExecutionException EE){
             EE.printStackTrace();
 
@@ -65,7 +84,7 @@ public class FirebaseService {
     }
 
 
-    public ArrayList<String> getData(Firestore db) throws ExecutionException, InterruptedException {
+    public ArrayList<String> getMessages() throws ExecutionException, InterruptedException {
         //Get right document from firebase
         DocumentReference docRef = db.collection(gameName).document(CHILDPATH);
         ApiFuture<DocumentSnapshot> future = docRef.get();
@@ -84,7 +103,7 @@ public class FirebaseService {
     }
 
 
-    public void addMessageToChat(Firestore db, String message){
+    public void addMessage(String message){
         try{
             DocumentReference chatbox = db.collection(gameName).document(CHILDPATH);
 
