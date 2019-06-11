@@ -17,66 +17,66 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="models.GameModel">
-      <BorderPane  prefHeight="1010.0" prefWidth="640.0">
-         <center>
+<VBox prefHeight="1080.0" prefWidth="1920.0" fx:controller="controllers.GameController" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+    <BorderPane prefHeight="1010.0" prefWidth="640.0">
+        <center>
             <HBox fx:id="iv" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fitHeight="1017.0" fitWidth="1500.0" pickOnBounds="true">
-                     <image>
-                        <Image url="/Resources/DiplomacyMapOriginal.png" />
-                     </image>
-                  </ImageView>
-                  <VBox prefHeight="1017.0" prefWidth="420.0">
-                     <children>
-                        <Pane prefHeight="1017.0" prefWidth="420.0">
-                           <children>
-                              <TabPane layoutX="7.0" prefHeight="721.0" prefWidth="405.0" style="-fx-border-color: gray;" tabClosingPolicy="UNAVAILABLE">
-                                <tabs>
-                                  <Tab text="Player Chat">
-                                       <content>
-                                          <ListView prefHeight="301.0" prefWidth="330.0" />
-                                       </content>
-                                  </Tab>
-                                  <Tab text="Activity Updates">
-                                    <content>
-                                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                             <children>
-                                                <TextArea prefHeight="690.0" prefWidth="403.0" text="Player2: Army Country6 moved to Country4.&#10;Player3: Army Country4 destroyed.&#10;Player3: Army Country14 moved to Country18." />
-                                             </children>
-                                          </AnchorPane>
-                                    </content>
-                                  </Tab>
-                                </tabs>
-                              </TabPane>
-                              <TextField layoutX="7.0" layoutY="729.0" prefHeight="25.0" prefWidth="263.0" text="Type your message here...">
-                                 <font>
-                                    <Font name="System Italic" size="12.0" />
-                                 </font>
-                              </TextField>
-                              <Button layoutX="369.0" layoutY="729.0" mnemonicParsing="false" text="Send" />
-                              <Pane layoutY="763.0" prefHeight="254.0" prefWidth="421.0" style="-fx-border-color: blue;">
-                                 <children>
-                                    <Label layoutX="6.0" layoutY="2.0" prefWidth="106.0" text="OrderMenu">
-                                       <font>
-                                          <Font name="System Bold" size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <ComboBox layoutX="97.0" layoutY="29.0" prefHeight="25.0" prefWidth="115.0" promptText="Province1" />
-                                    <ComboBox layoutX="7.0" layoutY="29.0" prefHeight="25.0" prefWidth="85.0" promptText="Action" />
-                                    <Button layoutX="339.0" layoutY="29.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Add Order" />
-                                    <ListView layoutX="7.0" layoutY="61.0" prefHeight="155.0" prefWidth="407.0" />
-                                    <Button layoutX="332.0" layoutY="221.0" mnemonicParsing="false" text="Send Orders" />
-                                    <ComboBox layoutX="218.0" layoutY="29.0" prefHeight="25.0" prefWidth="115.0" promptText="Province2" />
-                                 </children>
-                              </Pane>
-                              <ComboBox layoutX="277.0" layoutY="729.0" prefHeight="25.0" prefWidth="85.0" promptText="Speler" />
-                           </children>
-                        </Pane>
-                     </children>
-                  </VBox>
-               </children>
+                <children>
+                    <ImageView fitHeight="1017.0" fitWidth="1500.0" pickOnBounds="true">
+                        <image>
+                            <Image url="/DiplomacyMapOriginal.png" />
+                        </image>
+                    </ImageView>
+                    <VBox prefHeight="1017.0" prefWidth="420.0">
+                        <children>
+                            <Pane prefHeight="1017.0" prefWidth="420.0">
+                                <children>
+                                    <TabPane layoutX="7.0" prefHeight="721.0" prefWidth="405.0" style="-fx-border-color: gray;" tabClosingPolicy="UNAVAILABLE">
+                                        <tabs>
+                                            <Tab text="Player Chat">
+                                                <content>
+                                                    <ListView prefHeight="301.0" prefWidth="330.0" />
+                                                </content>
+                                            </Tab>
+                                            <Tab text="Activity Updates">
+                                                <content>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                                        <children>
+                                                            <TextArea fx:id="taUpdates" prefHeight="690.0" prefWidth="403.0" text="Player2: Army Country6 moved to Country4.&#10;Player3: Army Country4 destroyed.&#10;Player3: Army Country14 moved to Country18." />
+                                                        </children>
+                                                    </AnchorPane>
+                                                </content>
+                                            </Tab>
+                                        </tabs>
+                                    </TabPane>
+                                    <TextField fx:id="tfMessage" layoutX="7.0" layoutY="729.0" prefHeight="25.0" prefWidth="263.0" text="Type your message here...">
+                                        <font>
+                                            <Font name="System Italic" size="12.0" />
+                                        </font>
+                                    </TextField>
+                                    <Button fx:id="button" layoutX="369.0" layoutY="729.0" mnemonicParsing="false" text="Send" />
+                                    <Pane layoutY="763.0" prefHeight="254.0" prefWidth="421.0" style="-fx-border-color: blue;">
+                                        <children>
+                                            <Label layoutX="6.0" layoutY="2.0" prefWidth="106.0" text="OrderMenu">
+                                                <font>
+                                                    <Font name="System Bold" size="18.0" />
+                                                </font>
+                                            </Label>
+                                            <ComboBox fx:id="comboxAction" layoutX="7.0" layoutY="29.0" prefHeight="25.0" prefWidth="85.0" promptText="Action?" />
+                                            <ComboBox fx:id="comboxProv1" layoutX="97.0" layoutY="29.0" prefHeight="25.0" prefWidth="115.0" promptText="Set Province1" />
+                                            <ComboBox fx:id="comboxProv2" layoutX="218.0" layoutY="29.0" prefHeight="25.0" prefWidth="115.0" promptText="Set Province2" />
+                                            <Button fx:id="bOrder" layoutX="339.0" layoutY="29.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Add Order" />
+                                            <ListView fx:id="lvOrders" layoutX="7.0" layoutY="61.0" prefHeight="155.0" prefWidth="407.0" />
+                                            <Button layoutX="332.0" layoutY="221.0" mnemonicParsing="false" text="Send Orders" />
+                                        </children>
+                                    </Pane>
+                                    <ComboBox layoutX="277.0" layoutY="729.0" prefHeight="25.0" prefWidth="85.0" promptText="Speler" />
+                                </children>
+                            </Pane>
+                        </children>
+                    </VBox>
+                </children>
             </HBox>
-         </center>
-      </BorderPane>
+        </center>
+    </BorderPane>
 </VBox>
