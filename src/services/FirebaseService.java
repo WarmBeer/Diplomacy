@@ -40,9 +40,9 @@ public class FirebaseService {
 
         try{
             //Make root hashmap
-            Map<String, Object> chatMap = new HashMap<>();
+            Map<String, Object> chatMap = new HashMap();
 
-            ArrayList<Object> messageArray = new ArrayList<>();
+            ArrayList<Object> messageArray = new ArrayList();
             Collections.addAll(messageArray, FIRSTMESSAGE);
             chatMap.put(ARRAYNAME, messageArray);
 
@@ -50,7 +50,7 @@ public class FirebaseService {
             ApiFuture<WriteResult> future = db.collection(gameName).document(CHILDPATH).set(chatMap);
 
             //Console update
-            System.out.println("Update time : " + future.get().getUpdateTime());
+            System.out.println("Save location made. - time : " + future.get().getUpdateTime());
 
         }
 
@@ -90,7 +90,7 @@ public class FirebaseService {
 
             // Atomically add a new region to the "regions" array field.
             ApiFuture<WriteResult> writeResult = chatbox.update(ARRAYNAME, FieldValue.arrayUnion(message));
-            System.out.println("Update time : " + writeResult.get());
+            System.out.println("Message send. - time : " + writeResult.get());
         }
             catch(ExecutionException EE){
             EE.printStackTrace();
