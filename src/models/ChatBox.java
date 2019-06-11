@@ -15,13 +15,13 @@ import java.util.concurrent.TimeUnit;
 
 public class ChatBox implements GameObservable {
 
-    private List<GameObserver> observers = new ArrayList<GameObserver>();
-    private ArrayList<String> updatedMessageArraylist = new ArrayList<String>();
-    FirebaseService firebaseservice;
+    private List<GameObserver> observers = new ArrayList<>();
+    private ArrayList<String> updatedMessageArraylist = new ArrayList<>();
+    private FirebaseService firebaseservice;
     private int updatetimeInSeconds = 2;
 
-    public ChatBox(String gameName){
-        firebaseservice = firebaseservice.getInstance(gameName);
+    public ChatBox(String gameID){
+        firebaseservice = firebaseservice.getInstance(gameID);
     }
 
 

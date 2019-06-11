@@ -6,9 +6,6 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
-import controllers.GameController;
-import observers.GameObservable;
-import observers.GameObserver;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,32 +14,31 @@ import java.util.concurrent.ExecutionException;
 
 public class FirebaseService {
 
-    static FirebaseService firebaseservice;
+    private static FirebaseService firebaseservice;
     private final String ARRAYNAME = "messageArray";
     private final String CHILDPATH = "Chatbox";
     private final String FIRSTMESSAGE = "System: Welkom bij Diplomacy!";
-    private String gameName;
-    Firestore db;
+    private String gameID;
+    private Firestore db;
 
 
-    public FirebaseService(String gameName){
-        this.gameName = gameName;
-        makeFirebaseConnection(gameName);
+    public FirebaseService(String gameID){
+        this.gameID = gameID;
+        makeFirebaseConnection();
     }
-
 
     // Singleton Pattern.
     // now we can call: SpelbordController.getInstance()  from everywhere
     // AND it guarantees there is only 1 instance.
-    public static FirebaseService getInstance(String gameName) {
+    public static FirebaseService getInstance(String gameID) {
         if (firebaseservice == null) {
-            firebaseservice = new FirebaseService(gameName);
+            firebaseservice = new FirebaseService(gameID);
         }
         return firebaseservice;
     }
 
 
-    public void makeFirebaseConnection(String gameName){
+    private void makeFirebaseConnection(){
         try{
             InputStream serviceAccount = new FileInputStream("src/resources/iipsen-database-firebase-adminsdk-rpnmc-2910ea15ab.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
@@ -66,8 +62,8 @@ public class FirebaseService {
             Collections.addAll(messageArray, FIRSTMESSAGE);
             chatMap.put(ARRAYNAME, messageArray);
 
-            // Add a new document (asynchronously) in collection gameName with id childpath
-            ApiFuture<WriteResult> future = db.collection(gameName).document(CHILDPATH).set(chatMap);
+            // Add a new document (asynchronously) in collection gameID with id childpath
+            ApiFuture<WriteResult> future = db.collection(gameID).document(CHILDPATH).set(chatMap);
 
             //Console update
             System.out.println("Save location made. - time : " + future.get().getUpdateTime());
@@ -86,7 +82,7 @@ public class FirebaseService {
 
     public ArrayList<String> getMessages() throws ExecutionException, InterruptedException {
         //Get right document from firebase
-        DocumentReference docRef = db.collection(gameName).document(CHILDPATH);
+        DocumentReference docRef = db.collection(gameID).document(CHILDPATH);
         ApiFuture<DocumentSnapshot> future = docRef.get();
         DocumentSnapshot document = future.get();
 
@@ -105,7 +101,7 @@ public class FirebaseService {
 
     public void addMessage(String message){
         try{
-            DocumentReference chatbox = db.collection(gameName).document(CHILDPATH);
+            DocumentReference chatbox = db.collection(gameID).document(CHILDPATH);
 
             // Atomically add a new region to the "regions" array field.
             ApiFuture<WriteResult> writeResult = chatbox.update(ARRAYNAME, FieldValue.arrayUnion(message));

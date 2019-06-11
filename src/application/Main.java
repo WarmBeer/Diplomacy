@@ -6,18 +6,18 @@ import views.GameView;
 
 public class Main extends Application {
 
-        GameView game;
+        private GameView game;
 
         public static void main(String[] args) {
                 launch(args);
         }
 
         @Override
-        public void start(Stage stage) throws Exception {
+        public void start(Stage stage) {
                 String userName = "Thomas";
-                String gameName = "Game4";
+                String gameID = "Game4";
                 boolean host = true;
-                game = new GameView(stage,userName,gameName,host);
+                game = new GameView(stage,userName,gameID,host);
         }
 
 }

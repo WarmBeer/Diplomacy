@@ -20,7 +20,7 @@ import java.util.logging.LogManager;
 public class GameView implements GameObserver {
 
     //MVC Controllertje
-    GameController gamecontroller;
+    private GameController gamecontroller;
 
     //Variables for javaFX
     private static String GAME_VIEW = "/resources/ChatBoxFXML.fxml";
@@ -28,8 +28,8 @@ public class GameView implements GameObserver {
 
     //Iput variables for models
     private String userName;
-    private String gameName;
-    private boolean host = false;
+    private String gameID;
+    private boolean host;
 
     @FXML
     private Pane chatPane;
@@ -43,13 +43,13 @@ public class GameView implements GameObserver {
     @FXML
     private ListView messagesList;
 
-
-    public GameView(Stage stage, String userName, String gameName, boolean host){
-        gamecontroller = gamecontroller.getInstance(gameName);
+    //Geef de Username, GameID en boolean Host mee, normaal zouden deze al bekend zijn in game
+    public GameView(Stage stage, String userName, String gameID, boolean host){
+        gamecontroller = gamecontroller.getInstance(gameID);
         gamecontroller.registerObserver(this);
         this.host = host;
         this.userName = userName;
-        this.gameName = gameName;
+        this.gameID = gameID;
         launchChatbox(stage);
     }
 
@@ -59,7 +59,7 @@ public class GameView implements GameObserver {
         makeLayout(stage);
 
         //Sorry henk
-        if(host == true){
+        if(host){
             gamecontroller.createChat();
 
         }
@@ -85,9 +85,6 @@ public class GameView implements GameObserver {
         }
         catch(IOException IOE){
             IOE.printStackTrace();
-        }
-        catch(Exception E){
-            E.printStackTrace();
         }
     }
 
