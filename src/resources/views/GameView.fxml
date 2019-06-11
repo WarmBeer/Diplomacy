@@ -65,9 +65,10 @@
                                             <ComboBox fx:id="comboxAction" layoutX="7.0" layoutY="29.0" prefHeight="25.0" prefWidth="85.0" promptText="Action?" />
                                             <ComboBox fx:id="comboxProv1" layoutX="97.0" layoutY="29.0" prefHeight="25.0" prefWidth="115.0" promptText="Set Province1" />
                                             <ComboBox fx:id="comboxProv2" layoutX="218.0" layoutY="29.0" prefHeight="25.0" prefWidth="115.0" promptText="Set Province2" />
-                                            <Button fx:id="bOrder" layoutX="339.0" layoutY="29.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Add Order" />
-                                            <ListView fx:id="lvOrders" layoutX="7.0" layoutY="61.0" prefHeight="155.0" prefWidth="407.0" />
-                                            <Button layoutX="332.0" layoutY="221.0" mnemonicParsing="false" text="Send Orders" />
+                                            <Button fx:id="bOrder" layoutX="339.0" layoutY="29.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Add Order"
+                                                    onAction="#clickedAddOrder"/>
+                                            <ListView fx:id="lvOrders" layoutX="7.0" layoutY="61.0" prefHeight="155.0" prefWidth="407.0"/>
+                                            <Button layoutX="332.0" layoutY="221.0" mnemonicParsing="false" text="Send Orders"/>
                                         </children>
                                     </Pane>
                                     <ComboBox layoutX="277.0" layoutY="729.0" prefHeight="25.0" prefWidth="85.0" promptText="Speler" />

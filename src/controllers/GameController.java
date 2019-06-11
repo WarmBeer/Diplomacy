@@ -43,6 +43,22 @@ public class GameController implements Initializable {
     public TextArea taUpdates; // Value injected by FXMLLoader
 
     @FXML
+    public void clickedAddOrder() {
+        System.out.println("ADD ORDER YUY");
+        System.out.println("clicked AddOrder!");
+        try {
+            String action = comboxAction.getValue().toString();
+            String prov1 = comboxProv1.getValue().toString();
+            String prov2 = comboxProv2.getValue().toString();
+            String order = action + "_" + prov1 + "_" + prov2;
+
+            lvOrders.getItems().add(order);
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void initialize(URL url, ResourceBundle rb) {
         comboxAction.getItems().addAll("Move", "Support", "Embark", "Hold");
         comboxProv1.getItems().addAll("Province1a", "Province1b", "Province1c", "Province1d", "Province1e");
@@ -53,21 +69,21 @@ public class GameController implements Initializable {
                 tfMessage.setText("It works!!!");
             }
         });
-        bOrder.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                System.out.println("clicked AddOrder!");
-                try {
-                    String action = comboxAction.getValue().toString();
-                    String prov1 = comboxProv1.getValue().toString();
-                    String prov2 = comboxProv2.getValue().toString();
-                    String order = action + "_" + prov1 + "_" + prov2;
-
-                    lvOrders.getItems().add(order);
-                } catch (Exception e) {
-                    //e.printStackTrace();
-                }
-            }
-        });
+//        bOrder.setOnAction(new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent event) {
+//                System.out.println("clicked AddOrder!");
+//                try {
+//                    String action = comboxAction.getValue().toString();
+//                    String prov1 = comboxProv1.getValue().toString();
+//                    String prov2 = comboxProv2.getValue().toString();
+//                    String order = action + "_" + prov1 + "_" + prov2;
+//
+//                    lvOrders.getItems().add(order);
+//                } catch (Exception e) {
+//                    //e.printStackTrace();
+//                }
+//            }
+//        });
         lvOrders.setOnKeyPressed(new EventHandler<KeyEvent>()
         {
             public void handle(final KeyEvent keyEvent )

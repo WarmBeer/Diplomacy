@@ -2,7 +2,7 @@ package domains;
 
 public class Army extends Unit{
 
-    public Army() {
-        super("/France-Army.png");
+    public Army(Province province) {
+        super("/France-Army.png", province);
     }
 }
