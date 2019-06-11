@@ -19,9 +19,9 @@ public class GameModel implements Model {
         Fleet
     }
 
-    Group root;
-    Group troops;
-    Group points;
+    Group root; //Kaart en UI render groep
+    Group troops; //Troepen render groep
+    Group points; //Provincie punt render groep
 
     @FXML
     public void show(Stage stage) throws Exception{
@@ -35,7 +35,6 @@ public class GameModel implements Model {
 
         Scene scene = new Scene( root, 1920, 1080 );
         root.getChildren().addAll(pane, troops, points);
-
 
         stage.setScene(scene);
     }
