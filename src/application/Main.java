@@ -1,5 +1,8 @@
 package application;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import domains.Game;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +13,9 @@ import javafx.stage.Stage;
 import models.GameModel;
 import models.Model;
 import models.SuperModel;
+
+import java.io.FileReader;
+import java.io.Reader;
 
 /**
  * Bevat alle code om het programma te kunnen starten.
@@ -54,6 +60,7 @@ public class Main extends Application {
 
                 gameModel.show(stage);
                 gameModel.init();
+
         }
 
         private Circle MakeCircles() {
@@ -62,5 +69,12 @@ public class Main extends Application {
                 circle1.setStroke(Color.RED);
                 circle1.setStrokeWidth(3);
                 return circle1;
+        }
+
+        public void loadGame() throws Exception{
+                Reader reader = new FileReader("C:\\Users\\PC\\IdeaProjects\\Diplomacy\\src\\Resources\\Diplomacy.json");
+                Gson gson = new GsonBuilder().create();
+                Game p = gson.fromJson(reader, Game.class);
+                System.out.println(p);
         }
 }

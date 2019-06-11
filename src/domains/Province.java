@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Province {
 
+    private int id;
 
     enum provinceType {
         COASTAL,
@@ -11,7 +12,7 @@ public class Province {
     }
 
     private String name;
-    private String abreviation;
+    private String abbreviation;
     private Boolean isSupplyCenter;
     private Player owner;
     private Unit stationed;
@@ -19,10 +20,10 @@ public class Province {
     private int x, y;
 
     public Province(String name, String abreviation, int x, int y) {
-        this.x = (int) Math.round(x * 0.716);
-        this.y = (int) Math.round(y * 0.603) ;
+        this.x = (int) Math.round((x-63) * 0.926);
+        this.y = (int) Math.round((y-63) * 0.713) ;
         this.name = name;
-        this.abreviation = abreviation;
+        this.abbreviation = abreviation;
     }
 
     public String getName() {

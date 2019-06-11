@@ -10,6 +10,18 @@ import javafx.scene.input.KeyEvent;
 import models.GameModel;
 import models.Model;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import domains.Game;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -56,6 +68,14 @@ public class GameController implements Initializable {
         } catch (Exception e) {
             //e.printStackTrace();
         }
+    }
+
+
+    public void loadGame() throws Exception{
+            Reader reader = new FileReader("/Diplomacy.json");
+            Gson gson = new GsonBuilder().create();
+            Game p = gson.fromJson(reader, Game.class);
+            System.out.println(p);
     }
 
     @FXML

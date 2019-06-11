@@ -1,0 +1,27 @@
+{
+    "name": "First Game!",
+    "turnTime": 20,
+    "host": "AA000001",
+    "turn": 1,
+    "playerCount": 1,
+	"Provinces": [
+        {
+            "id": 1,
+            "name": "Normandy",
+            "abbreviation": "NOR",
+            "IsSupplyCenter": "False",
+            "owner": "1",
+            "stationed": {
+                "unitType": "Army",
+                "province": 1
+            }
+        }
+    ],
+    "Players": [
+        {
+            "id": 1,
+            "name": "Mick",
+            "Country": "Germany"
+        }
+    ]
+}

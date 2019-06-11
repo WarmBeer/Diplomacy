@@ -20,6 +20,4 @@ public class Unit extends ImageView {
         this.province = province;
     }
 
-
-
 }

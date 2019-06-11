@@ -5,23 +5,16 @@ import java.util.List;
 
 public class Game {
 
-    private final String[] nations = {
-            "France",
-            "England",
-            "Austria-Hungary",
-            "Russia",
-            "Germany",
-            "Italy",
-            "Turkey"
-    };
-
-    private ArrayList<Player> players;
-    private ArrayList<Country> countries;
+    private String name;
+    private int turnTime;
+    private String host;
+    private int turn;
+    private int playerCount;
+    private ArrayList<Province> Provinces;
+    private ArrayList<Player> Players;
 
     public Game() {
 
-        players = new ArrayList<Player>();
-        countries = new ArrayList<Country>();
     }
 
 }
