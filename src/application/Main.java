@@ -18,7 +18,7 @@ public class Main extends Application {
         }
 
         /**
-         * Starts the application.
+         * Starts the application!
          * Inizialize the variables, and the gameView.
          * @param stage PrimayStage for javaFX.
          * @author Thomas Zijl
