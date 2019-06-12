@@ -6,11 +6,12 @@ public class Province {
 
     private int id;
 
-    enum provinceType {
+    public enum ProvinceType {
         COASTAL,
         LAND
     }
 
+    private ProvinceType provinceType;
     private String name;
     private String abbreviation;
     private Boolean isSupplyCenter;
@@ -20,10 +21,23 @@ public class Province {
     private int x, y;
 
     public Province(String name, String abreviation, int x, int y) {
-        this.x = (int) Math.round((x-63) * 0.926);
-        this.y = (int) Math.round((y-63) * 0.713) ;
+        this.x = (int) Math.round((x));
+        this.y = (int) Math.round((y));
         this.name = name;
         this.abbreviation = abreviation;
+        provinceType = ProvinceType.LAND;
+    }
+
+    public Province(String name, String abreviation, int x, int y, ProvinceType provinceType) {
+        this.x = (int) Math.round((x));
+        this.y = (int) Math.round((y));
+        this.name = name;
+        this.abbreviation = abreviation;
+        this.provinceType = provinceType;
+    }
+
+    public ProvinceType getProvinceType() {
+        return this.provinceType;
     }
 
     public String getName() {
