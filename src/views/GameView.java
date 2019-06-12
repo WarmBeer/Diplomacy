@@ -16,76 +16,72 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.LogManager;
 
+/**
+ * Class that shows the ingame GUI and recieves the input from the user.
+ * Only the chatbox is available on this moment.
+ */
+
 
 public class GameView implements GameObserver {
 
-    //MVC Controllertje
     private GameController gamecontroller;
-
-    //Variables for javaFX
     private static String GAME_VIEW = "/resources/ChatBoxFXML.fxml";
     private Parent content;
-
-    //Iput variables for models
     private String userName;
     private String gameID;
     private boolean host;
 
-    @FXML
-    private Pane chatPane;
+    @FXML private Pane chatPane;
+    @FXML private TextArea textInput;
+    @FXML private Button sendButton;
+    @FXML private ListView messagesList;
 
-    @FXML
-    private TextArea textInput;
 
-    @FXML
-    private Button sendButton;
-
-    @FXML
-    private ListView messagesList;
-
-    //Geef de Username, GameID en boolean Host mee, normaal zouden deze al bekend zijn in game
+    /**
+     * Creates Gameview.
+     * Create the gamecontroller instance and delclares the variables.
+     * @param stage Primary Stage given by the Main.
+     * @param userName Name from player as String.
+     * @param gameID Game ID as string, important for firebase.
+     * @param host Is this player the host? Important for firebase.
+     * @author Thomas Zijl
+     *
+     */
     public GameView(Stage stage, String userName, String gameID, boolean host){
         gamecontroller = gamecontroller.getInstance(gameID);
         gamecontroller.registerObserver(this);
+
         this.host = host;
         this.userName = userName;
         this.gameID = gameID;
+
         launchChatbox(stage);
     }
 
 
-    //Launch chatbox
-    private void launchChatbox(Stage stage){
-        makeLayout(stage);
-
-        //Sorry henk
-        if(host){
-            gamecontroller.createChat();
-
-        }
-
-        gamecontroller.startUpdatingChat();
-
-    }
-
-
-    //Make layout
-    private void makeLayout(Stage primaryStage) {
-        String sceneFile = GAME_VIEW;
-
+    private void launchChatbox(Stage primaryStage){
+        //Make FXML layout
         try{
-            URL url = getClass().getResource(sceneFile);
+            URL url = getClass().getResource(GAME_VIEW);
             FXMLLoader loader = new FXMLLoader(url);
             loader.setController(this);
             content = loader.load();
-
-            primaryStage.setTitle("Welkom!");
+            primaryStage.setTitle("Chatbox Diplomacy");
             primaryStage.setScene(new Scene(content, 400, 500));
             primaryStage.show();
         }
         catch(IOException IOE){
             IOE.printStackTrace();
         }
+
+        //Als host true is, maak dan een chatsavelocatie aan in firebase
+        if(host){
+            gamecontroller.createChat();
+
+        }
+
+        //Start updaten van nieuwe berichten
+        gamecontroller.startUpdatingChat();
     }
 
 
@@ -108,6 +104,11 @@ public class GameView implements GameObserver {
     }
 
 
+    /**
+     * Gets all String from arraylist and shows them as individual messages.
+     * @param chatbox chatbox object from the class Chatbox, given as GameObserable (because it implents this interface).
+     * @author Thomas Zijl
+     */
     @Override
     public void update(GameObservable chatbox) {
         updateMessages(chatbox.getArrayListWithMessages());

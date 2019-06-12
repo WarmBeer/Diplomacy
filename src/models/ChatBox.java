@@ -13,18 +13,27 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Class that serves as model for the chatbox.
+ * All input and output is being processed in this class.
+ */
+
 public class ChatBox implements GameObservable {
 
     private List<GameObserver> observers = new ArrayList<>();
     private ArrayList<String> updatedMessageArraylist = new ArrayList<>();
     private FirebaseService firebaseservice;
-    private int updatetimeInSeconds = 2;
+    private final int UPDATETIMEINSECONDS = 2;
 
     public ChatBox(String gameID){
         firebaseservice = firebaseservice.getInstance(gameID);
     }
 
 
+    /**
+     * Give the firebase service a signal make a save location for the chat
+     * @author Thomas Zijl
+     */
     public void makeChat(){
         firebaseservice.makeChatInFirebase();
     }
@@ -52,6 +61,13 @@ public class ChatBox implements GameObservable {
     }
 
 
+    /**
+     * Gives firebase order to save a new messages.
+     * @param nieuwBericht New message as String.
+     * @param userName Username from sender as String.
+     * @author Thomas Zijl
+     * @version V1 (12-6-2019)
+     */
     public void addChatMessage(String nieuwBericht, String userName) {
         String newMessage = makeNewMessage(nieuwBericht, userName);
         firebaseservice.addMessage(newMessage);
@@ -60,6 +76,11 @@ public class ChatBox implements GameObservable {
     }
 
 
+    /**
+     * Makes a threat that automatically adds recieved messages to the chat.
+     * @author Thomas Zijl
+     * @version V1 (12-6-2019)
+     */
     public void startAutoUpdatingChat(){
         Runnable helloRunnable = new Runnable() {
             public void run() {
@@ -73,25 +94,15 @@ public class ChatBox implements GameObservable {
         };
 
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(helloRunnable, 0, updatetimeInSeconds, TimeUnit.SECONDS);
+        executor.scheduleAtFixedRate(helloRunnable, 0, UPDATETIMEINSECONDS, TimeUnit.SECONDS);
     }
 
 
-    public void addSecondToUpdateTime(){
-        updatetimeInSeconds++;
-    }
-
-
-    public void removeSecondToUpdateTime(){
-        updatetimeInSeconds--;
-    }
-
-
-    public int getUpdateTime(){
-        return updatetimeInSeconds;
-    }
-
-
+    /**
+     * Registers (adds) the given observer in an arraylist.
+     * So it can be stored there, for when observers need to be notified.
+     * @author Thomas Zijl
+     */
     @Override
     public void register(GameObserver observer){
         System.out.println(observer);
@@ -99,6 +110,10 @@ public class ChatBox implements GameObservable {
     }
 
 
+    /**
+     * When something is change, this methode is called to notify registerd observers.
+     * @author Thomas Zijl
+     */
     @Override
     public void notifyAllObservers(){
         for (GameObserver s : observers) {
@@ -107,6 +122,10 @@ public class ChatBox implements GameObservable {
     }
 
 
+    /**
+     * A observer can get the arraylist with messages when notified.
+     * @author Thomas Zijl
+     */
     @Override
     public ArrayList<String> getArrayListWithMessages(){
         return updatedMessageArraylist;

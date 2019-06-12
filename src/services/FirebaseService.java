@@ -12,6 +12,10 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Class that sends an recieves data from/to firebase
+ */
+
 public class FirebaseService {
 
     private static FirebaseService firebaseservice;
@@ -27,9 +31,15 @@ public class FirebaseService {
         makeFirebaseConnection();
     }
 
-    // Singleton Pattern.
-    // now we can call: SpelbordController.getInstance()  from everywhere
-    // AND it guarantees there is only 1 instance.
+
+    /**
+     * Creates instance of firebaseservice with Singleton Pattern.
+     * We can call SpelbordController.getInstance() from everywhere
+     * And there is only 1 instance.
+     * @param gameID Game ID as String.
+     * @return A instance of the class FirebaseService.
+     * @author Thomas Zijl
+     */
     public static FirebaseService getInstance(String gameID) {
         if (firebaseservice == null) {
             firebaseservice = new FirebaseService(gameID);
@@ -52,17 +62,19 @@ public class FirebaseService {
     }
 
 
+    /**
+     * Makes a document is firebase for this chat/game session.
+     * @author Thomas Zijl
+     */
     public void makeChatInFirebase(){
-
         try{
-            //Make root hashmap
             Map<String, Object> chatMap = new HashMap<>();
 
             ArrayList<Object> messageArray = new ArrayList<>();
             Collections.addAll(messageArray, FIRSTMESSAGE);
             chatMap.put(ARRAYNAME, messageArray);
 
-            // Add a new document (asynchronously) in collection gameID with id childpath
+            // Add a new document in collection gameID with id childpath
             ApiFuture<WriteResult> future = db.collection(gameID).document(CHILDPATH).set(chatMap);
 
             //Console update
@@ -70,16 +82,20 @@ public class FirebaseService {
 
         }
         catch(ExecutionException EE){
+            System.out.println("In de firebaseservice is een Excecution Exception opgetreden!");
             EE.printStackTrace();
-
         }
         catch(InterruptedException IE){
+            System.out.println("In de firebaseservice is een Interrupted Exception opgetreden!");
             IE.printStackTrace();
-
         }
     }
 
 
+    /**
+     * Get all messages as an arraylist from the firebase document
+     * @author Thomas Zijl
+     */
     public ArrayList<String> getMessages() throws ExecutionException, InterruptedException {
         //Get right document from firebase
         DocumentReference docRef = db.collection(gameID).document(CHILDPATH);
@@ -99,18 +115,23 @@ public class FirebaseService {
     }
 
 
-    public void addMessage(String message){
+    /**
+     * Add a string to the array of messages in firebase.
+     * @param newMessage Message + time stamp as String.
+     * @author Thomas Zijl
+     */
+    public void addMessage(String newMessage){
         try{
             DocumentReference chatbox = db.collection(gameID).document(CHILDPATH);
-
-            // Atomically add a new region to the "regions" array field.
-            ApiFuture<WriteResult> writeResult = chatbox.update(ARRAYNAME, FieldValue.arrayUnion(message));
+            ApiFuture<WriteResult> writeResult = chatbox.update(ARRAYNAME, FieldValue.arrayUnion(newMessage));
             System.out.println("Message send. - time : " + writeResult.get());
         }
-            catch(ExecutionException EE){
+        catch(ExecutionException EE){
+            System.out.println("In de firebaseservice is een Excecution Exception opgetreden!");
             EE.printStackTrace();
         }
-            catch(InterruptedException IE){
+        catch(InterruptedException IE){
+            System.out.println("In de firebaseservice is een Interrupted Exception opgetreden!");
             IE.printStackTrace();
         }
     }
