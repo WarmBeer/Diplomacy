@@ -133,36 +133,6 @@ public class GameModel implements Model {
 
     }
 
-
-    public void createUnit(Main.unitType unit, Province province, double x, double y) {
-        Unit troop = null;
-
-        System.out.println(x);
-
-        switch (unit) {
-            case ARMY:
-                troop = new Army(province);
-                break;
-            case FLEET:
-                troop = new Fleet(province);
-                break;
-        }
-
-        province.addUnit(troop);
-
-        moveUnit(troop, x, y);
-
-        //Render troepen
-        troops.getChildren().add(troop);
-
-        troop.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-
-            }
-        });
-
-    }
-
     public void initProvinces(Game game) {
 
         //----GERMANY//----
