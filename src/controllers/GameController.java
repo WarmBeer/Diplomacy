@@ -43,6 +43,7 @@ public class GameController {
         chatbox.makeChat();
     }
 
+
     /**
      * Tell the chatbox model that autoupdating must be stated.
      * @author Thomas Zijl
