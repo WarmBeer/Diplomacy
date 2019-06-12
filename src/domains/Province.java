@@ -7,6 +7,7 @@ public class Province {
     private int id;
 
     public enum ProvinceType {
+        SEA,
         COASTAL,
         LAND
     }
@@ -20,20 +21,32 @@ public class Province {
     private ArrayList<Province> borderedProvinces = new ArrayList<Province>();
     private int x, y;
 
-    public Province(String name, String abreviation, int x, int y) {
+    public Province(String name, String abbreviation, Boolean isSupplyCenter, int x, int y) {
         this.x = (int) Math.round((x));
         this.y = (int) Math.round((y));
         this.name = name;
-        this.abbreviation = abreviation;
-        provinceType = ProvinceType.LAND;
+        this.abbreviation = abbreviation;
+        this.isSupplyCenter = isSupplyCenter;
+        this.provinceType = provinceType.LAND;
+        this.owner = null;
     }
 
-    public Province(String name, String abreviation, int x, int y, ProvinceType provinceType) {
+    public Province(String name, String abbreviation, Boolean isSupplyCenter, int x, int y, ProvinceType provinceType) {
         this.x = (int) Math.round((x));
         this.y = (int) Math.round((y));
         this.name = name;
-        this.abbreviation = abreviation;
+        this.abbreviation = abbreviation;
+        this.isSupplyCenter = isSupplyCenter;
         this.provinceType = provinceType;
+        this.owner = null;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+
+    public Player getOwner() {
+        return this.owner;
     }
 
     public ProvinceType getProvinceType() {

@@ -18,6 +18,7 @@ public class Unit extends ImageView {
         currentOrder = new HashMap<String, Object>();
         supporters = new ArrayList<Unit>();
         this.province = province;
+        this.owner = province.getOwner();
     }
 
 }

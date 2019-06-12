@@ -2,7 +2,8 @@ package application;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import domains.Game;
+import com.google.gson.reflect.TypeToken;
+import domains.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,9 +14,14 @@ import javafx.stage.Stage;
 import models.GameModel;
 import models.Model;
 import models.SuperModel;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.List;
 
 /**
  * Bevat alle code om het programma te kunnen starten.
@@ -25,6 +31,11 @@ import java.io.Reader;
  * @author Edwin
  */
 public class Main extends Application {
+
+        public static enum unitType {
+                ARMY,
+                FLEET
+        };
 
         public static String GAME_VIEW = "/Resources/views/GameView.fxml";
         public static String MAIN_MENU = "/Resources/views/MainMenu.fxml";
@@ -61,6 +72,7 @@ public class Main extends Application {
                 gameModel.show(stage);
                 gameModel.init();
 
+                this.loadGame();
         }
 
         private Circle MakeCircles() {
@@ -72,9 +84,43 @@ public class Main extends Application {
         }
 
         public void loadGame() throws Exception{
-                Reader reader = new FileReader("C:\\Users\\PC\\IdeaProjects\\Diplomacy\\src\\Resources\\Diplomacy.json");
+
+                Reader reader = new BufferedReader(new InputStreamReader(
+                        this.getClass().getResourceAsStream("/" + "Diplomacy.json")));
                 Gson gson = new GsonBuilder().create();
-                Game p = gson.fromJson(reader, Game.class);
-                System.out.println(p);
+                GameJSON gameJSON = gson.fromJson(reader, GameJSON.class);
+
+                Game game = new Game(gameJSON.name, gameJSON.turnTime, gameJSON.turn);
+
+                for(Player player : gameJSON.Players) {
+                        game.addPlayer(player);
+                }
+
+                for (ProvinceJSON provinceJSON : gameJSON.Provinces) {
+                        Province province = new Province(provinceJSON.name, provinceJSON.abbr, provinceJSON.isSupplyCenter, provinceJSON.x, provinceJSON.y, provinceJSON.provinceType);
+                        Unit stationed = null;
+
+                        switch (provinceJSON.stationed) {
+                                case ARMY:
+                                        stationed = new Army(province);
+                                        break;
+                                case FLEET:
+                                        stationed = new Fleet(province);
+                                        break;
+                        }
+
+                        for(Player player : game.getPlayers()) {
+                                if(provinceJSON.owner == player.getId()) {
+                                        province.setOwner(player);
+                                }
+                        }
+
+                        if (stationed != null) {
+                                gameModel.createUnit(provinceJSON.stationed, province);
+                        }
+
+                        province.addUnit(stationed);
+                        game.addProvince(province);
+                }
         }
 }

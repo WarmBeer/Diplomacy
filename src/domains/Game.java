@@ -1,5 +1,7 @@
 package domains;
 
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,12 +11,35 @@ public class Game {
     private int turnTime;
     private String host;
     private int turn;
-    private int playerCount;
-    private ArrayList<Province> Provinces;
-    private ArrayList<Player> Players;
 
-    public Game() {
+    private List<Province> Provinces;
+    private List<Player> Players;
 
+    public Game(String name, int turnTime, int turn) {
+        this.name = name;
+        this.turnTime = turnTime;
+        this.turn = turn;
+        Provinces = new ArrayList<Province>();
+        Players = new ArrayList<Player>();
     }
 
+    public void addProvince(Province province) {
+        this.Provinces.add(province);
+    }
+
+    public void addPlayer(Player player) {
+        this.Players.add(player);
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public List<Player> getPlayers() {
+        return Players;
+    }
+
+    public List<Province> getProvinces() {
+        return Provinces;
+    }
 }

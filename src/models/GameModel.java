@@ -1,5 +1,6 @@
 package models;
 
+import application.Main;
 import domains.Army;
 import domains.Fleet;
 import domains.Province;
@@ -57,7 +58,7 @@ public class GameModel implements Model {
             ImageView point = new ImageView();
 
             switch(province.getProvinceType()){
-                case COASTAL:
+                case SEA:
                     point.setImage(new Image("Point coastal.png"));
                     //createUnit(unitType.Fleet, province, province.getX(), province.getY());
                     break;
@@ -132,6 +133,7 @@ public class GameModel implements Model {
     }
 
     public void initProvinces() {
+
         //^([a-z]{3})\s'([^']+)'
         //Province $1 = new Province\("$2", "$1"\);
 
@@ -148,22 +150,18 @@ public class GameModel implements Model {
         //\t($1).setIsSupplyCenter\(true\);
 
         //----GERMANY//----
-        Province kie = new Province("Kiel", "kie", 580, 540);
+        Province kie = new Province("Kiel", "kie", true, 580, 540);
         provinces.add(kie);
-        Province ber = new Province("Berlin", "ber", 675, 535);
+        Province ber = new Province("Berlin", "ber", true, 675, 535);
         provinces.add(ber);
-        Province pru = new Province("Prussia", "pru", 738, 505);
+        Province pru = new Province("Prussia", "pru", false, 738, 505);
         provinces.add(pru);
-        Province ruh = new Province("Ruhr", "ruh", 540, 601);
+        Province ruh = new Province("Ruhr", "ruh", false, 540, 601);
         provinces.add(ruh);
-        Province mun = new Province("Munich", "mun", 603, 604);
+        Province mun = new Province("Munich", "mun", true, 603, 604);
         provinces.add(mun);
-        Province sil = new Province("silesia", "sil", 715, 550);
+        Province sil = new Province("silesia", "sil", false, 715, 550);
         provinces.add(sil);
-
-        kie.setIsSupplyCenter(true);
-        ber.setIsSupplyCenter(true);
-        mun.setIsSupplyCenter(true);
 
         kie.addBorder(ber);
         kie.addBorder(ruh);
@@ -177,22 +175,19 @@ public class GameModel implements Model {
 
         //----FRANCE//----
 
-        Province pic = new Province("Picardy", "pic", 434, 565);
+        Province pic = new Province("Picardy", "pic", false, 434, 565);
         provinces.add(pic);
-        Province bre = new Province("Brest", "bre", 335, 627);
+        Province bre = new Province("Brest", "bre", true, 335, 627);
         provinces.add(bre);
-        Province par = new Province("Paris", "par", 403, 649);
+        Province par = new Province("Paris", "par", true, 403, 649);
         provinces.add(par);
-        Province bur = new Province("Burgundy", "bur", 483, 624);
+        Province bur = new Province("Burgundy", "bur", false, 483, 624);
         provinces.add(bur);
-        Province gas = new Province("Gascony", "gas", 346, 722);
+        Province gas = new Province("Gascony", "gas", false, 346, 722);
         provinces.add(gas);
-        Province mar = new Province("Marseilles", "mar", 473, 735);
+        Province mar = new Province("Marseilles", "mar", true, 473, 735);
         provinces.add(mar);
 
-        bre.setIsSupplyCenter(true);
-        par.setIsSupplyCenter(true);
-        mar.setIsSupplyCenter(true);
 
         pic.addBorder(bre);
         pic.addBorder(par);
@@ -207,22 +202,19 @@ public class GameModel implements Model {
 
 
         //----ITALY//----
-        Province pie = new Province("piedmont", "pie", 550, 721);
+        Province pie = new Province("piedmont", "pie", false, 550, 721);
         provinces.add(pie);
-        Province ven = new Province("Venice", "ven", 624, 734);
+        Province ven = new Province("Venice", "ven", true, 624, 734);
         provinces.add(ven);
-        Province tus = new Province("Tuscany", "tus", 607, 776);
+        Province tus = new Province("Tuscany", "tus", false, 607, 776);
         provinces.add(tus);
-        Province rom = new Province("Rome", "rom", 650, 811);
+        Province rom = new Province("Rome", "rom", true, 650, 811);
         provinces.add(rom);
-        Province apu = new Province("Apulia", "apu", 748, 829);
+        Province apu = new Province("Apulia", "apu", false, 748, 829);
         provinces.add(apu);
-        Province nap = new Province("Naples", "nap", 731, 864);
+        Province nap = new Province("Naples", "nap", true, 731, 864);
         provinces.add(nap);
 
-        ven.setIsSupplyCenter(true);
-        rom.setIsSupplyCenter(true);
-        nap.setIsSupplyCenter(true);
 
         pie.addBorder(ven);
         pie.addBorder(tus);
@@ -237,22 +229,19 @@ public class GameModel implements Model {
 
 
         //----AUSTRIA (hungary?)//-----
-        Province boh = new Province("Bohemia", "boh", 698, 625);
+        Province boh = new Province("Bohemia", "boh", false, 698, 625);
         provinces.add(boh);
-        Province gal = new Province("Galicia", "gal", 907, 618);
+        Province gal = new Province("Galicia", "gal", false, 907, 618);
         provinces.add(gal);
-        Province tyr = new Province("Tyrolia", "tyr", 667, 650);
+        Province tyr = new Province("Tyrolia", "tyr", false, 667, 650);
         provinces.add(tyr);
-        Province vie = new Province("Vienna", "vie", 748, 689);
+        Province vie = new Province("Vienna", "vie", true, 748, 689);
         provinces.add(vie);
-        Province bud = new Province("Budapest", "bud", 846, 691);
+        Province bud = new Province("Budapest", "bud", true, 846, 691);
         provinces.add(bud);
-        Province tri = new Province("Trieste", "tri", 707, 715);
+        Province tri = new Province("Trieste", "tri", true, 707, 715);
         provinces.add(tri);
 
-        vie.setIsSupplyCenter(true);
-        bud.setIsSupplyCenter(true);
-        tri.setIsSupplyCenter(true);
 
         boh.addBorder(gal);
         boh.addBorder(vie);
@@ -266,21 +255,18 @@ public class GameModel implements Model {
         bud.addBorder(tri);
 
 
-        //----bulgaria?//---//---
-        Province rum = new Province("Rumania", "rum", 944, 739);
+        //----AUSTRIA-HUNGARY//---//---
+        Province rum = new Province("Romania", "rum", true, 1083, 1083);
         provinces.add(rum);
-        Province ser = new Province("Serbia", "ser", 870, 805);
+        Province ser = new Province("Serbia", "ser", true, 870, 805);
         provinces.add(ser);
-        Province alb = new Province("Albania", "alb", 838, 840);
+        Province alb = new Province("Albania", "alb", false, 838, 840);
         provinces.add(alb);
-        Province bul = new Province("Bulgaria", "bul", 941, 799);
+        Province bul = new Province("Bulgaria", "bul", true, 941, 799);
         provinces.add(bul);
-        Province gre = new Province("Greece", "gre", 879, 845);
+        Province gre = new Province("Greece", "gre", false, 879, 845);
         provinces.add(gre);
 
-        rum.setIsSupplyCenter(true);
-        ser.setIsSupplyCenter(true);
-        bul.setIsSupplyCenter(true);
 
         rum.addBorder(ser);
         rum.addBorder(bul);
@@ -292,20 +278,17 @@ public class GameModel implements Model {
 
 
         //-----TURKEY//---//---
-        Province con = new Province("Constantinople", "con", 1030, 844);
+        Province con = new Province("Constantinople", "con", true, 1030, 844);
         provinces.add(con);
-        Province smy = new Province("Smyrna", "smy", 1071, 880);
+        Province smy = new Province("Smyrna", "smy", true, 1071, 880);
         provinces.add(smy);
-        Province ank = new Province("Ankara", "ank", 1175, 818);
+        Province ank = new Province("Ankara", "ank", true, 1175, 818);
         provinces.add(ank);
-        Province arm = new Province("Armenia", "arm", 1339, 827);
+        Province arm = new Province("Armenia", "arm", false, 1339, 827);
         provinces.add(arm);
-        Province syr = new Province("Syria", "syr", 1342, 945);
+        Province syr = new Province("Syria", "syr", false, 1342, 945);
         provinces.add(syr);
 
-        con.setIsSupplyCenter(true);
-        smy.setIsSupplyCenter(true);
-        ank.setIsSupplyCenter(true);
 
         con.addBorder(ank);
         con.addBorder(smy);
@@ -317,17 +300,17 @@ public class GameModel implements Model {
 
 
         //-----ENGLANG//---//---//---//---
-        Province cly = new Province("Clyde", "cly", 339, 400);
+        Province cly = new Province("Clyde", "cly", false, 339, 400);
         provinces.add(cly);
-        Province edi = new Province("Edinburgh", "edi", 372, 409);
+        Province edi = new Province("Edinburgh", "edi", true, 372, 409);
         provinces.add(edi);
-        Province lvp = new Province("Liverpool", "lvp", 359, 474);
+        Province lvp = new Province("Liverpool", "lvp", true, 359, 474);
         provinces.add(lvp);
-        Province yor = new Province("York", "yor", 389, 501);
+        Province yor = new Province("York", "yor", false, 389, 501);
         provinces.add(yor);
-        Province wal = new Province("Wales", "wal", 319, 525);
+        Province wal = new Province("Wales", "wal", false, 319, 525);
         provinces.add(wal);
-        Province lon = new Province("London", "lon", 393, 537);
+        Province lon = new Province("London", "lon", true, 393, 537);
         provinces.add(lon);
 
         cly.addBorder(edi);
@@ -343,25 +326,21 @@ public class GameModel implements Model {
 
         //------RUSLAND------
 
-        Province war = new Province("Warsaw", "war", 857, 552);
+        Province war = new Province("Warsaw", "war", true, 857, 552);
         provinces.add(war);
-        Province lvn = new Province("Livonia", "lvn", 937, 430);
+        Province lvn = new Province("Livonia", "lvn", false, 937, 430);
         provinces.add(lvn);
-        Province urk = new Province("Urkaine", "urk", 1060, 590);
+        Province urk = new Province("Urkaine", "urk", false, 1060, 590);
         provinces.add(urk);
-        Province mos = new Province("Moscow", "mos", 1244, 412);
-        Province stp = new Province("St. Petersburg", "stp", 1048, 344);
+        Province mos = new Province("Moscow", "mos", true, 1244, 412);
+        Province stp = new Province("St. Petersburg", "stp", true, 1048, 344);
         provinces.add(mos);
         provinces.add(stp);
-        Province fin = new Province("Finland", "fin", 883, 290);
+        Province fin = new Province("Finland", "fin", false, 883, 290);
         provinces.add(fin);
-        Province sev = new Province("Sevastopol", "sev", 1384, 637);
+        Province sev = new Province("Sevastopol", "sev", true, 1384, 637);
         provinces.add(sev);
 
-        war.setIsSupplyCenter(true);
-        mos.setIsSupplyCenter(true);
-        sev.setIsSupplyCenter(true);
-        stp.setIsSupplyCenter(true);
 
         war.addBorder(lvn);
         war.addBorder(mos);
@@ -375,21 +354,17 @@ public class GameModel implements Model {
         stp.addBorder(fin);
 
 
-
         //-----------spain & africa-------
 
-        Province spa = new Province("Spain", "spa", 204, 848);
+        Province spa = new Province("Spain", "spa", true, 204, 848);
         provinces.add(spa);
-        Province por = new Province("Portugal", "por", 92, 827);
+        Province por = new Province("Portugal", "por", true, 92, 827);
         provinces.add(por);
-        Province naf = new Province("N. Africa", "naf", 200, 965);
+        Province naf = new Province("N. Africa", "naf", false,200, 965);
         provinces.add(naf);
-        Province tun = new Province("Tunis", "tun", 563, 944);
+        Province tun = new Province("Tunis", "tun", true, 563, 944);
         provinces.add(tun);
 
-        tun.setIsSupplyCenter(true);
-        spa.setIsSupplyCenter(true);
-        por.setIsSupplyCenter(true);
 
         spa.addBorder(por);
         naf.addBorder(tun);
@@ -397,25 +372,22 @@ public class GameModel implements Model {
 
         //-----NORWAY, SWEDEN DENMARK------
 
-        Province nwy = new Province("Norway", "nwy", 615, 338);
+        Province nwy = new Province("Norway", "nwy", true, 615, 338);
         provinces.add(nwy);
-        Province swe = new Province("Sweden", "swe", 710, 373);
+        Province swe = new Province("Sweden", "swe", true, 710, 373);
         provinces.add(swe);
-        Province den = new Province("Denmark", "den", 628, 418);
+        Province den = new Province("Denmark", "den", true, 628, 418);
         provinces.add(den);
 
-        den.setIsSupplyCenter(true);
-        nwy.setIsSupplyCenter(true);
-        swe.setIsSupplyCenter(true);
 
         nwy.addBorder(swe);
 
 
         //----independent provinces------
 
-        Province hol = new Province("Holland", "hol", 507, 516);
+        Province hol = new Province("Holland", "hol", true, 507, 516);
         provinces.add(hol);
-        Province bel = new Province("Belgium", "bel", 491, 553);
+        Province bel = new Province("Belgium", "bel", true, 491, 553);
         provinces.add(bel);
 
         //BORDERS GERMANY -> france and austria (hol & beg);
@@ -466,47 +438,48 @@ public class GameModel implements Model {
         //OVERIGE
         den.addBorder(kie);
 
-
         // -----SEA'S------
-        Province bar = new Province("Barents Sea", "bar", 1004, 50, Province.ProvinceType.COASTAL);
+        Province bar = new Province("Barents Sea", "bar", false, 1004, 50, Province.ProvinceType.SEA);
         provinces.add(bar);
-        Province nrg = new Province("NRG Norwegian Sea", "nrg", 524, 186, Province.ProvinceType.COASTAL);
+        Province nrg = new Province("NRG Norwegian Sea", "nrg", false, 524, 186, Province.ProvinceType.SEA);
         provinces.add(nrg);
-        Province nth = new Province("NTH North Sea", "nth", 481, 446, Province.ProvinceType.COASTAL);
+        Province nth = new Province("NTH North Sea", "nth", false, 481, 446, Province.ProvinceType.SEA);
         provinces.add(nth);
-        Province ska = new Province("SKA", "ska", 650, 400, Province.ProvinceType.COASTAL);
+        Province ska = new Province("SKA", "ska", false, 650, 400, Province.ProvinceType.SEA);
         provinces.add(ska);
-        Province bal = new Province("Baltic Sea", "bal", 798, 450, Province.ProvinceType.COASTAL);
+        Province bal = new Province("Baltic Sea", "bal", false, 798, 450, Province.ProvinceType.SEA);
         provinces.add(bal);
-        Province bot = new Province("BOT Gulf of Botnia", "bot", 803, 312, Province.ProvinceType.COASTAL);
+        Province bot = new Province("BOT Gulf of Botnia", "bot", false, 803, 312, Province.ProvinceType.SEA);
         provinces.add(bot);
-        Province hel = new Province("HEL Helgoland Bight", "hel", 539, 484, Province.ProvinceType.COASTAL);
+        Province hel = new Province("HEL Helgoland Bight", "hel", false, 539, 484, Province.ProvinceType.SEA);
         provinces.add(hel);
-        Province eng = new Province("English channel", "eng", 350, 555, Province.ProvinceType.COASTAL);
+        Province eng = new Province("English channel", "eng", false, 350, 555, Province.ProvinceType.SEA);
         provinces.add(eng);
-        Province iri = new Province("Irish Sea", "iri", 260, 520, Province.ProvinceType.COASTAL);
+        Province iri = new Province("Irish Sea", "iri", false, 260, 520, Province.ProvinceType.SEA);
         provinces.add(iri);
-        Province nat = new Province("N. Atlantic", "nat", 135, 343, Province.ProvinceType.COASTAL);
+        Province nat = new Province("N. Atlantic", "nat", false, 135, 343, Province.ProvinceType.SEA);
         provinces.add(nat);
-        Province mid = new Province("Mid Atlantic", "mid", 99, 655, Province.ProvinceType.COASTAL);
+        Province mid = new Province("Mid Atlantic", "mid", false, 99, 655, Province.ProvinceType.SEA);
         provinces.add(mid);
-        Province wes = new Province("West Mediterranean", "wes", 414, 870, Province.ProvinceType.COASTAL);
+        Province wes = new Province("West Mediterranean", "wes", false, 414, 870, Province.ProvinceType.SEA);
         provinces.add(wes);
-        Province gol = new Province("GOL Golf of Legon", "gol", 466, 833, Province.ProvinceType.COASTAL);
+        Province gol = new Province("GOL Golf of Legon", "gol", false, 466, 833, Province.ProvinceType.SEA);
         provinces.add(gol);
-        Province tyn = new Province("Tyrhennian Sea", "tyn", 611, 895, Province.ProvinceType.COASTAL);
+        Province tyn = new Province("Tyrhennian Sea", "tyn", false, 611, 895, Province.ProvinceType.SEA);
         provinces.add(tyn);
-        Province ion = new Province("Ionian Sea", "ion", 789, 937, Province.ProvinceType.COASTAL);
+        Province ion = new Province("Ionian Sea", "ion", false, 789, 937, Province.ProvinceType.SEA);
         provinces.add(ion);
-        Province adr = new Province("Adriantic Sea", "adr", 760, 804, Province.ProvinceType.COASTAL);
+        Province adr = new Province("Adriantic Sea", "adr", false, 760, 804, Province.ProvinceType.SEA);
         provinces.add(adr);
-        Province aeg = new Province("Aegean Sea", "aeg", 973, 933, Province.ProvinceType.COASTAL);
+        Province aeg = new Province("Aegean Sea", "aeg", false, 973, 933, Province.ProvinceType.SEA);
         provinces.add(aeg);
-        Province eas = new Province("East Mid", "eas", 1148, 950, Province.ProvinceType.COASTAL);
+        Province eas = new Province("East Mid", "eas", false, 1148, 950, Province.ProvinceType.SEA);
         provinces.add(eas);
-        Province bla = new Province("Black Sea", "bla", 1127, 763, Province.ProvinceType.COASTAL);
+        Province bla = new Province("Black Sea", "bla", false, 1127, 763, Province.ProvinceType.SEA);
         provinces.add(bla);
 
+
+        //ZEE
         bar.addBorder(stp);
         bar.addBorder(swe);
         bar.addBorder(nrg);
@@ -603,6 +576,44 @@ public class GameModel implements Model {
         bla.addBorder(sev);
         bla.addBorder(arm);
         bla.addBorder(ank);
+
+    }
+
+    public void createUnit(Main.unitType unit, Province province) {
+        Unit troop = null;
+
+        System.out.println(province.getX());
+
+        switch (unit) {
+            case ARMY:
+                troop = new Army(province);
+                break;
+            case FLEET:
+                troop = new Fleet(province);
+                break;
+        }
+
+        //province.addUnit(troop);
+
+        moveUnit(troop, province.getX(), province.getY());
+
+        //Render troepen
+        troops.getChildren().add(troop);
+
+        /*
+        troop.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+
+                Unit thisUnit = (Unit) event.getTarget();
+
+                ArrayList<Province> borderProvinces = thisUnit.province.getBorders();
+                System.out.println("clicked on province " + thisUnit.province.getName());
+                for(Province province: borderProvinces){
+                    System.out.println("Border province: "+province.getName());
+                }
+            }
+        });
+         */
 
     }
 
