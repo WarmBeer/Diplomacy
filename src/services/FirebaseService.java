@@ -68,9 +68,9 @@ public class FirebaseService {
      */
     public void makeChatInFirebase(){
         try{
-            Map<String, Object> chatMap = new HashMap<>();
+            Map<String, Object> chatMap = new HashMap();
 
-            ArrayList<Object> messageArray = new ArrayList<>();
+            ArrayList<Object> messageArray = new ArrayList();
             Collections.addAll(messageArray, FIRSTMESSAGE);
             chatMap.put(ARRAYNAME, messageArray);
 
