@@ -17,8 +17,19 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 
 import static application.Main.GAME_VIEW;
+import static application.Main.print;
 
 public class GameModel implements Model {
+
+    public enum Countries {
+        FRANCE,
+        GERMANY,
+        ENGLAND,
+        AUSTRIA,
+        TURKEY,
+        RUSSIA,
+        ITALY
+    }
 
     private Game currentGame;
     private Group root; //Kaart en UI render groep
@@ -50,26 +61,31 @@ public class GameModel implements Model {
 
         for(Player player : gameJSON.Players) {
             game.addPlayer(player);
+
+            Country country = new Country(player.getCountry());
+            game.addCountry(country);
         }
 
         for (ProvinceJSON provinceJSON : gameJSON.Provinces) {
             for (Province province : game.getProvinces()) {
                 if (province.getAbbreviation().equals(provinceJSON.abbr)) {
 
-                    Unit stationed = null;
-
-                    switch (provinceJSON.stationed) {
-                        case ARMY:
-                            stationed = new Army(province);
-                            break;
-                        case FLEET:
-                            stationed = new Fleet(province);
-                            break;
+                    for(Country country : game.getCountries()) {
+                        if(provinceJSON.owner == country.getName()) {
+                            province.setOwner(country);
+                        }
                     }
 
-                    for(Player player : game.getPlayers()) {
-                        if(provinceJSON.owner == player.getId()) {
-                            province.setOwner(player);
+                    Unit stationed = null;
+
+                    if (province.getOwner() != null) {
+                        switch (provinceJSON.stationed) {
+                            case ARMY:
+                                stationed = new Army(province);
+                                break;
+                            case FLEET:
+                                stationed = new Fleet(province);
+                                break;
                         }
                     }
 

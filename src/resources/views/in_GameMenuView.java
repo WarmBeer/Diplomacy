@@ -67,11 +67,10 @@ public class in_GameMenuView {
     @FXML
     private Button OptiesKnop;
 
-//    PROBLEEM HIERMEE!!!!!!!!!!!!
-//    @FXML
-//    private void openInGameMenuView(){
-//        MainMenu.setVisible(!MainMenu.isVisible());
-//    }
+    @FXML
+    private void openInGameMenuView(){
+        MainMenu.setVisible(!MainMenu.isVisible());
+    }
 
     @FXML
     private void AfsluitenView() {

@@ -1,24 +1,22 @@
 package domains;
 
+import models.GameModel;
+
 import java.util.ArrayList;
 
 public class Country {
 
-    enum colors {
-        BLUE,
-        CYAN,
-        RED,
-        ORANGE,
-        GREEN,
-        WHITE,
-        BLACK
+    private GameModel.Countries name;
+    private Player leader;
+    private ArrayList<Province> provinces;
+
+    public Country(GameModel.Countries name) {
+        this.name = name;
+        this.leader = null;
+        this.provinces = new ArrayList<Province>();
     }
 
-    private String name;
-    private colors color;
-    private ArrayList<Province> provinces = new ArrayList<Province>();
-
-    public Country() {
-
+    public GameModel.Countries getName() {
+        return this.name;
     }
 }

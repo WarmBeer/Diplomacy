@@ -1,11 +1,13 @@
 package domains;
 
+import models.GameModel;
+
 public class Player {
 
     private String UID;
     private int id;
     private String name;
-    private String country;
+    private GameModel.Countries country;
 
     public int getId() {
         return id;
@@ -15,7 +17,7 @@ public class Player {
         return name;
     }
 
-    public String getCountry() {
+    public GameModel.Countries getCountry() {
         return country;
     }
 

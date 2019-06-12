@@ -13,6 +13,7 @@ public class Game {
     private String host;
     private int turn;
 
+    private List<Country> Countries;
     private List<Province> Provinces;
     private List<Player> Players;
 
@@ -21,8 +22,13 @@ public class Game {
         this.name = name;
         this.turnTime = turnTime;
         this.turn = turn;
-        Provinces = new ArrayList<Province>();
-        Players = new ArrayList<Player>();
+        Countries = new ArrayList<>();
+        Provinces = new ArrayList<>();
+        Players = new ArrayList<>();
+    }
+
+    public void addCountry(Country country) {
+        this.Countries.add(country);
     }
 
     public void addProvince(Province province) {
@@ -35,6 +41,10 @@ public class Game {
 
     public String getName() {
         return this.name;
+    }
+
+    public List<Country> getCountries() {
+        return this.Countries;
     }
 
     public List<Player> getPlayers() {

@@ -7,13 +7,18 @@
 	"Provinces": [
         {
             "abbr": "pic",
-            "owner": 1,
+            "owner": "FRANCE",
+            "stationed": "ARMY"
+        },
+        {
+            "abbr": "hol",
+            "owner": "ENGLAND",
             "stationed": "ARMY"
         },
         {
             "abbr": "bre",
-            "owner": 1,
-            "stationed": "FLEET"
+            "owner": "GERMANY",
+            "stationed": "ARMY"
         }
     ],
     "Players": [
@@ -21,13 +26,13 @@
             "id": 1,
             "UID": "9xp3fJGNqRd10fzE",
             "name": "Mick",
-            "country": "Germany"
+            "country": "GERMANY"
         },
         {
             "id": 2,
             "UID": "1111111111111111",
             "name": "Stefan",
-            "country": "France"
+            "country": "FRANCE"
         }
     ]
 }

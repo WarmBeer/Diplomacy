@@ -1,6 +1,7 @@
 package domains;
 
 import javafx.scene.image.ImageView;
+import models.GameModel;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,7 @@ public class Province extends ImageView {
     private String name;
     private String abbreviation;
     private Boolean isSupplyCenter;
-    private Player owner;
+    private Country owner;
     private Unit stationed;
     private ArrayList<Province> borderedProvinces = new ArrayList<Province>();
 
@@ -45,11 +46,11 @@ public class Province extends ImageView {
         this.owner = null;
     }
 
-    public void setOwner(Player owner) {
+    public void setOwner(Country owner) {
         this.owner = owner;
     }
 
-    public Player getOwner() {
+    public Country getOwner() {
         return this.owner;
     }
 
