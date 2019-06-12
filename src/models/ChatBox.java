@@ -86,8 +86,8 @@ public class ChatBox implements GameObservable {
             public void run() {
                 Platform.runLater(new Runnable() {
                     public void run() {
+                        updateArrayListWithMessages();
                         notifyAllObservers();
-                        System.out.println("Auto updated");
                     }
                 });
             }

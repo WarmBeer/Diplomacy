@@ -99,6 +99,7 @@ public class GameView implements GameObserver {
         for(String bericht : messageArraylist){
             messagesList.getItems().add(messagesList.getItems().size(), bericht);
             messagesList.scrollTo(bericht);
+
             LogManager.getLogManager().reset();
         }
     }
