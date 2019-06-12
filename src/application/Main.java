@@ -3,11 +3,18 @@ package application;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import domains.*;
+import controllers.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import views.MainMenu;
+import javafx.collections.ObservableList;
+
+import javax.print.DocFlavor;
+import java.io.IOException;
+import java.util.ResourceBundle;
 import models.GameModel;
 import models.SuperModel;
 
@@ -31,8 +38,8 @@ public class Main extends Application {
                 FLEET
         };
 
-        public static String GAME_VIEW = "/Resources/views/GameView.fxml";
-        public static String MAIN_MENU = "/Resources/views/MainMenu.fxml";
+        public static String GAME_VIEW = "/resources/views/GameView.fxml";
+        public static String MAIN_MENU = "/resources/views/MainMenu.fxml";
         public static String STYLESHEET_FILE = "/Resources/style.css";
         private Stage stage;
         private String KEY;
@@ -60,16 +67,15 @@ public class Main extends Application {
                 this.superModel = new SuperModel();
 
                 Parent panel;
-                panel = FXMLLoader.load(getClass().getResource(MAIN_MENU));
+                panel = FXMLLoader.load(getClass().getResource(GAME_VIEW));
                 Scene scene = new Scene(panel);
-                stage = new Stage();
+                Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.setTitle("Diplomacy v0.1");
                 stage.setMaximized(true);
                 stage.show();
 
                 setup();
-
                 gameModel.show(stage);
 
                 loadGame();

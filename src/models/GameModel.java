@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -84,39 +85,47 @@ public class GameModel implements Model {
         //Maak troepen aan
         for(Province province: game.getProvinces()){
 
-            ImageView point = new ImageView();
 
             switch(province.getProvinceType()){
                 case SEA:
-                    point.setImage(new Image("Point coastal.png"));
+                    province.setImage(new Image("Point coastal.png"));
+                    //createUnit(unitType.Fleet, province, province.getX(), province.getY());
                     break;
                 case LAND:
-                    point.setImage(new Image("Point.png"));
+                    province.setImage(new Image("Point.png"));
+                    //createUnit(unitType.Army, province, province.getX(), province.getY());
                     break;
             }
 
+            province.setTranslateX(-25);
+            province.setTranslateY(-35);
 
+            province.setScaleX(0.2);
+            province.setScaleY(0.2);
 
-            point.setX(province.getX());
-            point.setY(province.getY());
-            point.setTranslateX(50);
-            point.setTranslateY(50);
-            point.setScaleX(0.2);
-            point.setScaleY(0.2);
-            point.setTranslateX(-20);
-            point.setTranslateY(-20);
+            province.setX(province.getX());
+            province.setY(province.getY());
 
-            point.setOpacity(0.6);
+            province.setOpacity(0.6);
 
-            point.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            province.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
-                    ImageView point = (ImageView) event.getTarget();
+                    Province provincePoint = (Province ) event.getTarget();
 
-                    point.setOpacity(1);
+                    for(Node node : points.getChildren()) {
+                        Province nodeProvince = (Province) node;
+                        nodeProvince.setOpacity(0.6);
+                        nodeProvince.setScaleX(0.2);
+                        nodeProvince.setScaleY(0.2);
+                    }
+
+                    provincePoint.setOpacity(1);
+                    provincePoint.setScaleX(0.3);
+                    provincePoint.setScaleY(0.3);
                 }
             });
 
-            points.getChildren().add(point);
+            points.getChildren().add(province);
 
         }
 
@@ -125,22 +134,36 @@ public class GameModel implements Model {
     }
 
 
+    public void createUnit(Main.unitType unit, Province province, double x, double y) {
+        Unit troop = null;
+
+        System.out.println(x);
+
+        switch (unit) {
+            case ARMY:
+                troop = new Army(province);
+                break;
+            case FLEET:
+                troop = new Fleet(province);
+                break;
+        }
+
+        province.addUnit(troop);
+
+        moveUnit(troop, x, y);
+
+        //Render troepen
+        troops.getChildren().add(troop);
+
+        troop.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+
+            }
+        });
+
+    }
+
     public void initProvinces(Game game) {
-
-        //^([a-z]{3})\s'([^']+)'
-        //Province $1 = new Province\("$2", "$1"\);
-
-        //(Province )([a-z]{3})([^;]+;\r\n);
-        //$1$2$3\t\tgame.addProvince\($2\);\r\n
-
-
-        //normal to code
-        //\t([a-z]{3})\s'([^']+)'\s([0-9]+)\s([0-9]+);
-        //\tProvince $1 = new Province\("$2", "$1"\, $3, $4\);\r\n\t\tgame.addProvince\($1\);
-
-        //star to setSupplycenter
-        //\t\*\s([a-z]{3});
-        //\t($1).setIsSupplyCenter\(true\);
 
         //----GERMANY//----
         Province kie = new Province("Kiel", "kie", true, 580, 520);
@@ -382,6 +405,8 @@ public class GameModel implements Model {
         game.addProvince(hol);
         Province bel = new Province("Belgium", "bel", true, 491, 553);
         game.addProvince(bel);
+
+        bel.addBorder(hol);
 
         //BORDERS GERMANY -> france and austria (hol & beg);
 

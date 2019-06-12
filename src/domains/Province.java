@@ -1,8 +1,10 @@
 package domains;
 
+import javafx.scene.image.ImageView;
+
 import java.util.ArrayList;
 
-public class Province {
+public class Province extends ImageView {
 
     private int id;
 
@@ -19,11 +21,11 @@ public class Province {
     private Player owner;
     private Unit stationed;
     private ArrayList<Province> borderedProvinces = new ArrayList<Province>();
-    private int x, y;
 
     public Province(String name, String abbreviation, Boolean isSupplyCenter, int x, int y) {
-        this.x = (int) Math.round((x));
-        this.y = (int) Math.round((y));
+        super();
+        this.setX(x);
+        this.setY(y);
         this.name = name;
         this.abbreviation = abbreviation;
         this.isSupplyCenter = isSupplyCenter;
@@ -33,8 +35,9 @@ public class Province {
     }
 
     public Province(String name, String abbreviation, Boolean isSupplyCenter, int x, int y, ProvinceType provinceType) {
-        this.x = (int) Math.round((x));
-        this.y = (int) Math.round((y));
+        super();
+        this.setX(x);
+        this.setY(y);
         this.name = name;
         this.abbreviation = abbreviation;
         this.isSupplyCenter = isSupplyCenter;
@@ -68,14 +71,6 @@ public class Province {
 
     public Unit getUnit() {
         return this.stationed;
-    }
-
-    public double getX() {
-        return this.x;
-    }
-
-    public double getY() {
-        return this.y;
     }
 
     public void setIsSupplyCenter(boolean supplyCenter) {
