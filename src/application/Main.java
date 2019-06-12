@@ -2,26 +2,18 @@ package application;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import domains.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import models.GameModel;
-import models.Model;
 import models.SuperModel;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.List;
+import java.io.*;
+import java.net.URL;
+import java.util.Scanner;
 
 /**
  * Bevat alle code om het programma te kunnen starten.
@@ -32,6 +24,8 @@ import java.util.List;
  */
 public class Main extends Application {
 
+    private static final String ALPHA_NUMERIC_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
         public static enum unitType {
                 ARMY,
                 FLEET
@@ -41,6 +35,7 @@ public class Main extends Application {
         public static String MAIN_MENU = "/Resources/views/MainMenu.fxml";
         public static String STYLESHEET_FILE = "/Resources/style.css";
         private Stage stage;
+        private String KEY;
 
         private GameModel gameModel;
         private SuperModel superModel;
@@ -53,6 +48,10 @@ public class Main extends Application {
          * Hello World,
          * by calling this, the application will be started.
          */
+
+        public static void print(Object o) {
+            System.out.println(o);
+        }
 
         @Override
         public void start(Stage primaryStage) throws Exception {
@@ -69,58 +68,66 @@ public class Main extends Application {
                 stage.setMaximized(true);
                 stage.show();
 
+                setup();
+
                 gameModel.show(stage);
-                gameModel.init();
 
-                this.loadGame();
+                loadGame();
         }
 
-        private Circle MakeCircles() {
-                Circle circle1 = new Circle(100.0f, 100.0f, 50.f);
-                circle1.setFill(Color.BLUE);
-                circle1.setStroke(Color.RED);
-                circle1.setStrokeWidth(3);
-                return circle1;
-        }
-
-        public void loadGame() throws Exception{
+        public void loadGame() {
 
                 Reader reader = new BufferedReader(new InputStreamReader(
                         this.getClass().getResourceAsStream("/" + "Diplomacy.json")));
                 Gson gson = new GsonBuilder().create();
                 GameJSON gameJSON = gson.fromJson(reader, GameJSON.class);
 
-                Game game = new Game(gameJSON.name, gameJSON.turnTime, gameJSON.turn);
+                gameModel.initGame(gameJSON);
+        }
 
-                for(Player player : gameJSON.Players) {
-                        game.addPlayer(player);
+        public void setup() {
+
+            URL jarLocationUrl = Main.class.getProtectionDomain().getCodeSource().getLocation();
+            String jarLocation = new File(jarLocationUrl.toString()).getParent().substring(6);
+
+            print( jarLocation );
+
+            File file = new File(jarLocation + File.separator + "KEY.txt");
+
+            if (file.exists()) {
+                try {
+                    this.KEY = new Scanner(file).useDelimiter("\\Z").next();
+                    print("Key found!: " + this.KEY);
+                    //retrieveSaves
+                } catch (FileNotFoundException fnf) {
+                    fnf.printStackTrace();
                 }
+            } else {
+                print("Key not found, creating one for you!");
+                createKeyFile(jarLocation);
+            }
+        }
 
-                for (ProvinceJSON provinceJSON : gameJSON.Provinces) {
-                        Province province = new Province(provinceJSON.name, provinceJSON.abbr, provinceJSON.isSupplyCenter, provinceJSON.x, provinceJSON.y, provinceJSON.provinceType);
-                        Unit stationed = null;
+        public void createKeyFile(String location) {
+            String key = generateKey(16);
 
-                        switch (provinceJSON.stationed) {
-                                case ARMY:
-                                        stationed = new Army(province);
-                                        break;
-                                case FLEET:
-                                        stationed = new Fleet(province);
-                                        break;
-                        }
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter(location + File.separator + "KEY.txt"));
+                writer.write(key);
 
-                        for(Player player : game.getPlayers()) {
-                                if(provinceJSON.owner == player.getId()) {
-                                        province.setOwner(player);
-                                }
-                        }
+                writer.close();
+            } catch (IOException io) {
+                io.printStackTrace();
+            }
+            print("Saved key: " + key);
+        }
 
-                        if (stationed != null) {
-                                gameModel.createUnit(provinceJSON.stationed, province);
-                        }
-
-                        province.addUnit(stationed);
-                        game.addProvince(province);
-                }
+        public static String generateKey(int count) {
+            StringBuilder builder = new StringBuilder();
+            while (count-- != 0) {
+                int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
+                builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+            }
+            return builder.toString();
         }
 }

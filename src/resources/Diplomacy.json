@@ -1,43 +1,31 @@
 {
+    "gameID": 1,
     "name": "First Game!",
     "turnTime": 20,
     "host": "AA000001",
     "turn": 1,
-    "playerCount": 1,
 	"Provinces": [
         {
-            "id": 1,
-            "name": "Picardy",
             "abbr": "pic",
-            "provinceType": "COASTAL",
-            "isSupplyCenter": "false",
             "owner": 1,
-            "stationed": "ARMY",
-            "borderedProvinces": [],
-            "x": 533,
-            "y": 849
+            "stationed": "ARMY"
         },
         {
-            "id": 2,
-            "name": "Brest",
             "abbr": "bre",
-            "provinceType": "COASTAL",
-            "isSupplyCenter": "false",
             "owner": 1,
-            "stationed": "FLEET",
-            "borderedProvinces": [],
-            "x": 426,
-            "y": 935
+            "stationed": "FLEET"
         }
     ],
     "Players": [
         {
             "id": 1,
+            "UID": "9xp3fJGNqRd10fzE",
             "name": "Mick",
             "country": "Germany"
         },
         {
             "id": 2,
+            "UID": "1111111111111111",
             "name": "Stefan",
             "country": "France"
         }

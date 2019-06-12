@@ -29,6 +29,7 @@ public class Province {
         this.isSupplyCenter = isSupplyCenter;
         this.provinceType = provinceType.LAND;
         this.owner = null;
+        this.stationed = null;
     }
 
     public Province(String name, String abbreviation, Boolean isSupplyCenter, int x, int y, ProvinceType provinceType) {
@@ -51,6 +52,10 @@ public class Province {
 
     public ProvinceType getProvinceType() {
         return this.provinceType;
+    }
+
+    public String getAbbreviation() {
+        return this.abbreviation;
     }
 
     public String getName() {

@@ -2,6 +2,7 @@ package domains;
 
 public class Player {
 
+    private String UID;
     private int id;
     private String name;
     private String country;

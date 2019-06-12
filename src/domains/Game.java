@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Game {
 
+    private String gameUID;
     private String name;
     private int turnTime;
     private String host;
@@ -15,7 +16,8 @@ public class Game {
     private List<Province> Provinces;
     private List<Player> Players;
 
-    public Game(String name, int turnTime, int turn) {
+    public Game(String gameUID, String name, int turnTime, int turn) {
+        this.gameUID = gameUID;
         this.name = name;
         this.turnTime = turnTime;
         this.turn = turn;
