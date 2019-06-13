@@ -1,27 +1,28 @@
 package models;
 
 import application.Main;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import domains.*;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import observers.GameObservable;
-import views.GameView;
+import observers.GameObserver;
 
+import java.io.FileReader;
+import java.io.Reader;
 import java.util.ArrayList;
 
-import static application.Main.GAME_VIEW;
-import static application.Main.print;
-
 public class GameModel implements Model, GameObservable {
+
+    public final String GAME_VIEW = "/resources/views/GameView.fxml"; //DIT MOET WEG UITEINDELIJK!!!
 
     public enum Countries {
         FRANCE,
@@ -37,26 +38,9 @@ public class GameModel implements Model, GameObservable {
     private Group root; //Kaart en UI render groep
     private Group troops; //Troepen render groep
     private Group points; //Provincie punt render groep
-    ArrayList<GameView> viewObservers = new ArrayList<GameView>();
+    ArrayList<GameObserver> viewObservers = new ArrayList<GameObserver>();
 
-    @Override
-    public void registerObserver(GameView v) {
-        viewObservers.add(v);
-    }
 
-    @Override
-    public void unregisterObserver(GameView v) {
-        viewObservers.remove(v);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for(GameView v : viewObservers) {
-            v.update(this);
-        }
-    }
-
-    @FXML
     public void show(Stage stage) throws Exception{
 
         root = new Group();
@@ -72,7 +56,7 @@ public class GameModel implements Model, GameObservable {
         stage.setScene(scene);
     }
 
-    @FXML
+
     public void initGame(GameJSON gameJSON) {
 
         Game game = new Game(gameJSON.gameUID, gameJSON.name, gameJSON.turnTime, gameJSON.turn);
@@ -654,6 +638,44 @@ public class GameModel implements Model, GameObservable {
     public void moveUnit(Unit unit, double x, double y) {
         unit.setX(x);
         unit.setY(y);
+    }
+
+    public void loadGame() throws Exception{
+        Reader reader = new FileReader("/Diplomacy.json");
+        Gson gson = new GsonBuilder().create();
+        Game p = gson.fromJson(reader, Game.class);
+        System.out.println(p);
+    }
+
+
+    @Override
+    public void registerObserver(GameObserver gameobserver) {
+        viewObservers.add(gameobserver);
+    }
+
+    @Override
+    public void unregisterObserver(GameObserver gameobserver) {
+        viewObservers.remove(gameobserver);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for(GameObserver gameobserver : viewObservers) {
+            gameobserver.update(this);
+        }
+    }
+
+    @Override
+    public ArrayList<String> getOrderList() {
+        return orderList;
+    }
+
+    ArrayList<String> orderList = new ArrayList<String>();
+
+    public void addOrder(String action, String prov1, String prov2){
+        String order = action + "_" + prov1 + "_" + prov2;
+        orderList.add(order);
+        notifyObservers();
     }
 
 }

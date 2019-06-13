@@ -1,48 +1,47 @@
 package views;
 
-import javafx.event.ActionEvent;
+import controllers.GameController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import observers.GameObservable;
 import observers.GameObserver;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import java.util.logging.LogManager;
 
-public class GameView implements GameObserver {
+public class GameView implements GameObserver, Initializable {
 
-    private static String GAME_VIEW = "/resources/GameViewXML.fxml";
-    private static String STYLESHEET_FILE = "/resources/style.css";
     private Parent content;
+    private GameController gamecontroller;
+    public final String GAME_VIEW = "/resources/views/GameView.fxml";
+    public final String STYLESHEET_FILE = "/Resources/style.css";
 
     public GameView(Stage stage){
         chatboxLaunch(stage);
+        gamecontroller = new GameController();
+        gamecontroller.registerViewObserver(this);
     }
 
-    @Override
-    public void update(GameObservable gameObservable) {
-
-    }
 
     public void chatboxLaunch(Stage primaryStage) {
-        String sceneFile = GAME_VIEW;
-
         try{
-            URL url = getClass().getResource(sceneFile);
+            URL url = getClass().getResource(GAME_VIEW);
             FXMLLoader loader = new FXMLLoader(url);
             loader.setController(this);
             content = loader.load();
 
-            primaryStage.setTitle("Welkom!");
-            primaryStage.setScene(new Scene(content, 400, 500));
+            primaryStage.setTitle("Diplomacy v0.2");
+            primaryStage.setScene(new Scene(content));
+            primaryStage.setFullScreen(true);
             primaryStage.show();
         }
         catch(IOException IOE){
@@ -76,25 +75,67 @@ public class GameView implements GameObserver {
     private Button in_GameMenuKnop;
 
     @FXML
-    private void OpenMenu() {
-//        if (!MainMenu.isVisible()) {
-//            MainMenu.setVisible(true);
-//        }
-//        else if (MainMenu.isVisible()) {
-//            MainMenu.setVisible(false);
-//        }
-
-        MainMenu.setVisible(!MainMenu.isVisible());
-
-//        MainMenu.setVisible(true);
-
-//        boolean MainMenuFalse = false;
-//        if (MainMenu.equals(MainMenuFalse) == MainMenuFalse) {
-//            MainMenu.setVisible(true);
-//        }
-//        else if (MainMenu.equals(MainMenuFalse) == true) {
-//            MainMenu.setVisible(false);
-//        }
+    private void afsluitenController(){
     }
+
+    @FXML
+    public Button button;
+
+    @FXML
+    public Button border;
+
+    @FXML
+    public ComboBox comboxAction;
+
+    @FXML
+    public ComboBox comboxProv1;
+
+    @FXML
+    public ComboBox comboxProv2;
+
+    @FXML
+    public ListView lvOrders;
+
+    @FXML
+    public TextField tfMessage; // Value injected by FXMLLoader
+
+    @FXML
+    public TextArea taUpdates; // Value injected by FXMLLoader
+
+    @FXML
+    public void clickedAddOrder() {
+        try {
+            String action = comboxAction.getValue().toString();
+            String prov1 = comboxProv1.getValue().toString();
+            String prov2 = comboxProv2.getValue().toString();
+            gamecontroller.addOrderIsClicked(action, prov1, prov2);
+        }
+        catch (Exception e) {
+            System.out.println("In GameView is iets fout gegaan tijdens het toevoegen van een order...");
+            e.printStackTrace();
+        }
+    }
+
+    public void updateOrderlist(ArrayList<String> orderList){
+        lvOrders.getItems().clear();
+        for(String order : orderList){
+            lvOrders.getItems().add(order);
+            LogManager.getLogManager().reset();
+        }
+    }
+
+    @Override
+    public void update(GameObservable gameobservable) {
+        updateOrderlist(gameobservable.getOrderList());
+    }
+
+    @FXML
+    public void initialize(URL url, ResourceBundle rb) {
+        comboxAction.getItems().addAll("Move", "Support", "Embark", "Hold");
+        comboxProv1.getItems().addAll("Province1a", "Province1b", "Province1c", "Province1d", "Province1e");
+        comboxProv2.getItems().addAll("Province2a", "Province2b", "Province2c", "Province2d", "Province2e");
+    }
+
+
 }
 

@@ -2,7 +2,6 @@ package controllers;
 
 
 import models.in_GameMenuModel;
-import views.MainMenu;
 
 public class in_GameMenuController {
 
@@ -15,10 +14,8 @@ public class in_GameMenuController {
     public void afsluitenController() {
         inGameModel.afsluitenModel();
     }
+}
 
-//    public void openInGameMenuController() {
-//        inGameModel.openInGameMenuModel();
-//    }
 
 
 
@@ -118,4 +115,4 @@ public class in_GameMenuController {
 //        paginationrules.setPageCount(24);
 //        paginationrules.setPageFactory((Integer pageIndex) -> createPage(pageIndex));
 //    }
-}
+

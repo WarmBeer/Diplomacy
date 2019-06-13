@@ -6,9 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import static application.Main.MAIN_MENU;
-
 public class SuperModel implements Model {
+
+    public final String MAIN_MENU = "/resources/views/MainMenu.fxml"; //DIT MOET WEG UITEINDELIJK
 
     @FXML
     public void show(Stage stage) throws Exception{
