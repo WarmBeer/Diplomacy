@@ -7,13 +7,13 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:controller="controllers.MainController" cache="false" minHeight="720.0" minWidth="1280.0" mouseTransparent="false"
+<BorderPane cache="false" minHeight="720.0" minWidth="1080.0" prefWidth="1280" prefHeight="780" mouseTransparent="false"
             style="-fx-background-image: url(&quot;background_image.jpg&quot;);&#10;-fx-background-repeat: stretch;&#10;    -fx-background-size: 100%;&#10;    -fx-background-position: left top;&#10;   "
             xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
     <bottom>
         <Button fx:id="optionsButton" minHeight="100.0" minWidth="250.0" mnemonicParsing="false"
                 style=" -fx-effect: dropshadow(three-pass-box, RGBA(127,127,127,0.5), 30, 0.5, 0, 0);&#10; -fx-background-color: RGBA(127,127,127,0.4);"
-                text="Options" BorderPane.alignment="BOTTOM_RIGHT">
+                text="Options" BorderPane.alignment="BOTTOM_RIGHT" onAction="#clickedOptions">
             <font>
                 <Font name="Forte" size="35.0"/>
             </font>
@@ -28,7 +28,7 @@
                 <Button contentDisplay="CENTER" focusTraversable="true" maxHeight="150.0" maxWidth="400.0"
                         minHeight="125.0" minWidth="350.0" mnemonicParsing="false" pickOnBounds="false"
                         style=" -fx-effect: dropshadow(three-pass-box, RGBA(127,127,127,0.5), 30, 0.5, 0, 0);&#10; -fx-background-color: RGBA(127,127,127,0.7);"
-                        text="Join game" visible="true" wrapText="false" fx:id="joinGameButton">
+                        text="Join game" visible="true" wrapText="false" fx:id="joinGameButton" onAction="#clickedJoinGame">
                     <font>
                         <Font name="Forte" size="45.0" fx:id="x1"/>
                     </font>
@@ -39,7 +39,7 @@
                 <Button contentDisplay="CENTER" font="$x1" maxHeight="150.0" maxWidth="400.0" minHeight="125.0"
                         minWidth="350.0" mnemonicParsing="false" fx:id="hostGameButton"
                         style=" -fx-effect: dropshadow(three-pass-box, RGBA(127,127,127,0.5), 30, 0.5, 0, 0);&#10; -fx-background-color: RGBA(127,127,127,0.7);&#10;"
-                        text="Host game" VBox.margin="$x2"/>
+                        text="Host game" VBox.margin="$x2" onAction="#clickedHostGame"/>
             </children>
         </VBox>
     </center>

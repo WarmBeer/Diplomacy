@@ -2,6 +2,7 @@ package application;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import controllers.GameController;
 import domains.*;
 import controllers.MainController;
 import javafx.application.Application;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 import models.GameModel;
 import models.SuperModel;
+import views.MainMenuView;
 
 import java.io.*;
 import java.net.URL;
@@ -63,22 +65,33 @@ public class Main extends Application {
         @Override
         public void start(Stage primaryStage) throws Exception {
 
-                this.gameModel = new GameModel();
-                this.superModel = new SuperModel();
+            this.gameModel = new GameModel();
+            this.superModel = new SuperModel();
 
-                Parent panel;
-                panel = FXMLLoader.load(getClass().getResource(GAME_VIEW));
-                Scene scene = new Scene(panel);
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.setTitle("Diplomacy v0.1");
-                stage.setMaximized(true);
-                stage.show();
+            GameController gameController = new GameController(gameModel);
+            MainController mainController = new MainController(superModel);
 
-                setup();
-                gameModel.show(stage);
 
-                loadGame();
+            gameController.mainController = mainController;
+            mainController.gameController = gameController;
+
+            Parent panel;
+            panel = FXMLLoader.load(getClass().getResource(GAME_VIEW));
+            Scene scene = new Scene(panel);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Diplomacy v0.1");
+            stage.setMaximized(true);
+            //stage.show();
+
+
+            MainMenuView mainMenuView = new MainMenuView(stage, mainController);
+            mainMenuView.launchMainMenu();
+//
+//            setup();
+//            gameModel.show(stage);
+//
+//            loadGame();
         }
 
         public void loadGame() {

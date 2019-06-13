@@ -19,6 +19,7 @@ import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import models.SuperModel;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
@@ -29,6 +30,7 @@ import java.util.ResourceBundle;
 public class GameController implements Initializable {
 
     private Model gameModel;
+    public MainController mainController;
 
     @FXML
     public Button button;
@@ -53,6 +55,10 @@ public class GameController implements Initializable {
 
     @FXML
     public TextArea taUpdates; // Value injected by FXMLLoader
+
+    public GameController(GameModel gameModel) {
+        this.gameModel = gameModel;
+    }
 
     @FXML
     public void clickedAddOrder() {
@@ -117,5 +123,13 @@ public class GameController implements Initializable {
                 }
             }
         } );
+    }
+
+    public void showGame(Stage primaryStage) {
+        try {
+            this.gameModel.show(primaryStage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
