@@ -17,7 +17,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.in_GameMenuController">
+<VBox prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
+<!--      fx:controller="controllers.in_GameMenuController"-->
+
   <children>
       <BorderPane prefHeight="1010.0" prefWidth="640.0">
          <center>
@@ -36,7 +38,7 @@
                                 <tabs>
                                   <Tab text="Player Chat">
                                        <content>
-                                          <ListView prefHeight="301.0" prefWidth="330.0" />
+                                          <ListView fx:id="messagesList" prefHeight="301.0" prefWidth="330.0" />
                                        </content>
                                   </Tab>
                                   <Tab text="Activity Updates">
@@ -50,12 +52,8 @@
                                   </Tab>
                                 </tabs>
                               </TabPane>
-                              <TextField layoutX="7.0" layoutY="729.0" prefHeight="25.0" prefWidth="263.0" text="Type your message here...">
-                                 <font>
-                                    <Font name="System Italic" size="12.0" />
-                                 </font>
-                              </TextField>
-                              <Button layoutX="369.0" layoutY="729.0" mnemonicParsing="false" text="Send" />
+                              <TextArea fx:id="textInput" layoutX="7.0" layoutY="729.0" prefHeight="25.0" prefWidth="263.0" promptText="Typ hier uw bericht..." />
+                              <Button fx:id="sendButton" layoutX="275.0" layoutY="729.0" mnemonicParsing="false" onAction="#addChatMessage" prefHeight="26.0" prefWidth="133.0" text="Send" />
                               <Pane layoutY="763.0" prefHeight="254.0" prefWidth="421.0" style="-fx-border-color: blue;">
                                  <children>
                                     <Label layoutX="6.0" layoutY="2.0" prefWidth="106.0" text="OrderMenu">
@@ -71,7 +69,6 @@
                                     <ComboBox layoutX="218.0" layoutY="29.0" prefHeight="25.0" prefWidth="115.0" promptText="Province2" />
                                  </children>
                               </Pane>
-                              <ComboBox layoutX="277.0" layoutY="729.0" prefHeight="25.0" prefWidth="85.0" promptText="Speler" />
                            </children>
                         </Pane>
                      </children>

@@ -1,17 +1,14 @@
 package models;
 
-import javafx.application.Platform;
 import observers.GameObservable;
 import observers.GameObserver;
 import services.FirebaseService;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Class that serves as model for the chatbox.
@@ -82,19 +79,21 @@ public class ChatBox implements GameObservable {
      * @version V1 (12-6-2019)
      */
     public void startAutoUpdatingChat(){
-        Runnable helloRunnable = new Runnable() {
-            public void run() {
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        updateArrayListWithMessages();
-                        notifyAllObservers();
-                    }
-                });
-            }
-        };
-
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleAtFixedRate(helloRunnable, 0, UPDATETIMEINSECONDS, TimeUnit.SECONDS);
+        System.out.println("Autoupdate niet gestart. Check chatbox.java voor meer info.");
+//        Niet gestart omdat er anders steeds een threat loopt, en dat is niet nice met testen
+//        Runnable helloRunnable = new Runnable() {
+//            public void run() {
+//                Platform.runLater(new Runnable() {
+//                    public void run() {
+//                        updateArrayListWithMessages();
+//                        notifyAllObservers();
+//                    }
+//                });
+//            }
+//        };
+//
+//        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+//        executor.scheduleAtFixedRate(helloRunnable, 0, UPDATETIMEINSECONDS, TimeUnit.SECONDS);
     }
 
 

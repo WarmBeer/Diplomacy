@@ -1,6 +1,6 @@
 package domains;
 
-import application.Main;
+import models.GameModel;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class ProvinceJSON {
     public Province.ProvinceType provinceType;
     public int owner;
     public Boolean isSupplyCenter;
-    public Main.unitType stationed;
+    public GameModel.unitType stationed;
     public List<String> borderedProvinces;
     public int x, y;
 }

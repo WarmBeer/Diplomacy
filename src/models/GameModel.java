@@ -1,29 +1,22 @@
 package models;
 
-import application.Main;
 import domains.Army;
 import domains.Fleet;
 import domains.Province;
 import domains.Unit;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-import static application.Main.GAME_VIEW;
-
 public class GameModel implements Model {
 
-    private enum unitType {
+    public static enum unitType {
         Army,
         Fleet
     }
@@ -35,18 +28,9 @@ public class GameModel implements Model {
 
     @FXML
     public void show(Stage stage) throws Exception{
-
         root = new Group();
         troops = new Group();
         points = new Group();
-
-        Parent pane = FXMLLoader.load(
-                getClass().getResource(GAME_VIEW));
-
-        Scene scene = new Scene( root, 1920, 1080 );
-        root.getChildren().addAll(pane, troops, points);
-
-        stage.setScene(scene);
     }
 
     @FXML
@@ -566,42 +550,8 @@ public class GameModel implements Model {
 
     }
 
-    public void createUnit(Main.unitType unit, Province province) {
-        Unit troop = null;
-
-        System.out.println(province.getX());
-
-        switch (unit) {
-            case ARMY:
-                troop = new Army(province);
-                break;
-            case FLEET:
-                troop = new Fleet(province);
-                break;
-        }
-
-        //province.addUnit(troop);
-
-        moveUnit(troop, province.getX(), province.getY());
-
-        //Render troepen
-        troops.getChildren().add(troop);
-
-        /*
-        troop.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-
-                Unit thisUnit = (Unit) event.getTarget();
-
-                ArrayList<Province> borderProvinces = thisUnit.province.getBorders();
-                System.out.println("clicked on province " + thisUnit.province.getName());
-                for(Province province: borderProvinces){
-                    System.out.println("Border province: "+province.getName());
-                }
-            }
-        });
-         */
-
+    public void createUnit(GameModel.unitType unit, Province province) {
+        System.out.println("Hier hoort nog iets...");
     }
 
     public void moveUnit(Unit unit, double x, double y) {

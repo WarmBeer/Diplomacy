@@ -37,6 +37,7 @@ public class in_GameMenuView {
 
             primaryStage.setTitle("Spelregels");
             primaryStage.setScene(new Scene(content, 300, 275));
+            primaryStage.setFullScreen(true);
             primaryStage.show();
         } catch (IOException IOE) {
             IOE.printStackTrace();
@@ -66,12 +67,6 @@ public class in_GameMenuView {
 
     @FXML
     private Button OptiesKnop;
-
-//    PROBLEEM HIERMEE!!!!!!!!!!!!
-//    @FXML
-//    private void openInGameMenuView(){
-//        MainMenu.setVisible(!MainMenu.isVisible());
-//    }
 
     @FXML
     private void AfsluitenView() {

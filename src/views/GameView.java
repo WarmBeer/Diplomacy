@@ -18,14 +18,13 @@ import java.util.logging.LogManager;
 
 /**
  * Class that shows the ingame GUI and recieves the input from the user.
- * Only the chatbox is available on this moment.
  */
 
 
 public class GameView implements GameObserver {
 
     private GameController gamecontroller;
-    private static String GAME_VIEW = "/resources/ChatBoxFXML.fxml";
+    private static String GAME_VIEW = "/resources/views/GameView.fxml";
     private Parent content;
     private String userName;
     private String gameID;
@@ -66,8 +65,8 @@ public class GameView implements GameObserver {
             FXMLLoader loader = new FXMLLoader(url);
             loader.setController(this);
             content = loader.load();
-            primaryStage.setTitle("Chatbox Diplomacy");
-            primaryStage.setScene(new Scene(content, 400, 500));
+            primaryStage.setTitle("Diplomacy");
+            primaryStage.setScene(new Scene(content));
             primaryStage.show();
         }
         catch(IOException IOE){
@@ -84,6 +83,10 @@ public class GameView implements GameObserver {
         gamecontroller.startUpdatingChat();
     }
 
+    @FXML
+    public void afsluitenController(){
+
+    }
 
     @FXML
     private void addChatMessage(ActionEvent event) {
