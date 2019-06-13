@@ -1,5 +1,6 @@
 package models;
 
+import javafx.application.Platform;
 import observers.ChatObservable;
 import observers.ChatObserver;
 import services.FirebaseService;
@@ -9,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Class that serves as model for the chatbox.
@@ -20,7 +24,7 @@ public class ChatBox implements ChatObservable {
     private List<ChatObserver> observers = new ArrayList<>();
     private ArrayList<String> updatedMessageArraylist = new ArrayList<>();
     private FirebaseService firebaseservice;
-    private final int UPDATETIMEINSECONDS = 2;
+    private final int UPDATETIMEINSECONDS = 5;
 
     public ChatBox(String gameID){
         firebaseservice = firebaseservice.getInstance(gameID);
@@ -64,19 +68,19 @@ public class ChatBox implements ChatObservable {
 
     public void startAutoUpdatingChat(){
         //System.out.println("Autoupdate niet gestart. Check chatbox.java voor meer info.");
-//        Runnable helloRunnable = new Runnable() {
-//            public void run() {
-//                Platform.runLater(new Runnable() {
-//                    public void run() {
-//                        updateArrayListWithMessages();
-//                        notifyAllObservers();
-//                    }
-//                });
-//            }
-//        };
-//
-//        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-//        executor.scheduleAtFixedRate(helloRunnable, 0, UPDATETIMEINSECONDS, TimeUnit.SECONDS);
+        Runnable helloRunnable = new Runnable() {
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        updateArrayListWithMessages();
+                        notifyChatObservers();
+                    }
+                });
+            }
+        };
+
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        executor.scheduleAtFixedRate(helloRunnable, 0, UPDATETIMEINSECONDS, TimeUnit.SECONDS);
     }
 
     @Override

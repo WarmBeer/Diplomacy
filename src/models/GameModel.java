@@ -29,8 +29,6 @@ public class GameModel implements OrderObservable {
     private Game currentGame;
     ArrayList<OrderObserver> viewObservers = new ArrayList<OrderObserver>();
 
-
-
 //    public void initGame(GameJSON gameJSON) {
 //
 //        Game game = new Game(gameJSON.gameUID, gameJSON.name, gameJSON.turnTime, gameJSON.turn);
