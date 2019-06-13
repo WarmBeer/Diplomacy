@@ -13,13 +13,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import observers.GameObservable;
+import views.GameView;
 
 import java.util.ArrayList;
 
 import static application.Main.GAME_VIEW;
 import static application.Main.print;
 
-public class GameModel implements Model {
+public class GameModel implements Model, GameObservable {
 
     public enum Countries {
         FRANCE,
@@ -35,6 +37,24 @@ public class GameModel implements Model {
     private Group root; //Kaart en UI render groep
     private Group troops; //Troepen render groep
     private Group points; //Provincie punt render groep
+    ArrayList<GameView> viewObservers = new ArrayList<GameView>();
+
+    @Override
+    public void registerObserver(GameView v) {
+        viewObservers.add(v);
+    }
+
+    @Override
+    public void unregisterObserver(GameView v) {
+        viewObservers.remove(v);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for(GameView v : viewObservers) {
+            v.update(this);
+        }
+    }
 
     @FXML
     public void show(Stage stage) throws Exception{
@@ -136,8 +156,8 @@ public class GameModel implements Model {
                     }
 
                     provincePoint.setOpacity(1);
-                    provincePoint.setScaleX(0.3);
-                    provincePoint.setScaleY(0.3);
+                    provincePoint.setScaleX(0.4);
+                    provincePoint.setScaleY(0.4);
                 }
             });
 
@@ -150,6 +170,20 @@ public class GameModel implements Model {
     }
 
     public void initProvinces(Game game) {
+        //^([a-z]{3})\s'([^']+)'
+        //Province $1 = new Province\("$2", "$1"\);
+
+        //(Province )([a-z]{3})([^;]+;\r\n);
+        //$1$2$3\t\tprovinces.add\($2\);\r\n
+
+
+        //normal to code
+        //\t([a-z]{3})\s'([^']+)'\s([0-9]+)\s([0-9]+);
+        //\tProvince $1 = new Province\("$2", "$1"\, $3, $4\);\r\n\t\tprovinces.add\($1\);
+
+        //star to setSupplycenter
+        //\t\*\s([a-z]{3});
+        //\t($1).setIsSupplyCenter\(true\);
 
         //----GERMANY//----
         Province kie = new Province("Kiel", "kie", true, 580, 520);

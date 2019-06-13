@@ -10,12 +10,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import observers.GameObservable;
+import observers.GameObserver;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 
-public class GameView {
+public class GameView implements GameObserver {
 
     private static String GAME_VIEW = "/resources/GameViewXML.fxml";
     private static String STYLESHEET_FILE = "/resources/style.css";
@@ -23,6 +25,10 @@ public class GameView {
 
     public GameView(Stage stage){
         chatboxLaunch(stage);
+    }
+
+    @Override
+    public void update(GameObservable gameObservable) {
 
     }
 
