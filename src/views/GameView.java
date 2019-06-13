@@ -4,6 +4,7 @@ import controllers.GameController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -20,10 +21,16 @@ import java.util.logging.LogManager;
 
 public class GameView implements GameObserver, Initializable {
 
+    //Game setup variables
     private Parent content;
     private GameController gamecontroller;
     public final String GAME_VIEW = "/resources/views/GameView.fxml";
     public final String STYLESHEET_FILE = "/Resources/style.css";
+
+    //Ingame variables
+    private Group root; //Kaart en UI render groep
+    private Group troops; //Troepen render groep
+    private Group points; //Provincie punt render groep
 
     public GameView(Stage stage){
         chatboxLaunch(stage);
@@ -34,13 +41,19 @@ public class GameView implements GameObserver, Initializable {
 
     public void chatboxLaunch(Stage primaryStage) {
         try{
+            root = new Group();
+            troops = new Group();
+            points = new Group();
+
             URL url = getClass().getResource(GAME_VIEW);
             FXMLLoader loader = new FXMLLoader(url);
             loader.setController(this);
             content = loader.load();
 
             primaryStage.setTitle("Diplomacy v0.2");
-            primaryStage.setScene(new Scene(content));
+            Scene scene = new Scene( root, 1920, 1080 );
+            root.getChildren().addAll(content, troops, points);
+            primaryStage.setScene(scene);
             primaryStage.setFullScreen(true);
             primaryStage.show();
         }
@@ -52,6 +65,7 @@ public class GameView implements GameObserver, Initializable {
         }
 
     }
+
 
     @FXML
     private VBox MainMenu;
@@ -124,6 +138,7 @@ public class GameView implements GameObserver, Initializable {
         }
     }
 
+
     @Override
     public void update(GameObservable gameobservable) {
         updateOrderlist(gameobservable.getOrderList());
@@ -131,6 +146,7 @@ public class GameView implements GameObserver, Initializable {
 
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
+        //Testdata om dropdownmenu te testen
         comboxAction.getItems().addAll("Move", "Support", "Embark", "Hold");
         comboxProv1.getItems().addAll("Province1a", "Province1b", "Province1c", "Province1d", "Province1e");
         comboxProv2.getItems().addAll("Province2a", "Province2b", "Province2c", "Province2d", "Province2e");

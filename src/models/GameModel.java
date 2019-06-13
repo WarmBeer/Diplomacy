@@ -1,18 +1,10 @@
 package models;
 
-import application.Main;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import domains.*;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+import domains.Game;
+import domains.Province;
+import domains.Unit;
 import observers.GameObservable;
 import observers.GameObserver;
 
@@ -20,7 +12,7 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
 
-public class GameModel implements Model, GameObservable {
+public class GameModel implements GameObservable {
 
     public final String GAME_VIEW = "/resources/views/GameView.fxml"; //DIT MOET WEG UITEINDELIJK!!!
 
@@ -35,123 +27,105 @@ public class GameModel implements Model, GameObservable {
     }
 
     private Game currentGame;
-    private Group root; //Kaart en UI render groep
-    private Group troops; //Troepen render groep
-    private Group points; //Provincie punt render groep
     ArrayList<GameObserver> viewObservers = new ArrayList<GameObserver>();
 
 
-    public void show(Stage stage) throws Exception{
 
-        root = new Group();
-        troops = new Group();
-        points = new Group();
-
-        Parent pane = FXMLLoader.load(
-                getClass().getResource(GAME_VIEW));
-
-        Scene scene = new Scene( root, 1920, 1080 );
-        root.getChildren().addAll(pane, troops, points);
-
-        stage.setScene(scene);
-    }
-
-
-    public void initGame(GameJSON gameJSON) {
-
-        Game game = new Game(gameJSON.gameUID, gameJSON.name, gameJSON.turnTime, gameJSON.turn);
-
-        initProvinces(game);
-
-        for(Player player : gameJSON.Players) {
-            game.addPlayer(player);
-
-            Country country = new Country(player.getCountry());
-            game.addCountry(country);
-        }
-
-        for (ProvinceJSON provinceJSON : gameJSON.Provinces) {
-            for (Province province : game.getProvinces()) {
-                if (province.getAbbreviation().equals(provinceJSON.abbr)) {
-
-                    for(Country country : game.getCountries()) {
-                        if(provinceJSON.owner == country.getName()) {
-                            province.setOwner(country);
-                        }
-                    }
-
-                    Unit stationed = null;
-
-                    if (province.getOwner() != null) {
-                        switch (provinceJSON.stationed) {
-                            case ARMY:
-                                stationed = new Army(province);
-                                break;
-                            case FLEET:
-                                stationed = new Fleet(province);
-                                break;
-                        }
-                    }
-
-                    if (stationed != null) {
-                        createUnit(provinceJSON.stationed, province);
-                    }
-
-                    province.addUnit(stationed);
-                }
-            }
-        }
-
-        //Maak troepen aan
-        for(Province province: game.getProvinces()){
-
-
-            switch(province.getProvinceType()){
-                case SEA:
-                    province.setImage(new Image("Point coastal.png"));
-                    //createUnit(unitType.Fleet, province, province.getX(), province.getY());
-                    break;
-                case LAND:
-                    province.setImage(new Image("Point.png"));
-                    //createUnit(unitType.Army, province, province.getX(), province.getY());
-                    break;
-            }
-
-            province.setTranslateX(-25);
-            province.setTranslateY(-35);
-
-            province.setScaleX(0.2);
-            province.setScaleY(0.2);
-
-            province.setX(province.getX());
-            province.setY(province.getY());
-
-            province.setOpacity(0.6);
-
-            province.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
-                    Province provincePoint = (Province ) event.getTarget();
-
-                    for(Node node : points.getChildren()) {
-                        Province nodeProvince = (Province) node;
-                        nodeProvince.setOpacity(0.6);
-                        nodeProvince.setScaleX(0.2);
-                        nodeProvince.setScaleY(0.2);
-                    }
-
-                    provincePoint.setOpacity(1);
-                    provincePoint.setScaleX(0.4);
-                    provincePoint.setScaleY(0.4);
-                }
-            });
-
-            points.getChildren().add(province);
-
-        }
-
-        this.currentGame = game;
-
-    }
+//    public void initGame(GameJSON gameJSON) {
+//
+//        Game game = new Game(gameJSON.gameUID, gameJSON.name, gameJSON.turnTime, gameJSON.turn);
+//
+//        initProvinces(game);
+//
+//        for(Player player : gameJSON.Players) {
+//            game.addPlayer(player);
+//
+//            Country country = new Country(player.getCountry());
+//            game.addCountry(country);
+//        }
+//
+//        for (ProvinceJSON provinceJSON : gameJSON.Provinces) {
+//            for (Province province : game.getProvinces()) {
+//                if (province.getAbbreviation().equals(provinceJSON.abbr)) {
+//
+//                    for(Country country : game.getCountries()) {
+//                        if(provinceJSON.owner == country.getName()) {
+//                            province.setOwner(country);
+//                        }
+//                    }
+//
+//                    Unit stationed = null;
+//
+//                    if (province.getOwner() != null) {
+//                        switch (provinceJSON.stationed) {
+//                            case ARMY:
+//                                stationed = new Army(province);
+//                                break;
+//                            case FLEET:
+//                                stationed = new Fleet(province);
+//                                break;
+//                        }
+//                    }
+//
+//                    if (stationed != null) {
+//                        createUnit(provinceJSON.stationed, province);
+//                    }
+//
+//                    province.addUnit(stationed);
+//                }
+//            }
+//        }
+//
+//        //Maak troepen aan
+//        for(Province province: game.getProvinces()){
+//
+//
+//            switch(province.getProvinceType()){
+//                case SEA:
+//                    province.setImage(new Image("Point coastal.png"));
+//                    //createUnit(unitType.Fleet, province, province.getX(), province.getY());
+//                    break;
+//                case LAND:
+//                    province.setImage(new Image("Point.png"));
+//                    //createUnit(unitType.Army, province, province.getX(), province.getY());
+//                    break;
+//            }
+//
+//            province.setTranslateX(-25);
+//            province.setTranslateY(-35);
+//
+//            province.setScaleX(0.2);
+//            province.setScaleY(0.2);
+//
+//            province.setX(province.getX());
+//            province.setY(province.getY());
+//
+//            province.setOpacity(0.6);
+//
+//            province.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//                public void handle(MouseEvent event) {
+//                    Province provincePoint = (Province ) event.getTarget();
+//
+//                    for(Node node : points.getChildren()) {
+//                        Province nodeProvince = (Province) node;
+//                        nodeProvince.setOpacity(0.6);
+//                        nodeProvince.setScaleX(0.2);
+//                        nodeProvince.setScaleY(0.2);
+//                    }
+//
+//                    provincePoint.setOpacity(1);
+//                    provincePoint.setScaleX(0.4);
+//                    provincePoint.setScaleY(0.4);
+//                }
+//            });
+//
+//            points.getChildren().add(province);
+//
+//        }
+//
+//        this.currentGame = game;
+//
+//    }
 
     public void initProvinces(Game game) {
         //^([a-z]{3})\s'([^']+)'
@@ -601,39 +575,39 @@ public class GameModel implements Model, GameObservable {
 
     }
 
-    public void createUnit(Main.unitType unit, Province province) {
-        Unit troop = null;
-
-        switch (unit) {
-            case ARMY:
-                troop = new Army(province);
-                break;
-            case FLEET:
-                troop = new Fleet(province);
-                break;
-        }
-
-        province.addUnit(troop);
-
-        moveUnit(troop, province.getX(), province.getY());
-
-        //Render troepen
-        troops.getChildren().add(troop);
-
-        troop.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-
-                Unit thisUnit = (Unit) event.getTarget();
-
-                ArrayList<Province> borderProvinces = thisUnit.province.getBorders();
-                System.out.println("clicked on province " + thisUnit.province.getName());
-                for(Province province: borderProvinces){
-                    System.out.println("Border province: "+province.getName());
-                }
-            }
-        });
-
-    }
+//    public void createUnit(Main.unitType unit, Province province) {
+//        Unit troop = null;
+//
+//        switch (unit) {
+//            case ARMY:
+//                troop = new Army(province);
+//                break;
+//            case FLEET:
+//                troop = new Fleet(province);
+//                break;
+//        }
+//
+//        province.addUnit(troop);
+//
+//        moveUnit(troop, province.getX(), province.getY());
+//
+//        //Render troepen
+//        troops.getChildren().add(troop);
+//
+//        troop.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            public void handle(MouseEvent event) {
+//
+//                Unit thisUnit = (Unit) event.getTarget();
+//
+//                ArrayList<Province> borderProvinces = thisUnit.province.getBorders();
+//                System.out.println("clicked on province " + thisUnit.province.getName());
+//                for(Province province: borderProvinces){
+//                    System.out.println("Border province: "+province.getName());
+//                }
+//            }
+//        });
+//
+//    }
 
     public void moveUnit(Unit unit, double x, double y) {
         unit.setX(x);
