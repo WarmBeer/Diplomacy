@@ -5,14 +5,14 @@ import com.google.gson.GsonBuilder;
 import domains.Game;
 import domains.Province;
 import domains.Unit;
-import observers.GameObservable;
-import observers.GameObserver;
+import observers.OrderObservable;
+import observers.OrderObserver;
 
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
 
-public class GameModel implements GameObservable {
+public class GameModel implements OrderObservable {
 
     public final String GAME_VIEW = "/resources/views/GameView.fxml"; //DIT MOET WEG UITEINDELIJK!!!
 
@@ -27,7 +27,7 @@ public class GameModel implements GameObservable {
     }
 
     private Game currentGame;
-    ArrayList<GameObserver> viewObservers = new ArrayList<GameObserver>();
+    ArrayList<OrderObserver> viewObservers = new ArrayList<OrderObserver>();
 
 
 
@@ -623,18 +623,18 @@ public class GameModel implements GameObservable {
 
 
     @Override
-    public void registerObserver(GameObserver gameobserver) {
-        viewObservers.add(gameobserver);
+    public void registerOrderObserver(OrderObserver orderobserver) {
+        viewObservers.add(orderobserver);
     }
 
     @Override
-    public void unregisterObserver(GameObserver gameobserver) {
-        viewObservers.remove(gameobserver);
+    public void unregisterOrderObserver(OrderObserver orderobserver) {
+        viewObservers.remove(orderobserver);
     }
 
     @Override
-    public void notifyObservers() {
-        for(GameObserver gameobserver : viewObservers) {
+    public void notifyOrderObservers() {
+        for(OrderObserver gameobserver : viewObservers) {
             gameobserver.update(this);
         }
     }
@@ -644,12 +644,13 @@ public class GameModel implements GameObservable {
         return orderList;
     }
 
+
     ArrayList<String> orderList = new ArrayList<String>();
 
     public void addOrder(String action, String prov1, String prov2){
         String order = action + "_" + prov1 + "_" + prov2;
         orderList.add(order);
-        notifyObservers();
+        notifyOrderObservers();
     }
 
 }

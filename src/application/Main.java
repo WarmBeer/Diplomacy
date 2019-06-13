@@ -19,7 +19,11 @@ public class Main extends Application {
 
         @Override
         public void start(Stage primaryStage) throws Exception {
-            game = new GameView(primaryStage);
+                //Maak variabele aan voor de chatbox (die normaal al beschikbaar zijn in het spel)
+                String userName = "Thomas";
+                String gameID = "Game4";
+                boolean host = true;
+            game = new GameView(primaryStage,userName,gameID,host);
         }
 
 
