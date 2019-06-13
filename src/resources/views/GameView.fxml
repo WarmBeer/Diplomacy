@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -12,22 +13,22 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="models.GameModel">
-      <BorderPane  prefHeight="1010.0" prefWidth="640.0">
+<VBox prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.in_GameMenuController">
+  <children>
+      <BorderPane prefHeight="1010.0" prefWidth="640.0">
          <center>
-            <HBox fx:id="iv" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <AnchorPane BorderPane.alignment="CENTER">
                <children>
                   <ImageView fitHeight="1017.0" fitWidth="1500.0" pickOnBounds="true">
                      <image>
-                        <Image url="/Resources/DiplomacyMapOriginal.png" />
+                        <Image url="@/resources/DiplomacyMapOriginal.png" />
                      </image>
                   </ImageView>
-                  <VBox prefHeight="1017.0" prefWidth="420.0">
+                  <VBox layoutX="1500.0" layoutY="6.0" prefHeight="1017.0" prefWidth="420.0">
                      <children>
                         <Pane prefHeight="1017.0" prefWidth="420.0">
                            <children>
@@ -75,8 +76,62 @@
                         </Pane>
                      </children>
                   </VBox>
+                  <Button layoutX="22.0" layoutY="14.0" mnemonicParsing="false" text="Menu" />
+                  <VBox fx:id="MainMenu" layoutX="711.0" layoutY="184.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="400.0" visible="false">
+                     <children>
+                        <Button fx:id="OpslaanKnop" cache="true" mnemonicParsing="false" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Save Game" translateX="50.0">
+                           <VBox.margin>
+                              <Insets top="33.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="Gabriola" size="35.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="LadenKnop" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Load Game" translateX="50.0">
+                           <VBox.margin>
+                              <Insets top="33.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="Gabriola" size="35.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="SpelregelsKnop" layoutX="10.0" layoutY="80.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Rules" translateX="50.0">
+                           <VBox.margin>
+                              <Insets top="33.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="Gabriola" size="35.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="OptiesKnop" layoutX="10.0" layoutY="150.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Options" translateX="50.0">
+                           <VBox.margin>
+                              <Insets top="33.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="Gabriola" size="35.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="10.0" layoutY="220.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Return Main Menu" translateX="50.0">
+                           <VBox.margin>
+                              <Insets top="33.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="Gabriola" size="35.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="AfsluitenKnop" layoutX="10.0" layoutY="250.0" mnemonicParsing="false" onMouseClicked="#afsluitenController" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Exit Game" translateX="50.0">
+                           <font>
+                              <Font name="Gabriola" size="35.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="33.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
                </children>
-            </HBox>
+            </AnchorPane>
          </center>
       </BorderPane>
+  </children>
 </VBox>

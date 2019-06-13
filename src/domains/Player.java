@@ -1,14 +1,25 @@
 package domains;
 
-import java.util.ArrayList;
+import models.GameModel;
 
 public class Player {
 
+    private String UID;
     private int id;
     private String name;
-    private Boolean isHost;
-    private Country country;
-    private ArrayList<Unit> units = new ArrayList<Unit>();
+    private GameModel.Countries country;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public GameModel.Countries getCountry() {
+        return country;
+    }
 
     public Player() {
 

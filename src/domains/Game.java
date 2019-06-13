@@ -1,27 +1,57 @@
 package domains;
 
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
 
-    private final String[] nations = {
-            "France",
-            "England",
-            "Austria-Hungary",
-            "Russia",
-            "Germany",
-            "Italy",
-            "Turkey"
-    };
+    private String gameUID;
+    private String name;
+    private int turnTime;
+    private String host;
+    private int turn;
 
-    private ArrayList<Player> players;
-    private ArrayList<Country> countries;
+    private List<Country> Countries;
+    private List<Province> Provinces;
+    private List<Player> Players;
 
-    public Game() {
-
-        players = new ArrayList<Player>();
-        countries = new ArrayList<Country>();
+    public Game(String gameUID, String name, int turnTime, int turn) {
+        this.gameUID = gameUID;
+        this.name = name;
+        this.turnTime = turnTime;
+        this.turn = turn;
+        Countries = new ArrayList<>();
+        Provinces = new ArrayList<>();
+        Players = new ArrayList<>();
     }
 
+    public void addCountry(Country country) {
+        this.Countries.add(country);
+    }
+
+    public void addProvince(Province province) {
+        this.Provinces.add(province);
+    }
+
+    public void addPlayer(Player player) {
+        this.Players.add(player);
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public List<Country> getCountries() {
+        return this.Countries;
+    }
+
+    public List<Player> getPlayers() {
+        return Players;
+    }
+
+    public List<Province> getProvinces() {
+        return Provinces;
+    }
 }
