@@ -2,6 +2,10 @@ package models;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import domains.*;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -11,10 +15,10 @@ import observers.GameViewObservable;
 import observers.GameViewObserver;
 import observers.OrderObservable;
 import observers.OrderObserver;
+import utilities.KeyHandler;
 import views.GameView;
 
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.*;
 import java.util.ArrayList;
 
 public class GameModel implements OrderObservable, GameViewObservable {
@@ -28,18 +32,66 @@ public class GameModel implements OrderObservable, GameViewObservable {
         AUSTRIA,
         TURKEY,
         RUSSIA,
-        ITALY
+        ITALY,
+        INDEPENDENT
     }
 
     private Game currentGame;
     ArrayList<OrderObserver> viewObservers = new ArrayList<OrderObserver>();
     ArrayList<GameViewObserver> gameViewObservers = new ArrayList<GameViewObserver>();
 
+        stage.setScene(scene);
+    }
+
+    public void saveGame() {
+
+        GameJSON gameJSON = new GameJSON();
+        gameJSON.gameUID = currentGame.getGameUID();
+        gameJSON.name = currentGame.getName();
+        gameJSON.turn = currentGame.getTurn();
+        gameJSON.turnTime = currentGame.getTurnTime();
+        gameJSON.Players = currentGame.getPlayers();
+        gameJSON.Provinces = new ArrayList<>();
+
+        for (Province province : currentGame.getProvinces()) {
+            ProvinceJSON provinceJSON = new ProvinceJSON();
+            provinceJSON.abbr = province.getAbbreviation();
+            provinceJSON.owner = province.getOwner().getName();
+
+            UnitJSON unitJSON = new UnitJSON();
+
+            if (province.getUnit() != null) {
+                unitJSON.unitType = province.getUnit().getUnitType();
+                unitJSON.orderType = (Unit.orderType) province.getUnit().getCurrentOrder().get("orderType");
+                unitJSON.orderTarget = (String) province.getUnit().getCurrentOrder().get("orderTarget");
+            }
+
+            provinceJSON.stationed = unitJSON;
+            gameJSON.Provinces.add(provinceJSON);
+        }
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();;
+        try {
+            String jarLocation = KeyHandler.getJarLocation();
+            String saveFile = gson.toJson(gameJSON);
+            JsonElement jsonElement =  new JsonParser().parse(saveFile);
+            BufferedWriter writer = new BufferedWriter(new FileWriter(jarLocation + File.separator + "Save.json"));
+            writer.write(gson.toJson(jsonElement));
+            writer.close();
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
+    }
+
+    @FXML
     public void initGame(GameJSON gameJSON) {
 
         Game game = new Game(gameJSON.gameUID, gameJSON.name, gameJSON.turnTime, gameJSON.turn);
 
         initProvinces(game);
+
+        Country independent = new Country(Countries.INDEPENDENT);
+        game.addCountry(independent);
 
         for(Player player : gameJSON.Players) {
             game.addPlayer(player);
@@ -60,8 +112,9 @@ public class GameModel implements OrderObservable, GameViewObservable {
 
                     Unit stationed = null;
 
-                    if (province.getOwner() != null) {
-                        switch (provinceJSON.stationed) {
+                    if (province.getOwner() != null && provinceJSON.stationed != null) {
+                        UnitJSON unitJSON = provinceJSON.stationed;
+                        switch (provinceJSON.stationed.unitType) {
                             case ARMY:
                                 stationed = new Army(province);
                                 break;
@@ -69,10 +122,11 @@ public class GameModel implements OrderObservable, GameViewObservable {
                                 stationed = new Fleet(province);
                                 break;
                         }
-                    }
 
-                    if (stationed != null) {
-                        createUnit(provinceJSON.stationed, province);
+
+                            stationed.addOrder(unitJSON.orderType, unitJSON.orderTarget);
+                            print(stationed.getCurrentOrder());
+                            createUnit(provinceJSON.stationed.unitType, province);
                     }
 
                     province.addUnit(stationed);
@@ -82,6 +136,11 @@ public class GameModel implements OrderObservable, GameViewObservable {
 
         //Maak troepen aan
         for(Province province: game.getProvinces()){
+
+
+            if (province.getOwner() == null) {
+                province.setOwner(independent);
+            }
 
             switch(province.getProvinceType()){
                 case SEA:
@@ -96,6 +155,7 @@ public class GameModel implements OrderObservable, GameViewObservable {
         }
 
         this.currentGame = game;
+        saveGame();
 
         this.notifyOrderObservers();
     }

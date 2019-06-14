@@ -8,22 +8,38 @@
         {
             "abbr": "pic",
             "owner": "FRANCE",
-            "stationed": "ARMY"
+            "stationed": {
+                unitType: "ARMY",
+                orderType: "HOLD",
+                orderTarget: "pic"
+            }
         },
         {
             "abbr": "hol",
             "owner": "ENGLAND",
-            "stationed": "ARMY"
+            "stationed": {
+                unitType: "ARMY",
+                orderType: "HOLD",
+                orderTarget: "hol"
+            }
         },
         {
             "abbr": "nth",
             "owner": "GERMANY",
-            "stationed": "FLEET"
+            "stationed": {
+                unitType: "FLEET",
+                orderType: "SUPPORT",
+                orderTarget: "hol"
+            }
         },
         {
             "abbr": "bre",
             "owner": "GERMANY",
-            "stationed": "ARMY"
+            "stationed": {
+                unitType: "ARMY",
+                orderType: "ATTACK",
+                orderTarget: "hol"
+            }
         }
     ],
     "Players": [
