@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import controllers.GameController;
 import domains.*;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import observers.GameViewObservable;
@@ -22,8 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static application.Main.print;
+import static application.Main.unitType;
 
 public class GameModel implements OrderObservable, GameViewObservable {
+
+    private Group troops;
+    private Group points;
 
     public enum Countries {
         FRANCE,
@@ -58,7 +63,8 @@ public class GameModel implements OrderObservable, GameViewObservable {
     public void initGame(GameJSON gameJSON) {
 
         Game game = new Game(gameJSON.gameUID, gameJSON.name, gameJSON.turnTime, gameJSON.turn);
-
+        points = new Group();
+        troops = new Group();
         initProvinces(game);
 
         Country independent = new Country(Countries.INDEPENDENT);
@@ -107,7 +113,7 @@ public class GameModel implements OrderObservable, GameViewObservable {
 
         //Maak troepen aan
         for(Province province: game.getProvinces()){
-
+            points.getChildren().add(province);
 
             if (province.getOwner() == null) {
                 province.setOwner(independent);
@@ -116,11 +122,9 @@ public class GameModel implements OrderObservable, GameViewObservable {
             switch(province.getProvinceType()){
                 case SEA:
                     province.setImage(new Image("Point coastal.png"));
-                    //createUnit(unitType.Fleet, province, province.getX(), province.getY());
                     break;
                 case LAND:
                     province.setImage(new Image("Point.png"));
-                    //createUnit(unitType.Army, province, province.getX(), province.getY());
                     break;
             }
         }
@@ -577,7 +581,7 @@ public class GameModel implements OrderObservable, GameViewObservable {
         }
     }
 
-    public void createUnit(application.Main.unitType unit, Province province) {
+    public void createUnit(unitType unit, Province province) {
         Unit troop = null;
 
         switch (unit) {
@@ -590,7 +594,7 @@ public class GameModel implements OrderObservable, GameViewObservable {
         }
 
         province.addUnit(troop);
-
+        troops.getChildren().add(troop);
         moveUnit(troop, province.getX(), province.getY());
     }
 
@@ -636,6 +640,16 @@ public class GameModel implements OrderObservable, GameViewObservable {
     @Override
     public List<Province> getProvinces() {
         return this.activeGame.getProvinces();
+    }
+
+    @Override
+    public Group getTroopsGroup() {
+        return this.troops;
+    }
+
+    @Override
+    public Group getPointsGroup() {
+        return this.points;
     }
 
     @Override

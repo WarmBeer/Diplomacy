@@ -3,18 +3,27 @@ package views;
 import controllers.GameController;
 import domains.Province;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import observers.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,6 +38,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private GameController gamecontroller;
     public final String GAME_VIEW = "/resources/views/GameView.fxml";
     public final String STYLESHEET_FILE = "/Resources/style.css";
+    private static String SPEL_REGELS = "/views/Spelregels.fxml";
 
     //Ingame variables
     private Group root; //Kaart en UI render groep
@@ -54,7 +64,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         gameController.registerGameObserver(this);
         gameController.requestLoadGame("11111111");
     }
-
 
     public void chatboxLaunch(Stage primaryStage) {
         try{
@@ -97,6 +106,11 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
 
     //FXML Variables
+    @FXML private Button returnInGameMenuKnop;
+    @FXML private ToggleButton geluidsKnop;
+    @FXML private AnchorPane gameOpties;
+    @FXML private VBox box;
+    @FXML public Pagination paginationrules;
     @FXML private Pane chatPane;
     @FXML private TextArea textInput;
     @FXML private Button sendButton;
@@ -116,6 +130,8 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML public ListView lvOrders;
     @FXML public TextField tfMessage; // Value injected by FXMLLoader
     @FXML public TextArea taUpdates; // Value injected by FXMLLoader
+    @FXML private MediaPlayer mediaplayer;
+
 
     //FXML Methodes / Listeners
     @FXML private void afsluitenController(){
@@ -156,7 +172,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     public void updateOrderlist(ArrayList<String> orderList){
         lvOrders.getItems().clear();
-        System.out.println(orderList.toString());
         for(String order : orderList){
             lvOrders.getItems().add(order);
             LogManager.getLogManager().reset();
@@ -181,17 +196,92 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         comboxAction.getItems().addAll("Move", "Support", "Embark", "Hold");
         comboxProv1.getItems().addAll("Province1a", "Province1b", "Province1c", "Province1d", "Province1e");
         comboxProv2.getItems().addAll("Province2a", "Province2b", "Province2c", "Province2d", "Province2e");
+        String gameSoundFile = "src/resources/Darude - Sandstorm.mp3";
+        Media gameSound = new Media(new File(gameSoundFile).toURI().toString());
+        mediaplayer = new MediaPlayer(gameSound);
+        mediaplayer.setAutoPlay(true);
+
     }
 
 
     @Override
     public void update(GameViewObservable gameViewObservable) {
-        System.out.println("UPDATEEE");
-        List<Province> provinces = gameViewObservable.getProvinces();
-        System.out.println(points);
-        for(Province province : provinces) {
-            points.getChildren().add(province);
+        troops.getChildren().removeAll(troops.getChildren());
+        troops.getChildren().addAll(gameViewObservable.getTroopsGroup().getChildren());
+        points.getChildren().removeAll(points.getChildren());
+        points.getChildren().addAll(gameViewObservable.getPointsGroup().getChildren());
+    }
+
+
+    @FXML
+    private void OpenMenu() {
+
+        MainMenu.setVisible(!MainMenu.isVisible());
+    }
+
+    @FXML
+    private void geluidAanUit() {
+        if (geluidsKnop.isSelected() == true) {
+            geluidsKnop.setText("Uit");
+            geluidsKnop.setAlignment(Pos.CENTER);
+            mediaplayer.pause();
+
+
+        }
+        else {
+            if (geluidsKnop.isSelected() == false ) {
+                geluidsKnop.setText("Aan");
+                geluidsKnop.setAlignment(Pos.CENTER);
+                mediaplayer.play();
+            }
         }
     }
+
+    @FXML
+    private void inGameOpties() {
+        gameOpties.setVisible(!gameOpties.isVisible());
+        MainMenu.setVisible(!MainMenu.isVisible());
+    }
+
+    @FXML
+    private void returnInGameMenu() {
+        gameOpties.setVisible(!gameOpties.isVisible());
+        MainMenu.setVisible(!MainMenu.isVisible());
+    }
+
+    //Dit sluit het spel af.
+    @FXML
+    private void afsluitenView() {
+        System.exit(0);
+    }
+
+    //Hier worden de pagina's gecreërd met de plaatjes erin.
+    @FXML
+    public VBox createPage(int pageIndex) {
+        box = new VBox();
+        final ArrayList<String> imagesRules = new ArrayList<>();
+        for (int i = 1; i <= 24; i++) {
+            imagesRules.add("/resources/rules/rulebook-" + i + ".png");
+        }
+        box.setAlignment(Pos.CENTER);
+        ImageView iv = new ImageView(String.valueOf(imagesRules.get(pageIndex)));
+        box.getChildren().addAll(iv);
+        return box;
+    }
+
+    //Hier wordt de FXML file ingeladen en voegt hij de methode createPage eraan toe.
+    @FXML
+    private void spelRegelsView() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SPEL_REGELS));
+        fxmlLoader.setController(this);
+        Parent contentRegels = (Parent) fxmlLoader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(contentRegels));
+        stage.show();
+        stage.setTitle("Spelregels");
+
+        paginationrules.setPageFactory((Integer pageIndex) -> createPage(pageIndex));
+    }
+
 }
 
