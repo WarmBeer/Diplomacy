@@ -21,8 +21,6 @@ import static application.Main.print;
 
 public class GameModel implements OrderObservable, GameViewObservable {
 
-    public final String GAME_VIEW = "/resources/views/GameView.fxml"; //DIT MOET WEG UITEINDELIJK!!!
-
     public enum Countries {
         FRANCE,
         GERMANY,
@@ -35,8 +33,8 @@ public class GameModel implements OrderObservable, GameViewObservable {
     }
 
     private Game currentGame;
-    ArrayList<OrderObserver> viewObservers = new ArrayList<OrderObserver>();
-    ArrayList<GameViewObserver> gameViewObservers = new ArrayList<GameViewObserver>();
+    ArrayList<OrderObserver> viewObservers = new ArrayList<>();
+    ArrayList<GameViewObserver> gameViewObservers = new ArrayList<>();
 
 
     public void saveGame() {
@@ -62,7 +60,11 @@ public class GameModel implements OrderObservable, GameViewObservable {
                 unitJSON.orderTarget = (String) province.getUnit().getCurrentOrder().get("orderTarget");
             }
 
-            provinceJSON.stationed = unitJSON;
+            if (unitJSON.unitType == null) {
+                provinceJSON.stationed = null;
+            } else {
+                provinceJSON.stationed = unitJSON;
+            }
             gameJSON.Provinces.add(provinceJSON);
         }
 

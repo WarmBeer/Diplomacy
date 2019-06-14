@@ -1,63 +1,347 @@
 {
-    "gameID": 1,
+    "gameUID": "11111111",
+    "host": "9xp3fJGNqRd10fzE",
     "name": "First Game!",
     "turnTime": 20,
-    "host": "AA000001",
     "turn": 1,
-	"Provinces": [
+    "Provinces": [
+        {
+            "abbr": "kie",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "ber",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "pru",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "ruh",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "mun",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "sil",
+            "owner": "INDEPENDENT"
+        },
         {
             "abbr": "pic",
             "owner": "FRANCE",
             "stationed": {
-                unitType: "ARMY",
-                orderType: "HOLD",
-                orderTarget: "pic"
-            }
-        },
-        {
-            "abbr": "hol",
-            "owner": "ENGLAND",
-            "stationed": {
-                unitType: "ARMY",
-                orderType: "HOLD",
-                orderTarget: "hol"
-            }
-        },
-        {
-            "abbr": "nth",
-            "owner": "GERMANY",
-            "stationed": {
-                unitType: "FLEET",
-                orderType: "SUPPORT",
-                orderTarget: "hol"
+                "unitType": "ARMY",
+                "orderType": "HOLD",
+                "orderTarget": "pic"
             }
         },
         {
             "abbr": "bre",
             "owner": "GERMANY",
             "stationed": {
-                unitType: "ARMY",
-                orderType: "ATTACK",
-                orderTarget: "hol"
+                "unitType": "ARMY",
+                "orderType": "ATTACK",
+                "orderTarget": "hol"
             }
+        },
+        {
+            "abbr": "par",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "bur",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "gas",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "mar",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "pie",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "ven",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "tus",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "rom",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "apu",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "nap",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "boh",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "gal",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "tyr",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "vie",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "bud",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "tri",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "rum",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "ser",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "alb",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "bul",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "gre",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "con",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "smy",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "ank",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "arm",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "syr",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "cly",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "edi",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "lvp",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "yor",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "wal",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "lon",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "war",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "lvn",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "urk",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "mos",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "stp",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "fin",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "sev",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "spa",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "por",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "naf",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "tun",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "nwy",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "swe",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "den",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "hol",
+            "owner": "ENGLAND",
+            "stationed": {
+                "unitType": "ARMY",
+                "orderType": "HOLD",
+                "orderTarget": "hol"
+            }
+        },
+        {
+            "abbr": "bel",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "bar",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "nrg",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "nth",
+            "owner": "GERMANY",
+            "stationed": {
+                "unitType": "FLEET",
+                "orderType": "SUPPORT",
+                "orderTarget": "hol"
+            }
+        },
+        {
+            "abbr": "ska",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "bal",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "bot",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "hel",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "eng",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "iri",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "nat",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "mid",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "wes",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "gol",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "tyn",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "ion",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "adr",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "aeg",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "eas",
+            "owner": "INDEPENDENT"
+        },
+        {
+            "abbr": "bla",
+            "owner": "INDEPENDENT"
         }
     ],
     "Players": [
         {
-            "id": 1,
             "UID": "9xp3fJGNqRd10fzE",
+            "id": 1,
             "name": "Mick",
             "country": "GERMANY"
         },
         {
-            "id": 2,
             "UID": "1111111111111111",
+            "id": 2,
             "name": "Stefan",
             "country": "FRANCE"
         },
         {
-            "id": 2,
             "UID": "1111111111111112",
+            "id": 2,
             "name": "Thomas",
             "country": "ENGLAND"
         }

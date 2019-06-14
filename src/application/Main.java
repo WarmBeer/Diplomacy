@@ -17,7 +17,7 @@ public class Main extends Application {
     private static final String ALPHA_NUMERIC_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static String KEY = "";
     private GameView game;
-    public static enum unitType {ARMY, FLEET};
+    public enum unitType {ARMY, FLEET}
 
 
     public static void main(String[] args) {
@@ -27,6 +27,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        setup();
 
         //Maak variabele aan voor de chatbox (die normaal al beschikbaar zijn in het spel)
         String userName = "Thomas";
