@@ -34,25 +34,22 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private Group root; //Kaart en UI render groep
     private Group troops; //Troepen render groep
     private Group points; //Provincie punt render groep
-    private String userName;
-    private String gameID;
-    private boolean host;
+    private GameController gameController;
 
-    public GameView(Stage stage,String userName, String gameID, boolean host){
-        this.host = host;
-        this.userName = userName;
-        this.gameID = gameID;
-
-        gamecontroller = new GameController(this.gameID);
-        gamecontroller.registerOrderObserver(this);
-        gamecontroller.registerChatObserver(this);
-        gamecontroller.registerGameObserver(this);
+    public GameView(Stage stage, GameController gameController){
+        this.gameController = gameController;
 
         chatboxLaunch(stage);
+        pressedStart();
 
-        gamecontroller.loadGameFromJSON();
+    }
 
-
+    private void pressedStart() {
+        gameController.createChat();
+        gameController.registerOrderObserver(this);
+        gameController.registerChatObserver(this);
+        gameController.registerGameObserver(this);
+        gameController.requestLoadGame("11111111");
     }
 
 
@@ -82,14 +79,17 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             E.printStackTrace();
         }
 
+        /*
         //Als host true is, maak dan een chatsavelocatie aan in firebase. Sorry Henk.
         if(host){
             gamecontroller.createChat();
 
         }
 
+         */
+
         //Start updaten van nieuwe berichten
-        gamecontroller.startUpdatingChat();
+        gameController.startUpdatingChat();
 
     }
 
@@ -121,7 +121,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML
     private void addChatMessage(ActionEvent event) {
         String nieuwBericht = (textInput.getText());
-        gamecontroller.addMessage(nieuwBericht, this.userName);
+        gameController.addMessage(nieuwBericht);
         textInput.clear();
     }
 
@@ -143,7 +143,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             String action = comboxAction.getValue().toString();
             String prov1 = comboxProv1.getValue().toString();
             String prov2 = comboxProv2.getValue().toString();
-            gamecontroller.addOrderIsClicked(action, prov1, prov2);
+            gameController.addOrderIsClicked(action, prov1, prov2);
         }
         catch (Exception e) {
             System.out.println("In GameView is iets fout gegaan tijdens het toevoegen van een order...");
@@ -187,7 +187,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         List<Province> provinces = gameViewObservable.getProvinces();
         System.out.println(points);
         for(Province province : provinces) {
-            System.out.println(province);
             points.getChildren().add(province);
         }
     }

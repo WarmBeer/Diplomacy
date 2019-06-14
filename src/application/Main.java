@@ -2,6 +2,7 @@ package application;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import controllers.GameController;
 import domains.GameJSON;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -17,6 +18,7 @@ public class Main extends Application {
     private static final String ALPHA_NUMERIC_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static String KEY = "";
     private GameView game;
+    private GameController gameController;
     public enum unitType {ARMY, FLEET}
 
 
@@ -26,15 +28,18 @@ public class Main extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
+        this.gameController = new GameController(primaryStage);
 
         setup();
 
+        /*
         //Maak variabele aan voor de chatbox (die normaal al beschikbaar zijn in het spel)
         String userName = "Thomas";
         String gameID = "Game4";
         boolean host = true;
-        game = new GameView(primaryStage,userName,gameID,host);
+
+         */
 
 //            this.gameModel = new GameModel();
 //            this.superModel = new SuperModel();
@@ -54,10 +59,10 @@ public class Main extends Application {
 //            loadGame();
     }
 
-    public void loadGame() {
-
-
+    public static String getKEY() {
+        return  KEY;
     }
+
 
     public void setup() {
 

@@ -1,17 +1,21 @@
 package models;
 
+import application.Main;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import controllers.GameController;
 import domains.*;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
+import javafx.stage.Stage;
 import observers.GameViewObservable;
 import observers.GameViewObserver;
 import observers.OrderObservable;
 import observers.OrderObserver;
 import utilities.KeyHandler;
+import views.GameView;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -32,53 +36,22 @@ public class GameModel implements OrderObservable, GameViewObservable {
         INDEPENDENT
     }
 
-    private Game currentGame;
+    private GameView gameView;
+    private Game activeGame;
     ArrayList<OrderObserver> viewObservers = new ArrayList<>();
     ArrayList<GameViewObserver> gameViewObservers = new ArrayList<>();
 
+    public GameModel(Stage stage, GameController gameController) {
+        this.gameView = new GameView(stage, gameController);
+        gameViewObservers.add(this.gameView);
+    }
+    
+    public Game getActiveGame() {
+        return  this.activeGame;
+    }
 
-    public void saveGame() {
+    public void show() {
 
-        GameJSON gameJSON = new GameJSON();
-        gameJSON.gameUID = currentGame.getGameUID();
-        gameJSON.name = currentGame.getName();
-        gameJSON.turn = currentGame.getTurn();
-        gameJSON.turnTime = currentGame.getTurnTime();
-        gameJSON.Players = currentGame.getPlayers();
-        gameJSON.Provinces = new ArrayList<>();
-
-        for (Province province : currentGame.getProvinces()) {
-            ProvinceJSON provinceJSON = new ProvinceJSON();
-            provinceJSON.abbr = province.getAbbreviation();
-            provinceJSON.owner = province.getOwner().getName();
-
-            UnitJSON unitJSON = new UnitJSON();
-
-            if (province.getUnit() != null) {
-                unitJSON.unitType = province.getUnit().getUnitType();
-                unitJSON.orderType = (Unit.orderType) province.getUnit().getCurrentOrder().get("orderType");
-                unitJSON.orderTarget = (String) province.getUnit().getCurrentOrder().get("orderTarget");
-            }
-
-            if (unitJSON.unitType == null) {
-                provinceJSON.stationed = null;
-            } else {
-                provinceJSON.stationed = unitJSON;
-            }
-            gameJSON.Provinces.add(provinceJSON);
-        }
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();;
-        try {
-            String jarLocation = KeyHandler.getJarLocation();
-            String saveFile = gson.toJson(gameJSON);
-            JsonElement jsonElement =  new JsonParser().parse(saveFile);
-            BufferedWriter writer = new BufferedWriter(new FileWriter(jarLocation + File.separator + "Save.json"));
-            writer.write(gson.toJson(jsonElement));
-            writer.close();
-        } catch (IOException io) {
-            io.printStackTrace();
-        }
     }
 
     @FXML
@@ -152,8 +125,7 @@ public class GameModel implements OrderObservable, GameViewObservable {
             }
         }
 
-        this.currentGame = game;
-        saveGame();
+        this.activeGame = game;
         System.out.println("gameViewObservers: " +gameViewObservers.size());
         this.notifyGameViewObservers();
 
@@ -627,13 +599,6 @@ public class GameModel implements OrderObservable, GameViewObservable {
         unit.setY(y);
     }
 
-    public void loadGame() throws Exception{
-        Reader reader = new FileReader("/Diplomacy.json");
-        Gson gson = new GsonBuilder().create();
-        Game p = gson.fromJson(reader, Game.class);
-        System.out.println(p);
-    }
-
     @Override
     public void registerOrderObserver(OrderObserver orderobserver) {
         viewObservers.add(orderobserver);
@@ -670,7 +635,7 @@ public class GameModel implements OrderObservable, GameViewObservable {
 
     @Override
     public List<Province> getProvinces() {
-        return this.currentGame.getProvinces();
+        return this.activeGame.getProvinces();
     }
 
     @Override
