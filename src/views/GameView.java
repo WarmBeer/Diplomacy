@@ -12,17 +12,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import observers.ChatObservable;
-import observers.ChatObserver;
-import observers.OrderObservable;
-import observers.OrderObserver;
+import observers.*;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.LogManager;
 
-public class GameView implements OrderObserver, ChatObserver, Initializable {
+public class GameView implements OrderObserver, ChatObserver, Initializable, GameViewObserver {
 
     //Game setup variables
     private Parent content;
@@ -46,6 +44,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable {
         gamecontroller = new GameController(this.gameID);
         gamecontroller.registerOrderObserver(this);
         gamecontroller.registerChatObserver(this);
+        gamecontroller.registerGameObserver(this);
 
         chatboxLaunch(stage);
     }
@@ -175,6 +174,9 @@ public class GameView implements OrderObserver, ChatObserver, Initializable {
     }
 
 
-
+    @Override
+    public void update(GameViewObservable gameViewObservable) {
+        System.out.println("UPDATEEE");
+    }
 }
 

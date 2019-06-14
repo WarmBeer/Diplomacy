@@ -4,6 +4,7 @@ import models.ChatBox;
 import models.GameModel;
 import observers.ChatObserver;
 import observers.OrderObserver;
+import views.GameView;
 
 public class GameController  {
 
@@ -47,5 +48,9 @@ public class GameController  {
 
     public void addMessage(String message, String userName){
         chatbox.addChatMessage(message, userName);
+    }
+
+    public void registerGameObserver(GameView gameView) {
+        gamemodel.registerOrderObserver(gameView);
     }
 }
