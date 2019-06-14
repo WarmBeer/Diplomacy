@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import utilities.KeyHandler;
 import views.MainMenu;
 import javafx.collections.ObservableList;
 
@@ -30,8 +31,6 @@ import java.util.Scanner;
  * @author Edwin
  */
 public class Main extends Application {
-
-    private static final String ALPHA_NUMERIC_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         public static enum unitType {
                 ARMY,
@@ -93,8 +92,7 @@ public class Main extends Application {
 
         public void setup() {
 
-            URL jarLocationUrl = Main.class.getProtectionDomain().getCodeSource().getLocation();
-            String jarLocation = new File(jarLocationUrl.toString()).getParent().substring(6);
+            String jarLocation = KeyHandler.getJarLocation();
 
             print( jarLocation );
 
@@ -110,30 +108,7 @@ public class Main extends Application {
                 }
             } else {
                 print("Key not found, creating one for you!");
-                createKeyFile(jarLocation);
+                KeyHandler.createKeyFile(jarLocation);
             }
-        }
-
-        public void createKeyFile(String location) {
-            String key = generateKey(16);
-
-            try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(location + File.separator + "KEY.txt"));
-                writer.write(key);
-
-                writer.close();
-            } catch (IOException io) {
-                io.printStackTrace();
-            }
-            print("Saved key: " + key);
-        }
-
-        public static String generateKey(int count) {
-            StringBuilder builder = new StringBuilder();
-            while (count-- != 0) {
-                int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
-                builder.append(ALPHA_NUMERIC_STRING.charAt(character));
-            }
-            return builder.toString();
         }
 }

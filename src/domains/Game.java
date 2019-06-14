@@ -39,6 +39,18 @@ public class Game {
         this.Players.add(player);
     }
 
+    public String getGameUID() {
+        return  this.gameUID;
+    }
+
+    public int getTurnTime() {
+        return  this.turnTime;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
     public String getName() {
         return this.name;
     }
