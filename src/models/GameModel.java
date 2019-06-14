@@ -45,13 +45,13 @@ public class GameModel implements OrderObservable, GameViewObservable {
         this.gameView = new GameView(stage, gameController);
         gameViewObservers.add(this.gameView);
     }
+
+    public void show() {
+        this.gameView.init();
+    }
     
     public Game getActiveGame() {
         return  this.activeGame;
-    }
-
-    public void show() {
-
     }
 
     @FXML

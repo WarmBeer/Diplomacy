@@ -27,7 +27,7 @@ public class GameController  {
     public GameController(Stage stage){
         createChat("11111111");
         this.gameModel = new GameModel(stage, this);
-        gameModel.show();
+        this.gameModel.show();
     }
 
     public void createChat(String gameUID) {
@@ -104,7 +104,7 @@ public class GameController  {
     }
 
     public void registerOrderObserver(OrderObserver orderObserver){
-        gameModel.registerOrderObserver(orderObserver);
+        this.gameModel.registerOrderObserver(orderObserver);
     }
 
     public void registerChatObserver(ChatObserver chatObserver){

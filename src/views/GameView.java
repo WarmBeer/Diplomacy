@@ -35,13 +35,16 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private Group troops; //Troepen render groep
     private Group points; //Provincie punt render groep
     private GameController gameController;
+    private Stage stage;
 
     public GameView(Stage stage, GameController gameController){
         this.gameController = gameController;
+        this.stage = stage;
+    }
 
+    public void init() {
         chatboxLaunch(stage);
         pressedStart();
-
     }
 
     private void pressedStart() {
