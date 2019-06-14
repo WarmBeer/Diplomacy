@@ -3,13 +3,16 @@ package views;
 import controllers.GameController;
 import domains.Province;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -51,7 +54,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         gameController.registerGameObserver(this);
         gameController.requestLoadGame("11111111");
     }
-
 
     public void chatboxLaunch(Stage primaryStage) {
         try{
@@ -153,7 +155,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     public void updateOrderlist(ArrayList<String> orderList){
         lvOrders.getItems().clear();
-        System.out.println(orderList.toString());
         for(String order : orderList){
             lvOrders.getItems().add(order);
             LogManager.getLogManager().reset();
@@ -183,12 +184,10 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     @Override
     public void update(GameViewObservable gameViewObservable) {
-        System.out.println("UPDATEEE");
-        List<Province> provinces = gameViewObservable.getProvinces();
-        System.out.println(points);
-        for(Province province : provinces) {
-            points.getChildren().add(province);
-        }
+        troops.getChildren().removeAll(troops.getChildren());
+        troops.getChildren().addAll(gameViewObservable.getTroopsGroup().getChildren());
+        points.getChildren().removeAll(points.getChildren());
+        points.getChildren().addAll(gameViewObservable.getPointsGroup().getChildren());
     }
 }
 
