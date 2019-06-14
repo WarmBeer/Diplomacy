@@ -1,10 +1,17 @@
 package controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import domains.GameJSON;
 import models.ChatBox;
 import models.GameModel;
 import observers.ChatObserver;
 import observers.OrderObserver;
 import views.GameView;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 public class GameController  {
 
@@ -13,6 +20,16 @@ public class GameController  {
 
     public GameController(String gameID){
         this.chatbox = new ChatBox(gameID);
+        gamemodel = new GameModel();
+    }
+
+    public void loadGameFromJSON() {
+        Reader reader = new BufferedReader(new InputStreamReader(
+                this.getClass().getResourceAsStream("/" + "Diplomacy.json")));
+        Gson gson = new GsonBuilder().create();
+        GameJSON gameJSON = gson.fromJson(reader, GameJSON.class);
+
+        gamemodel.initGame(gameJSON);
     }
 
     public void requestLoadGame(){
@@ -27,7 +44,6 @@ public class GameController  {
 
     public void registerOrderObserver(OrderObserver orderObserver){
         gamemodel.registerOrderObserver(orderObserver);
-
     }
 
     public void registerChatObserver(ChatObserver chatObserver){
@@ -51,6 +67,6 @@ public class GameController  {
     }
 
     public void registerGameObserver(GameView gameView) {
-        gamemodel.registerOrderObserver(gameView);
+        gamemodel.registerGameViewObserver(gameView);
     }
 }

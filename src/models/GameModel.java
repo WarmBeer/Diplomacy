@@ -2,24 +2,22 @@ package models;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import domains.*;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
+import javafx.fxml.FXML;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import observers.GameViewObservable;
 import observers.GameViewObserver;
 import observers.OrderObservable;
 import observers.OrderObserver;
 import utilities.KeyHandler;
-import views.GameView;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
+
+import static application.Main.print;
 
 public class GameModel implements OrderObservable, GameViewObservable {
 
@@ -40,8 +38,6 @@ public class GameModel implements OrderObservable, GameViewObservable {
     ArrayList<OrderObserver> viewObservers = new ArrayList<OrderObserver>();
     ArrayList<GameViewObserver> gameViewObservers = new ArrayList<GameViewObserver>();
 
-        stage.setScene(scene);
-    }
 
     public void saveGame() {
 
@@ -156,8 +152,9 @@ public class GameModel implements OrderObservable, GameViewObservable {
 
         this.currentGame = game;
         saveGame();
+        System.out.println("gameViewObservers: " +gameViewObservers.size());
+        this.notifyGameViewObservers();
 
-        this.notifyOrderObservers();
     }
 
     public void initProvinces(Game game) {
@@ -670,8 +667,8 @@ public class GameModel implements OrderObservable, GameViewObservable {
     }
 
     @Override
-    public ArrayList<Province> getProvinces() {
-        return this.getProvinces();
+    public List<Province> getProvinces() {
+        return this.currentGame.getProvinces();
     }
 
     @Override

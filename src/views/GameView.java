@@ -1,6 +1,7 @@
 package views;
 
 import controllers.GameController;
+import domains.Province;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ import observers.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.LogManager;
 
@@ -47,6 +49,10 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         gamecontroller.registerGameObserver(this);
 
         chatboxLaunch(stage);
+
+        gamecontroller.loadGameFromJSON();
+
+
     }
 
 
@@ -147,6 +153,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     public void updateOrderlist(ArrayList<String> orderList){
         lvOrders.getItems().clear();
+        System.out.println(orderList.toString());
         for(String order : orderList){
             lvOrders.getItems().add(order);
             LogManager.getLogManager().reset();
@@ -177,6 +184,12 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @Override
     public void update(GameViewObservable gameViewObservable) {
         System.out.println("UPDATEEE");
+        List<Province> provinces = gameViewObservable.getProvinces();
+        System.out.println(points);
+        for(Province province : provinces) {
+            System.out.println(province);
+            points.getChildren().add(province);
+        }
     }
 }
 
