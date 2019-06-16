@@ -3,6 +3,7 @@ package application;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controllers.GameController;
+import controllers.MainController;
 import domains.GameJSON;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -19,6 +20,7 @@ public class Main extends Application {
     private static String KEY = "";
     private GameView game;
     private GameController gameController;
+    private MainController mainController;
     public enum unitType {ARMY, FLEET}
 
 
@@ -29,9 +31,16 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        this.mainController = new MainController(primaryStage);
         this.gameController = new GameController(primaryStage);
 
+        //for the controllers to communicate
+        gameController.mainController = mainController;
+        mainController.gameController = gameController;
+
         setup();
+
+        mainController.showMainMenu();
 
         /*
         //Maak variabele aan voor de chatbox (die normaal al beschikbaar zijn in het spel)

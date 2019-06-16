@@ -2,17 +2,30 @@ package controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
+import models.SuperModel;
 
 public class MainController {
+    private SuperModel superModel;
+    public GameController gameController;
 
-    @FXML
-    private Button optionsButton;
+    public MainController(Stage primaryStage) {
+        superModel = new SuperModel(primaryStage, this);
+    }
 
-    @FXML
-    private Button joinGameButton;
+    public void clickedOptions() {
 
-    @FXML
-    private Button hostGameButton;
+    }
 
+    public void clickedJoinGame() {
+        gameController.show();
+    }
 
+    public void clickedHostGame() {
+
+    }
+
+    public void showMainMenu() {
+        superModel.show();
+    }
 }

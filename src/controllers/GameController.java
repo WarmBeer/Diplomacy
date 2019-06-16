@@ -23,11 +23,11 @@ public class GameController  {
 
     private GameModel gameModel;
     private ChatBox chatbox;
+    public MainController mainController;
 
     public GameController(Stage stage){
         createChat("11111111");
         this.gameModel = new GameModel(stage, this);
-        this.gameModel.show();
     }
 
     public void createChat(String gameUID) {
@@ -93,6 +93,10 @@ public class GameController  {
         print(gameSave);
     }
 
+    public void show() {
+        this.gameModel.show();
+    }
+
     public void requestLoadGame(String gameUID){
         try{
             gameModel.initGame(retrieveGameJSON(gameUID));
@@ -130,4 +134,6 @@ public class GameController  {
     public void registerGameObserver(GameView gameView) {
         gameModel.registerGameViewObserver(gameView);
     }
+
+
 }

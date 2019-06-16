@@ -25,7 +25,7 @@ import java.util.List;
 import static application.Main.print;
 import static application.Main.unitType;
 
-public class GameModel implements OrderObservable, GameViewObservable {
+public class GameModel implements Model, OrderObservable, GameViewObservable {
 
     private Group troops;
     private Group points;

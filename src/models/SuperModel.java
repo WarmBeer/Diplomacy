@@ -1,22 +1,54 @@
 package models;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import controllers.MainController;
 import javafx.stage.Stage;
+import observers.MainMenuViewObservable;
+import observers.MainMenuViewObserver;
+import views.MainMenuView;
 
-public class SuperModel implements Model {
+import java.io.IOException;
+import java.util.ArrayList;
 
-    public final String MAIN_MENU = "/resources/views/MainMenu.fxml"; //DIT MOET WEG UITEINDELIJK
+public class SuperModel implements Model, MainMenuViewObservable {
 
-    @FXML
-    public void show(Stage stage) throws Exception{
-        Parent pane = FXMLLoader.load(
-                getClass().getResource(MAIN_MENU));
+    public final String MAIN_MENU = "/views/MainMenu_OLD.fxml"; //DIT MOET WEG UITEINDELIJK
+    ArrayList<MainMenuViewObserver> MainMenuViewObservers = new ArrayList<>();
+    private MainMenuView mainMenuView;
+    private boolean showMainMenu = false;
 
-        Scene scene = new Scene( pane );
-        stage.setScene(scene);
+    public SuperModel(Stage primaryStage, MainController mainController) {
+        try {
+            mainMenuView = new MainMenuView(primaryStage, mainController);
+            registerMainMenuViewObserver(mainMenuView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    public void show() {
+        showMainMenu = true;
+        notifyMainMenuViewObservers();
+    }
+
+    @Override
+    public void registerMainMenuViewObserver(MainMenuViewObserver mainMenuViewObserver) {
+        MainMenuViewObservers.add(mainMenuViewObserver);
+    }
+
+    @Override
+    public void unregisterMainMenuViewObserver(MainMenuViewObserver mainMenuViewObserver) {
+        MainMenuViewObservers.remove(mainMenuViewObserver);
+    }
+
+    @Override
+    public void notifyMainMenuViewObservers() {
+        for(MainMenuViewObserver MainMenuViewObserver : MainMenuViewObservers) {
+            MainMenuViewObserver.update(this);
+        }
+    }
+
+    @Override
+    public boolean doShowMainMenu() {
+        return showMainMenu;
+    }
 }

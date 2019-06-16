@@ -2,7 +2,7 @@ package models;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
-import views.MainMenu;
+import views.MainMenuView;
 
 public class in_GameMenuModel {
 
