@@ -9,6 +9,7 @@ import controllers.GameController;
 import domains.*;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import observers.GameViewObservable;
@@ -45,6 +46,9 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     private Game activeGame;
     ArrayList<OrderObserver> viewObservers = new ArrayList<>();
     ArrayList<GameViewObserver> gameViewObservers = new ArrayList<>();
+    private boolean pointsChanged = false;
+    private boolean hasComboBoxes = false;
+    private ArrayList<String> provComboBoxValues;
 
     public GameModel(Stage stage, GameController gameController) {
         this.gameView = new GameView(stage, gameController);
@@ -58,9 +62,25 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         return  this.activeGame;
     }
 
+    public void changedComboBox(String action, Province selectedProvince, ComboBox provComboBox) {
+        provComboBoxValues = new ArrayList<>();
+
+        hasComboBoxes = true;
+
+        if(!action.equals("Hold")){
+            for(Province province : selectedProvince.getBorders()) {
+                provComboBoxValues.add(province.getName());
+            }
+        }
+        if(action.equals("Hold") || action.equals("Action")) {
+            provComboBoxValues.add("Select Province");
+        }
+
+        notifyGameViewObservers();
+    }
+
     @FXML
     public void initGame(GameJSON gameJSON) {
-
         Game game = new Game(gameJSON.gameUID, gameJSON.name, gameJSON.turnTime, gameJSON.turn);
         points = new Group();
         troops = new Group();
@@ -129,6 +149,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
         this.activeGame = game;
         System.out.println("gameViewObservers: " +gameViewObservers.size());
+        this.setPointsChanged();
         this.notifyGameViewObservers();
 
     }
@@ -650,6 +671,26 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         return this.points;
     }
 
+    private void setPointsChanged() {
+        this.pointsChanged = true;
+    }
+
+    @Override
+    public boolean pointsChanged() {
+        pointsChanged = !pointsChanged;
+        return !pointsChanged;
+    }
+
+    @Override
+    public boolean hasComboBoxes() {
+        if(hasComboBoxes){
+            hasComboBoxes = false;
+            return true;
+        }
+        return false;
+
+    }
+
     @Override
     public ArrayList<String> getOrderList() {
         return orderList;
@@ -666,5 +707,10 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     public void removeOrder(int index) {
 
     }
+
+    public ArrayList<String> getComboBox1Values() {
+        return this.provComboBoxValues;
+    }
+
 
 }

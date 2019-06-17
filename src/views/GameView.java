@@ -1,6 +1,7 @@
 package views;
 
 import controllers.GameController;
+import domains.Province;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -8,12 +9,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -24,6 +27,8 @@ import observers.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.LogManager;
 
@@ -42,6 +47,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private Group points; //Provincie punt render groep
     private GameController gameController;
     private Stage stage;
+    private Province selectedProvince;
 
     public GameView(Stage stage, GameController gameController){
         this.gameController = gameController;
@@ -160,10 +166,20 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML
     public void clickedAddOrder() {
         try {
-            if ((comboxAction.getSelectionModel().getSelectedIndex() != 0 && comboxProv1.getSelectionModel().getSelectedIndex() != 0)) {
+            int actionIndex = comboxAction.getSelectionModel().getSelectedIndex();
+            int provinceIndex = comboxProv1.getSelectionModel().getSelectedIndex();
+            if (actionIndex != 0 &&
+                    provinceIndex != 0 ||
+                    actionIndex == 3) {
                 String action = comboxAction.getValue().toString();
                 String prov1 = comboxProv1.getValue().toString();
-                String order = action + "_" + prov1;
+                String order= null;
+                if(actionIndex == 3) {
+                    order = action + "_" + selectedProvince.getName();
+                } else {
+                    order = action + "_" + selectedProvince.getName() + "_" + prov1;
+                }
+
                 lvOrders.getItems().add(order);
                 //gameController.addOrderIsClicked(action, prov1);
             }
@@ -203,6 +219,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         // Set all dropdowns to first item.
         comboxAction.getSelectionModel().select(0);
         comboxProv1.getSelectionModel().select(0);
+        comboxProv1.setDisable(true);
         // Enable DEL key to delete selected orders from list.
         lvOrders.setOnKeyPressed(new EventHandler<KeyEvent>()
         {
@@ -246,7 +263,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         switch (comboxAction.getValue().toString()) {
             case "Action":
                 comboxProv1.getSelectionModel().select(0);
-                comboxProv1.setDisable(false);
+                comboxProv1.setDisable(true);
                 break;
             case "Move":
                 comboxProv1.getSelectionModel().select(1);
@@ -261,14 +278,60 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                 comboxProv1.setDisable(true);
                 break;
         }
+
+        if(selectedProvince != null)
+            updateComboBoxes(selectedProvince);
     }
 
     @Override
     public void update(GameViewObservable gameViewObservable) {
         troops.getChildren().removeAll(troops.getChildren());
-        troops.getChildren().addAll(gameViewObservable.getTroopsGroup().getChildren());
-        points.getChildren().removeAll(points.getChildren());
-        points.getChildren().addAll(gameViewObservable.getPointsGroup().getChildren());
+        troops.getChildren().addAll(gameViewObservable.getTroopsGroup());
+
+        if(gameViewObservable.pointsChanged()){
+            points.getChildren().removeAll(points.getChildren());
+            points.getChildren().addAll(gameViewObservable.getPointsGroup());
+            addProvinceEvents(gameViewObservable.getProvinces());
+        }
+
+        if(gameViewObservable.hasComboBoxes()) {
+            System.out.println("FILL COMBO BOXES gameViewObservable.getComboBox1Values(): " + gameViewObservable.getComboBox1Values().toString());
+
+            fillComboBox(comboxProv1, true, gameViewObservable.getComboBox1Values());
+            System.out.println("filled box 1");
+        }
+    }
+
+    private void fillComboBox(ComboBox comboBox, boolean selectFirst, ArrayList<String> items) {
+        comboBox.getItems().removeAll(comboBox.getItems());
+        comboBox.getItems().addAll(items);
+        if(selectFirst)
+            comboBox.getSelectionModel().select(0);
+    }
+
+    private void fillComboBox(ComboBox comboBox, boolean selectFirst, String... items) {
+        this.fillComboBox(comboBox, selectFirst, new ArrayList<>(Arrays.asList(items)));
+    }
+
+    private void addProvinceEvents(List<Province> provinces) {
+        for(Province province : provinces) {
+            province.setOnMouseClicked(event -> {
+                for(Province province1 : provinces) {
+                    province1.setScaleX(0.2);
+                    province1.setScaleY(0.2);
+                }
+                this.selectedProvince = (Province) event.getTarget();
+                this.updateComboBoxes((Province) event.getTarget());
+            });
+        }
+    }
+
+    private void updateComboBoxes(Province target) {
+
+        ArrayList<String> borderProvinces = new ArrayList<>();
+        target.setScaleX(0.5);
+        target.setScaleY(0.5);
+        gameController.changedComboBox(comboxAction.getValue().toString(), selectedProvince, comboxProv1);
     }
 
     @FXML

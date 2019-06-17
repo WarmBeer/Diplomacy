@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import domains.*;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import models.ChatBox;
 import models.GameModel;
@@ -141,4 +142,8 @@ public class GameController  {
     }
 
 
+
+    public void changedComboBox(String action, Province selectedProvince, ComboBox comboBox1) {
+        gameModel.changedComboBox(action, selectedProvince, comboBox1);
+    }
 }

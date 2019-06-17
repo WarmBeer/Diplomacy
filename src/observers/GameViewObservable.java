@@ -15,4 +15,10 @@ public interface GameViewObservable {
 
     public Group getTroopsGroup();
     public Group getPointsGroup();
+
+    public ArrayList<String> getComboBox1Values();
+
+    boolean pointsChanged();
+
+    boolean hasComboBoxes();
 }
