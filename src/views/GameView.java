@@ -1,6 +1,8 @@
 package views;
 
 import controllers.GameController;
+import controllers.MainController;
+import domains.Province;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,6 +23,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import observers.*;
 
+import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -41,6 +45,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private Group troops; //Troepen render groep
     private Group points; //Provincie punt render groep
     private GameController gameController;
+    private MainController mainController;
     private Stage stage;
 
     public GameView(Stage stage, GameController gameController){
@@ -118,6 +123,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML private Button OptiesKnop;
     @FXML private Button AfsluitenKnop;
     @FXML private Button in_GameMenuKnop;
+    @FXML private Button ReturnMainMenu;
     @FXML public Button button;
     @FXML public Button border;
     @FXML private Pane pOrderSettings;
@@ -144,7 +150,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         gameController.addMessage(nieuwBericht);
         textInput.clear();
     }
-
 
     private void updateMessages(ArrayList<String> messageArraylist){
         messagesList.getItems().clear();
@@ -276,11 +281,13 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         points.getChildren().addAll(gameViewObservable.getPointsGroup().getChildren());
     }
 
+    //Dit maakt de in_game menu visible.
     @FXML
     private void OpenMenu() {
         MainMenu.setVisible(!MainMenu.isVisible());
     }
 
+    //Dit zet het geluid aan/uit als er op de knop gedrukt wordt.
     @FXML
     private void geluidAanUit() {
         if (geluidsKnop.isSelected() == true) {
@@ -297,12 +304,14 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         }
     }
 
+    //Dit maakt de in_game opties zichtbaar.
     @FXML
     private void inGameOpties() {
         gameOpties.setVisible(!gameOpties.isVisible());
         MainMenu.setVisible(!MainMenu.isVisible());
     }
 
+    //Dit zorgt ervoor dat je van in_game terug kunt keren naar het main menu.
     @FXML
     private void returnInGameMenu() {
         gameOpties.setVisible(!gameOpties.isVisible());
@@ -341,6 +350,12 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         stage.setTitle("Spelregels");
 
         paginationrules.setPageFactory((Integer pageIndex) -> createPage(pageIndex));
+    }
+
+    //Dit zorgt ervoor dat je vanuit het spel, terug kan gaan naar het main menu.
+    @FXML
+    private void returnToMainMenu() {
+        gameController.returnToMain();
     }
 
 }

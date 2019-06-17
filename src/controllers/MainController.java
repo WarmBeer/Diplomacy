@@ -25,7 +25,12 @@ public class MainController {
 
     }
 
+    public void dontShowMainMenu() {
+        this.superModel.dontShowMainMenu();
+    }
+
     public void showMainMenu() {
         superModel.show();
     }
+
 }

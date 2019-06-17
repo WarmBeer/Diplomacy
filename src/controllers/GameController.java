@@ -98,6 +98,7 @@ public class GameController  {
     }
 
     public void show() {
+        this.mainController.dontShowMainMenu();
         this.gameModel.show();
     }
 
@@ -141,4 +142,7 @@ public class GameController  {
     }
 
 
+    public void returnToMain() {
+        this.mainController.showMainMenu();
+    }
 }

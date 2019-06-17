@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SceneBuilder;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import observers.MainMenuViewObservable;
@@ -25,6 +26,9 @@ public class MainMenuView implements MainMenuViewObserver {
     private MainController mainController;
 
     @FXML
+    private AnchorPane gameOpties;
+
+    @FXML
     private Button optionsButton;
 
     @FXML
@@ -32,6 +36,9 @@ public class MainMenuView implements MainMenuViewObserver {
 
     @FXML
     private Button hostGameButton;
+
+    @FXML
+    private Button AfsluitenButton;
 
     @FXML
     public void clickedOptions() {
@@ -48,6 +55,11 @@ public class MainMenuView implements MainMenuViewObserver {
         mainController.clickedHostGame();
     }
 
+    @FXML
+    public void showOptions() {
+        gameOpties.setVisible(!gameOpties.isVisible());
+    }
+
     public MainMenuView(Stage primaryStage, MainController mainController) throws IOException {
         this.mainController = mainController;
         this.stage = primaryStage;
@@ -58,8 +70,8 @@ public class MainMenuView implements MainMenuViewObserver {
         Parent content = loader.load();
 
         primaryStage.setTitle("Diplomacy v0.2");
-        Scene scene = new Scene( content, 1280, 720 );
-        primaryStage.setScene(scene);
+        scene = new Scene( content, 1280, 720 );
+        //primaryStage.setScene(scene);
 
         //FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW_FILE));
 //        Parent root = loader.load();
@@ -72,7 +84,7 @@ public class MainMenuView implements MainMenuViewObserver {
     public void show() {
         //stage.hide();
         //stage.setFullScreen(true);
-       // stage.setScene(scene);
+        stage.setScene(scene);
         stage.show();
     }
 
@@ -81,5 +93,11 @@ public class MainMenuView implements MainMenuViewObserver {
         if(mainMenuViewObservable.doShowMainMenu()) {
             this.show();
         }
+    }
+
+    //Dit sluit het spel af.
+    @FXML
+    private void afsluitenView() {
+        System.exit(0);
     }
 }
