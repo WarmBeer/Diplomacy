@@ -114,7 +114,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML private VBox box;
     @FXML public Pagination paginationrules;
     @FXML private Pane chatPane;
-    @FXML private TextArea textInput;
+    @FXML private TextField textInput;
     @FXML private Button sendButton;
     @FXML private ListView messagesList;
     @FXML private VBox MainMenu;
@@ -142,11 +142,14 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     @FXML
     private void addChatMessage(ActionEvent event) {
+        sendChatMessage();
+    }
+
+    private void sendChatMessage() {
         String nieuwBericht = (textInput.getText());
         gameController.addMessage(nieuwBericht);
         textInput.clear();
     }
-
 
     private void updateMessages(ArrayList<String> messageArraylist){
         messagesList.getItems().clear();
@@ -211,6 +214,19 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                     if (keyEvent.getCode().equals(KeyCode.DELETE ) )
                     {
                         lvOrders.getItems().remove(lvOrders.getSelectionModel().getSelectedItem());
+                    }
+                }
+            }
+        });
+        textInput.setOnKeyPressed(new EventHandler<KeyEvent>()
+        {
+            public void handle(final KeyEvent keyEvent )
+            {
+                if (textInput.getText().length() > 0)
+                {
+                    if (keyEvent.getCode().equals(KeyCode.ENTER) )
+                    {
+                        sendChatMessage();
                     }
                 }
             }
