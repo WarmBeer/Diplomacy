@@ -123,7 +123,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML private Pane pOrderSettings;
     @FXML private ComboBox comboxAction;
     @FXML private ComboBox comboxProv1;
-    @FXML private ComboBox comboxProv2;
+    @FXML private ComboBox comboxPrivateChat;
     @FXML private ListView lvOrders;
     @FXML public TextField tfMessage; // Value injected by FXMLLoader
     @FXML public TextArea taUpdates; // Value injected by FXMLLoader
@@ -160,13 +160,12 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML
     public void clickedAddOrder() {
         try {
-            if ((comboxAction.getSelectionModel().getSelectedIndex() != 0 && comboxProv1.getSelectionModel().getSelectedIndex() != 0 && comboxProv2.getSelectionModel().getSelectedIndex() != 0) || ((comboxAction.getSelectionModel().getSelectedIndex() != 0 && comboxAction.getSelectionModel().getSelectedIndex() != 1) && comboxProv1.getSelectionModel().getSelectedIndex() != 0 && comboxProv2.getSelectionModel().getSelectedIndex() == 0)) {
+            if ((comboxAction.getSelectionModel().getSelectedIndex() != 0 && comboxProv1.getSelectionModel().getSelectedIndex() != 0)) {
                 String action = comboxAction.getValue().toString();
                 String prov1 = comboxProv1.getValue().toString();
-                String prov2 = comboxProv2.getValue().toString();
-                String order = action + "_" + prov1 + "_" + prov2;
+                String order = action + "_" + prov1;
                 lvOrders.getItems().add(order);
-                //gameController.addOrderIsClicked(action, prov1, prov2);
+                //gameController.addOrderIsClicked(action, prov1);
             }
         }
         catch (Exception e) {
@@ -197,13 +196,14 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
-        //Testdata om dropdownmenu te testen
+        //Testdata to test dropdownmenus.
         comboxAction.getItems().addAll("Action", "Move", "Support", "Hold");
-        comboxProv1.getItems().addAll("Province1", "Province1a", "Province1b", "Province1c", "Province1d", "Province1e");
-        comboxProv2.getItems().addAll("Province2", "Province2a", "Province2b", "Province2c", "Province2d", "Province2e");
+        comboxProv1.getItems().addAll("Select Province", "Province1a", "Province1b", "Province1c", "Province1d", "Province1e");
+        comboxPrivateChat.getItems().addAll("Player2", "Player3", "Player4", "Player5");
+        // Set all dropdowns to first item.
         comboxAction.getSelectionModel().select(0);
         comboxProv1.getSelectionModel().select(0);
-        comboxProv2.getSelectionModel().select(0);
+        // Enable DEL key to delete selected orders from list.
         lvOrders.setOnKeyPressed(new EventHandler<KeyEvent>()
         {
             public void handle(final KeyEvent keyEvent )
@@ -217,6 +217,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                 }
             }
         });
+        // Enable ENTER key to send text easily, same as Send button click.
         textInput.setOnKeyPressed(new EventHandler<KeyEvent>()
         {
             public void handle(final KeyEvent keyEvent )
@@ -245,25 +246,19 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         switch (comboxAction.getValue().toString()) {
             case "Action":
                 comboxProv1.getSelectionModel().select(0);
-                comboxProv2.getSelectionModel().select(0);
                 comboxProv1.setDisable(false);
-                comboxProv2.setDisable(false);
                 break;
             case "Move":
                 comboxProv1.getSelectionModel().select(1);
-                comboxProv1.setDisable(true);
-                comboxProv2.getSelectionModel().select(1);
-                comboxProv2.setDisable(false);
+                comboxProv1.setDisable(false);
                 break;
             case "Support":
                 comboxProv1.setDisable(false);
-                comboxProv2.setDisable(false);
+                comboxProv1.getSelectionModel().select(1);
                 break;
             case "Hold":
                 comboxProv1.getSelectionModel().select(1);
                 comboxProv1.setDisable(true);
-                comboxProv2.getSelectionModel().select(0);
-                comboxProv2.setDisable(true);
                 break;
         }
     }
