@@ -35,6 +35,15 @@ public class MainMenuView implements MainMenuViewObserver {
     private Button ReturnMenu;
 
     @FXML
+    private Button hostGameReturn;
+
+    @FXML
+    private Button HostGameButton;
+
+    @FXML
+    private AnchorPane hostGameAnchor;
+
+    @FXML
     private AnchorPane listGamesAnchor;
 
     @FXML
@@ -137,5 +146,10 @@ public class MainMenuView implements MainMenuViewObserver {
         String gameID = (String) listGames.getSelectionModel().getSelectedItem();
         System.out.print("Clicked on: " + gameID);
         mainController.clickedJoinGame(gameID);
+    }
+
+    @FXML
+    private void showHostGame() {
+        hostGameAnchor.setVisible(!hostGameAnchor.isVisible());
     }
 }
