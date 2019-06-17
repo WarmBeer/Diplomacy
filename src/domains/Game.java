@@ -39,6 +39,10 @@ public class Game {
         this.Players.add(player);
     }
 
+    public void resetProvinces() {
+        this.Provinces = new ArrayList<>();
+    }
+
     public String getGameUID() {
         return  this.gameUID;
     }

@@ -8,6 +8,9 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.annotations.Nullable;
 import domains.GameJSON;
+import domains.Province;
+import domains.ProvinceJSON;
+import domains.Unit;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -146,6 +149,37 @@ public class FirebaseService {
         }
         catch(Exception e){
             System.out.println("In de firebaseservice is een Excecution Exception opgetreden!");
+            e.printStackTrace();
+        }
+    }
+
+    public GameJSON getGame(String gameUID){
+        GameJSON gameJSON = null;
+        try{
+            DocumentReference docRef = db.collection("Games").document(gameUID);
+            ApiFuture<DocumentSnapshot> future = docRef.get();
+            DocumentSnapshot document = future.get();
+            gameJSON = document.toObject(GameJSON.class);
+        }
+        catch(Exception e){
+            System.out.println("REEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+            e.printStackTrace();
+        }
+        return gameJSON;
+    }
+
+    public void sendOrders(String gameUID, Unit unit) {
+        try {
+            GameJSON gameJSON = getGame(gameUID);
+            for (int i = 0; i < gameJSON.Provinces.size(); i++) {
+                if (gameJSON.Provinces.get(i).abbr == unit.getProvince().getAbbreviation()) {
+                    Province province = (Province) unit.getCurrentOrder().get("orderTarget");
+                    gameJSON.Provinces.get(i).stationed.orderTarget = province.getAbbreviation();
+                    gameJSON.Provinces.get(i).stationed.orderType = (Unit.orderType) unit.getCurrentOrder().get("orderType");
+                }
+            }
+            saveGame(gameJSON);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

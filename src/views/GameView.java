@@ -68,7 +68,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         gameController.registerChatObserver(this);
         gameController.registerGameObserver(this);
         gameController.requestLoadGame("11111111");
-        gameController.saveToFirebase();
+        //gameController.saveToFirebase();
     }
 
     public void chatboxLaunch(Stage primaryStage) {

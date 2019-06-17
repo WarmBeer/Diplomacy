@@ -19,6 +19,8 @@ import views.GameView;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import static application.Main.print;
 
@@ -28,8 +30,10 @@ public class GameController  {
     private ChatBox chatbox;
     public MainController mainController;
     private FirebaseService fb;
+    private List<Unit> orderedUnits;
 
     public GameController(Stage stage){
+        orderedUnits = new ArrayList<>();
         fb = new FirebaseService();
         this.chatbox = new ChatBox(fb);
         this.gameModel = new GameModel(stage, this);
@@ -40,12 +44,23 @@ public class GameController  {
         fb.saveGame(gameJSON);
     }
 
-    public GameJSON retrieveGameJSON(String gameUID) {
+    public void addUnitOrder(Unit unit) {
+        orderedUnits.add(unit);
+    }
+
+    private GameJSON retrieveGameJSON(String gameUID) {
+
+        GameJSON gameJSON = fb.getGame(gameUID);
+
+        if (gameJSON == null) {
+            print("Something went wrong getting the game from FB...");
+        }
+        /*
         Reader reader = new BufferedReader(new InputStreamReader(
                 this.getClass().getResourceAsStream("/" + "Diplomacy.json")));
         Gson gson = new GsonBuilder().create();
         GameJSON gameJSON = gson.fromJson(reader, GameJSON.class);
-
+        */
         return gameJSON;
     }
 
@@ -106,7 +121,12 @@ public class GameController  {
 
     public void requestLoadGame(String gameUID){
         try{
-            gameModel.initGame(retrieveGameJSON(gameUID));
+            GameJSON gameJSON = retrieveGameJSON(gameUID);
+            if (gameJSON == null) {
+                print("Oh no....");
+            }
+            print(gameJSON);
+            gameModel.initGame(gameJSON);
             createChat();
         }
         catch(Exception E){
@@ -137,6 +157,13 @@ public class GameController  {
 
     public void addMessage(String message){
         chatbox.addChatMessage(message, Main.getKEY(), gameModel.getActiveGame().getGameUID());
+        sendOrders();
+    }
+
+    public void sendOrders() {
+        for (Unit unit : orderedUnits) {
+            fb.sendOrders(gameModel.getActiveGame().getGameUID(), unit);
+        }
     }
 
     public void registerGameObserver(GameView gameView) {
@@ -164,6 +191,31 @@ public class GameController  {
 
             System.out.println("order type: " + orderType + " from "+province1 + " to " + province2);
 
+        }
+    }
+
+    private Boolean provinceExists(Province province) {
+        for (Object o : gameModel.getActiveGame().getProvinces()) {
+            // use utility function from java.util to deal with nulls
+            if (Objects.equals(o, province)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //TODO: Fix deze shit.
+
+    private void processOrders() {
+        List<Orders> orders = new ArrayList<>();
+        List<Orders> holdOrders = new ArrayList<>();
+        List<Orders> moveOrders = new ArrayList<>();
+        Game processedGame = gameModel.getActiveGame();
+        //processedGame.resetProvinces();
+        for (int i = 0;i<gameModel.getActiveGame().getProvinces().size();i++) {
+            if (gameModel.getActiveGame().getProvinces().get(i).getUnit() != null) {
+
+            }
         }
     }
 }

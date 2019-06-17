@@ -46,6 +46,10 @@ public class Unit extends ImageView {
         currentOrder.put("orderTarget", target);
     }
 
+    public Province getProvince() {
+        return province;
+    }
+
     public HashMap<String, Object> getCurrentOrder() {
         return currentOrder;
     }
