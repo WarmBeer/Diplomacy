@@ -71,7 +71,7 @@ public class GameController  {
 
             if (province.getUnit() != null) {
                 unitJSON.unitType = province.getUnit().getUnitType();
-                unitJSON.orderType = (Unit.orderType) province.getUnit().getCurrentOrder().get("orderType");
+                unitJSON.orderType = province.getUnit().getOrderType();
                 unitJSON.orderTarget = (String) province.getUnit().getCurrentOrder().get("orderTarget");
             }
 
@@ -113,6 +113,8 @@ public class GameController  {
             System.out.println("Exception while request to load a game");
             E.printStackTrace();
         }
+
+        gameModel.createUnitsPerPlayer();
     }
 
     public void registerOrderObserver(OrderObserver orderObserver){

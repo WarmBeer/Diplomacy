@@ -19,4 +19,8 @@ public class Country {
     public GameModel.Countries getName() {
         return this.name;
     }
+
+    public void setPlayer(Player player) {
+        this.leader = player;
+    }
 }

@@ -14,7 +14,7 @@ public class Province extends ImageView {
         COASTAL,
         LAND
     }
-
+    private GameModel.Countries country;
     private ProvinceType provinceType;
     private String name;
     private String abbreviation;
@@ -24,6 +24,14 @@ public class Province extends ImageView {
     private ArrayList<Province> borderedProvinces = new ArrayList<Province>();
 
     public Province(String name, String abbreviation, Boolean isSupplyCenter, int x, int y) {
+        this(name, abbreviation, isSupplyCenter, x, y, GameModel.Countries.INDEPENDENT);
+    }
+
+    public Province(String name, String abbreviation, Boolean isSupplyCenter, int x, int y, ProvinceType provinceType) {
+        this(name, abbreviation, isSupplyCenter, x, y, GameModel.Countries.INDEPENDENT, provinceType);
+    }
+
+    public Province(String name, String abbreviation, Boolean isSupplyCenter, int x, int y, GameModel.Countries country) {
         super();
         this.setX(x);
         this.setY(y);
@@ -33,9 +41,11 @@ public class Province extends ImageView {
         this.provinceType = provinceType.LAND;
         this.owner = null;
         this.stationed = null;
+        this.country = country;
+        checkCoastal();
     }
 
-    public Province(String name, String abbreviation, Boolean isSupplyCenter, int x, int y, ProvinceType provinceType) {
+    public Province(String name, String abbreviation, Boolean isSupplyCenter, int x, int y, GameModel.Countries country, ProvinceType provinceType) {
         super();
         this.setX(x);
         this.setY(y);
@@ -44,6 +54,35 @@ public class Province extends ImageView {
         this.isSupplyCenter = isSupplyCenter;
         this.provinceType = provinceType;
         this.owner = null;
+        this.country = country;
+        checkCoastal();
+    }
+
+    public boolean isSupplyCenter() {
+        return this.isSupplyCenter;
+    }
+
+    public GameModel.Countries getCountry() {
+        return this.country;
+    }
+
+    private void checkCoastal() {
+        if(provinceType != ProvinceType.SEA &&
+                doesBorderType(ProvinceType.SEA)) {
+            this.provinceType = ProvinceType.COASTAL;
+        }
+    }
+
+    public boolean isCoastal() {
+        return this.provinceType == ProvinceType.COASTAL;
+    }
+
+    private boolean doesBorderType(ProvinceType type) {
+        for(Province province : borderedProvinces) {
+            if(province.provinceType == type)
+                return true;
+        }
+        return false;
     }
 
     public void setOwner(Country owner) {

@@ -93,6 +93,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
             game.addPlayer(player);
 
             Country country = new Country(player.getCountry());
+            country.setPlayer(player);
             game.addCountry(country);
         }
 
@@ -100,11 +101,11 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
             for (Province province : game.getProvinces()) {
                 if (province.getAbbreviation().equals(provinceJSON.abbr)) {
 
-                    for(Country country : game.getCountries()) {
-                        if(provinceJSON.owner == country.getName()) {
-                            province.setOwner(country);
-                        }
-                    }
+//                    for(Country country : game.getCountries()) {
+//                        if(provinceJSON.owner == country.getName()) {
+//                            province.setOwner(country);
+//                        }
+//                    }
 
                     Unit stationed = null;
 
@@ -155,17 +156,17 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
     public void initProvinces(Game game) {
         //----GERMANY//----
-        Province kie = new Province("Kiel", "kie", true, 580, 535);
+        Province kie = new Province("Kiel", "kie", true, 580, 535, Countries.GERMANY);
         game.addProvince(kie);
-        Province ber = new Province("Berlin", "ber", true, 655, 505);
+        Province ber = new Province("Berlin", "ber", true, 655, 505, Countries.GERMANY);
         game.addProvince(ber);
-        Province pru = new Province("Prussia", "pru", false, 738, 500);
+        Province pru = new Province("Prussia", "pru", false, 738, 500, Countries.GERMANY);
         game.addProvince(pru);
-        Province ruh = new Province("Ruhr", "ruh", false, 540, 600);
+        Province ruh = new Province("Ruhr", "ruh", false, 540, 600, Countries.GERMANY);
         game.addProvince(ruh);
-        Province mun = new Province("Munich", "mun", true, 603, 585);
+        Province mun = new Province("Munich", "mun", true, 603, 585, Countries.GERMANY);
         game.addProvince(mun);
-        Province sil = new Province("silesia", "sil", false, 725, 541);
+        Province sil = new Province("silesia", "sil", false, 725, 541, Countries.GERMANY);
         game.addProvince(sil);
 
         kie.addBorder(ber);
@@ -180,17 +181,17 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
         //----FRANCE//----
 
-        Province pic = new Province("Picardy", "pic", false, 435, 565);
+        Province pic = new Province("Picardy", "pic", false, 435, 565, Countries.FRANCE);
         game.addProvince(pic);
-        Province bre = new Province("Brest", "bre", true, 330, 630);
+        Province bre = new Province("Brest", "bre", true, 330, 630, Countries.FRANCE);
         game.addProvince(bre);
-        Province par = new Province("Paris", "par", true, 390, 655);
+        Province par = new Province("Paris", "par", true, 390, 655, Countries.FRANCE);
         game.addProvince(par);
-        Province bur = new Province("Burgundy", "bur", false, 475, 605);
+        Province bur = new Province("Burgundy", "bur", false, 475, 605, Countries.FRANCE);
         game.addProvince(bur);
-        Province gas = new Province("Gascony", "gas", false, 340, 725);
+        Province gas = new Province("Gascony", "gas", false, 340, 725, Countries.FRANCE);
         game.addProvince(gas);
-        Province mar = new Province("Marseilles", "mar", true, 465, 715);
+        Province mar = new Province("Marseilles", "mar", true, 465, 715, Countries.FRANCE);
         game.addProvince(mar);
 
 
@@ -207,17 +208,17 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
 
         //----ITALY//----
-        Province pie = new Province("piedmont", "pie", false, 540, 705);
+        Province pie = new Province("piedmont", "pie", false, 540, 705, Countries.ITALY);
         game.addProvince(pie);
-        Province ven = new Province("Venice", "ven", true, 624, 734);
+        Province ven = new Province("Venice", "ven", true, 624, 734, Countries.ITALY);
         game.addProvince(ven);
-        Province tus = new Province("Tuscany", "tus", false, 607, 776);
+        Province tus = new Province("Tuscany", "tus", false, 607, 776, Countries.ITALY);
         game.addProvince(tus);
-        Province rom = new Province("Rome", "rom", true, 650, 811);
+        Province rom = new Province("Rome", "rom", true, 650, 811, Countries.ITALY);
         game.addProvince(rom);
-        Province apu = new Province("Apulia", "apu", false, 748, 829);
+        Province apu = new Province("Apulia", "apu", false, 748, 829, Countries.ITALY);
         game.addProvince(apu);
-        Province nap = new Province("Naples", "nap", true, 740, 869);
+        Province nap = new Province("Naples", "nap", true, 740, 869, Countries.ITALY);
         game.addProvince(nap);
 
 
@@ -234,17 +235,17 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
 
         //----AUSTRIA (hungary?)//-----
-        Province boh = new Province("Bohemia", "boh", false, 698, 625);
+        Province boh = new Province("Bohemia", "boh", false, 698, 625, Countries.AUSTRIA);
         game.addProvince(boh);
-        Province gal = new Province("Galicia", "gal", false, 907, 618);
+        Province gal = new Province("Galicia", "gal", false, 907, 618, Countries.AUSTRIA);
         game.addProvince(gal);
-        Province tyr = new Province("Tyrolia", "tyr", false, 667, 650);
+        Province tyr = new Province("Tyrolia", "tyr", false, 667, 650, Countries.AUSTRIA);
         game.addProvince(tyr);
-        Province vie = new Province("Vienna", "vie", true, 748, 689);
+        Province vie = new Province("Vienna", "vie", true, 748, 689, Countries.AUSTRIA);
         game.addProvince(vie);
-        Province bud = new Province("Budapest", "bud", true, 846, 691);
+        Province bud = new Province("Budapest", "bud", true, 846, 691, Countries.AUSTRIA);
         game.addProvince(bud);
-        Province tri = new Province("Trieste", "tri", true, 707, 715);
+        Province tri = new Province("Trieste", "tri", true, 707, 715, Countries.AUSTRIA);
         game.addProvince(tri);
 
 
@@ -283,15 +284,15 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
 
         //-----TURKEY//---//---
-        Province con = new Province("Constantinople", "con", true, 1030, 844);
+        Province con = new Province("Constantinople", "con", true, 1030, 844, Countries.TURKEY);
         game.addProvince(con);
-        Province smy = new Province("Smyrna", "smy", true, 1071, 880);
+        Province smy = new Province("Smyrna", "smy", true, 1071, 880, Countries.TURKEY);
         game.addProvince(smy);
-        Province ank = new Province("Ankara", "ank", true, 1175, 818);
+        Province ank = new Province("Ankara", "ank", true, 1175, 818, Countries.TURKEY);
         game.addProvince(ank);
-        Province arm = new Province("Armenia", "arm", false, 1339, 827);
+        Province arm = new Province("Armenia", "arm", false, 1339, 827, Countries.TURKEY);
         game.addProvince(arm);
-        Province syr = new Province("Syria", "syr", false, 1342, 945);
+        Province syr = new Province("Syria", "syr", false, 1342, 945, Countries.TURKEY);
         game.addProvince(syr);
 
 
@@ -305,17 +306,17 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
 
         //-----ENGLANG//---//---//---//---
-        Province cly = new Province("Clyde", "cly", false, 325, 400);
+        Province cly = new Province("Clyde", "cly", false, 325, 400, Countries.ENGLAND);
         game.addProvince(cly);
-        Province edi = new Province("Edinburgh", "edi", true, 372, 380);
+        Province edi = new Province("Edinburgh", "edi", true, 372, 380, Countries.ENGLAND);
         game.addProvince(edi);
-        Province lvp = new Province("Liverpool", "lvp", true, 359, 455);
+        Province lvp = new Province("Liverpool", "lvp", true, 359, 455, Countries.ENGLAND);
         game.addProvince(lvp);
-        Province yor = new Province("York", "yor", false, 390, 490);
+        Province yor = new Province("York", "yor", false, 390, 490, Countries.ENGLAND);
         game.addProvince(yor);
-        Province wal = new Province("Wales", "wal", false, 300, 515);
+        Province wal = new Province("Wales", "wal", false, 300, 515, Countries.ENGLAND);
         game.addProvince(wal);
-        Province lon = new Province("London", "lon", true, 395, 515);
+        Province lon = new Province("London", "lon", true, 395, 515, Countries.ENGLAND);
         game.addProvince(lon);
 
         cly.addBorder(edi);
@@ -331,19 +332,19 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
         //------RUSLAND------
 
-        Province war = new Province("Warsaw", "war", true, 857, 552);
+        Province war = new Province("Warsaw", "war", true, 857, 552, Countries.RUSSIA);
         game.addProvince(war);
-        Province lvn = new Province("Livonia", "lvn", false, 937, 430);
+        Province lvn = new Province("Livonia", "lvn", false, 937, 430, Countries.RUSSIA);
         game.addProvince(lvn);
-        Province urk = new Province("Urkaine", "urk", false, 1060, 590);
+        Province urk = new Province("Urkaine", "urk", false, 1060, 590, Countries.RUSSIA);
         game.addProvince(urk);
-        Province mos = new Province("Moscow", "mos", true, 1244, 412);
-        Province stp = new Province("St. Petersburg", "stp", true, 1048, 344);
+        Province mos = new Province("Moscow", "mos", true, 1244, 412, Countries.RUSSIA);
         game.addProvince(mos);
+        Province stp = new Province("St. Petersburg", "stp", true, 1048, 344, Countries.RUSSIA);
         game.addProvince(stp);
-        Province fin = new Province("Finland", "fin", false, 883, 290);
+        Province fin = new Province("Finland", "fin", false, 883, 290, Countries.RUSSIA);
         game.addProvince(fin);
-        Province sev = new Province("Sevastopol", "sev", true, 1384, 637);
+        Province sev = new Province("Sevastopol", "sev", true, 1384, 637, Countries.RUSSIA);
         game.addProvince(sev);
 
 
@@ -597,6 +598,28 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
             province.setOpacity(0.6);
         }
+    }
+
+    /**
+     * Give each player an unit to their supply center
+     */
+    public void createUnitsPerPlayer() {
+        for(Province province : getProvinces()) {
+            for(Player player : activeGame.getPlayers()){
+                if(province.getCountry() == player.getCountry()) {
+                    if(province.isSupplyCenter()) {
+                        createUnit(unitType.ARMY, province);
+
+                    }
+                }
+                   // System.out.println(province.getName() + " - " + province.getOwner().getName());
+            }
+        }
+//        for(Player player : this.activeGame.getPlayers()) {
+//
+//            Country playerCountry = player.getCountry();
+//           // playerCountry.
+//        }
     }
 
     public void createUnit(unitType unit, Province province) {

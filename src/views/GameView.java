@@ -329,6 +329,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private void addProvinceEvents(List<Province> provinces) {
         for(Province province : provinces) {
             province.setOnMouseClicked(event -> {
+
                 for(Province province1 : provinces) {
                     province1.setScaleX(0.2);
                     province1.setScaleY(0.2);
