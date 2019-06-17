@@ -1,5 +1,6 @@
 package views;
 
+import controllers.GameController;
 import controllers.MainController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,12 +9,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SceneBuilder;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import observers.MainMenuViewObservable;
 import observers.MainMenuViewObserver;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -24,6 +29,10 @@ public class MainMenuView implements MainMenuViewObserver {
     private static String VIEW_FILE = "/resources/views/MainMenu.fxml";
     private static String STYLESHEET_FILE = "/resources/MainMenu.css";
     private MainController mainController;
+    private GameController gameController;
+
+    @FXML
+    private ToggleButton geluidsKnop;
 
     @FXML
     private AnchorPane gameOpties;

@@ -22,11 +22,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import observers.*;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -50,7 +50,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private Group troops; //Troepen render groep
     private Group points; //Provincie punt render groep
     private GameController gameController;
-    private MainController mainController;
     private Stage stage;
     private Province selectedProvince;
 
@@ -129,7 +128,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML private Button OptiesKnop;
     @FXML private Button AfsluitenKnop;
     @FXML private Button in_GameMenuKnop;
-    @FXML private Button ReturnMainMenu;
     @FXML public Button button;
     @FXML public Button border;
     @FXML private Pane pOrderSettings;
@@ -156,6 +154,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         gameController.addMessage(nieuwBericht);
         textInput.clear();
     }
+
 
     private void updateMessages(ArrayList<String> messageArraylist){
         messagesList.getItems().clear();
@@ -217,7 +216,11 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
-        //Testdata to test dropdownmenus.
+        //Testdata om dropdownmenu te testen
+        String gameSoundFile = "src/resources/Darude - Sandstorm.mp3";
+        Media gameSound = new Media(new File(gameSoundFile).toURI().toString());
+        mediaplayer = new MediaPlayer(gameSound);
+        mediaplayer.setAutoPlay(true);
         comboxAction.getItems().addAll("Action", "Move", "Support", "Hold");
         comboxProv1.getItems().addAll("Select Province", "Province1a", "Province1b", "Province1c", "Province1d", "Province1e");
         comboxPrivateChat.getItems().addAll("Player2", "Player3", "Player4", "Player5");
@@ -288,6 +291,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             updateComboBoxes(selectedProvince);
     }
 
+
     @Override
     public void update(GameViewObservable gameViewObservable) {
         troops.getChildren().removeAll(troops.getChildren());
@@ -338,19 +342,21 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         gameController.changedComboBox(comboxAction.getValue().toString(), selectedProvince, comboxProv1);
     }
 
-    //Dit maakt de in_game menu visible.
+
     @FXML
     private void OpenMenu() {
+
         MainMenu.setVisible(!MainMenu.isVisible());
     }
 
-    //Dit zet het geluid aan/uit als er op de knop gedrukt wordt.
     @FXML
     private void geluidAanUit() {
         if (geluidsKnop.isSelected() == true) {
             geluidsKnop.setText("Uit");
             geluidsKnop.setAlignment(Pos.CENTER);
             mediaplayer.pause();
+
+
         }
         else {
             if (geluidsKnop.isSelected() == false ) {
@@ -361,14 +367,12 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         }
     }
 
-    //Dit maakt de in_game opties zichtbaar.
     @FXML
     private void inGameOpties() {
         gameOpties.setVisible(!gameOpties.isVisible());
         MainMenu.setVisible(!MainMenu.isVisible());
     }
 
-    //Dit zorgt ervoor dat je van in_game terug kunt keren naar het main menu.
     @FXML
     private void returnInGameMenu() {
         gameOpties.setVisible(!gameOpties.isVisible());
@@ -414,6 +418,5 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private void returnToMainMenu() {
         gameController.returnToMain();
     }
-
 }
 
