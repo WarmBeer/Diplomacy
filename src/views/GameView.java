@@ -2,8 +2,6 @@ package views;
 
 import controllers.GameController;
 import domains.Province;
-import controllers.MainController;
-import domains.Province;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,14 +9,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -150,11 +146,10 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
 
     private void sendChatMessage() {
-        String nieuwBericht = (textInput.getText());
-        gameController.addMessage(nieuwBericht);
+        String newMessage = (textInput.getText());
+        gameController.addMessage(newMessage);
         textInput.clear();
     }
-
 
     private void updateMessages(ArrayList<String> messageArraylist){
         messagesList.getItems().clear();

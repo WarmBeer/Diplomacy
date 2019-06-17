@@ -20,17 +20,16 @@ import views.GameView;
 import java.io.*;
 import java.util.ArrayList;
 
-import static application.Main.print;
-
 public class GameController  {
 
     private GameModel gameModel;
     private ChatBox chatbox;
     public MainController mainController;
     private FirebaseService fb;
+    private final int CHARACTERLIMIT = 50;
 
     public GameController(Stage stage){
-        fb = new FirebaseService();
+        fb = FirebaseService.getInstance();
         this.chatbox = new ChatBox(fb);
         this.gameModel = new GameModel(stage, this);
     }
@@ -133,11 +132,7 @@ public class GameController  {
         chatbox.makeChat(gameModel.getActiveGame().getGameUID());
     }
 
-//    public void startUpdatingChat(){
-//        chatbox.startAutoUpdatingChat();
-//    }
-
-    public void addMessage(String message){
+    public void addMessage(String message) {
         chatbox.addChatMessage(message, Main.getKEY(), gameModel.getActiveGame().getGameUID());
     }
 
@@ -145,6 +140,21 @@ public class GameController  {
         gameModel.registerGameViewObserver(gameView);
     }
 
+    //LATER INVOEGEN IN VIEW
+    public String cleanMessage(String message){
+        String temp_data = message.replaceAll("\\$", "").replaceAll(" ", "");
+        return message;
+    }
+
+    //LATER INVOEGEN IN VIEW
+    public boolean bellowCharacterLimit(String message){
+        if(message.length() < CHARACTERLIMIT){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     public void returnToMain() {
         this.mainController.showMainMenu();

@@ -1,16 +1,14 @@
 package application;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import controllers.GameController;
 import controllers.MainController;
-import domains.GameJSON;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import utilities.KeyHandler;
 import views.GameView;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 
@@ -42,30 +40,6 @@ public class Main extends Application {
 
         mainController.showMainMenu();
 
-        /*
-        //Maak variabele aan voor de chatbox (die normaal al beschikbaar zijn in het spel)
-        String userName = "Thomas";
-        String gameID = "Game4";
-        boolean host = true;
-
-         */
-
-//            this.gameModel = new GameModel();
-//            this.superModel = new SuperModel();
-//
-//            Parent panel;
-//            panel = FXMLLoader.load(getClass().getResource(GAME_VIEW));
-//            Scene scene = new Scene(panel);
-//            Stage stage = new Stage();
-//            stage.setScene(scene);
-//            stage.setTitle("Diplomacy v0.1");
-//            stage.setMaximized(true);
-//            stage.show();
-//
-//            setup();
-//            gameModel.show(stage);
-//
-//            loadGame();
     }
 
     public static String getKEY() {
