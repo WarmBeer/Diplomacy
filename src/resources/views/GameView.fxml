@@ -18,6 +18,7 @@
 
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.TextField?>
 <VBox prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
   <children>
       <BorderPane prefHeight="1010.0" prefWidth="640.0">
@@ -51,7 +52,7 @@
                                   </Tab>
                                 </tabs>
                               </TabPane>
-                              <TextArea fx:id="textInput" layoutX="7.0" layoutY="729.0" minHeight="-Infinity" prefHeight="26.0" prefWidth="259.0" promptText="Typ hier uw bericht..." />
+                              <TextField fx:id="textInput" layoutX="7.0" layoutY="729.0" minHeight="-Infinity" prefHeight="26.0" prefWidth="259.0" promptText="Typ hier uw bericht..." />
                               <Button fx:id="sendButton" layoutX="362.0" layoutY="729.0" mnemonicParsing="false" onAction="#addChatMessage" prefHeight="26.0" prefWidth="46.0" text="Send" />
                               <Pane fx:id="pOrderMenu" layoutY="763.0" prefHeight="254.0" prefWidth="421.0" style="-fx-border-color: darkgray;">
                                  <children>
@@ -64,10 +65,10 @@
                                                 <Font name="System Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="comboxProv1" layoutX="96.0" layoutY="27.0" prefHeight="25.0" prefWidth="115.0" />
                                           <ComboBox fx:id="comboxAction" layoutX="6.0" layoutY="27.0" onAction="#checkAction" prefHeight="25.0" prefWidth="85.0" />
-                                          <Button fx:id="bOrder" layoutX="338.0" layoutY="27.0" mnemonicParsing="false" onAction="#clickedAddOrder" prefHeight="25.0" prefWidth="75.0" text="Add Order" />
+                                          <ComboBox fx:id="comboxProv1" layoutX="96.0" layoutY="27.0" prefHeight="25.0" prefWidth="115.0" />
                                           <ComboBox fx:id="comboxProv2" layoutX="217.0" layoutY="27.0" prefHeight="25.0" prefWidth="115.0" />
+                                          <Button fx:id="bOrder" layoutX="338.0" layoutY="27.0" mnemonicParsing="false" onAction="#clickedAddOrder" prefHeight="25.0" prefWidth="75.0" text="Add Order" />
                                        </children>
                                     </Pane>
                                  </children>
