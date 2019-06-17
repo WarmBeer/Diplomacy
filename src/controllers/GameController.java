@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import domains.*;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import models.ChatBox;
 import models.GameModel;
@@ -145,5 +146,20 @@ public class GameController  {
 
     public void changedComboBox(String action, Province selectedProvince, ComboBox comboBox1) {
         gameModel.changedComboBox(action, selectedProvince, comboBox1);
+    }
+
+    public void clickedSendOrder(ListView ordersList) {
+        for(Object order : ordersList.getItems()) {
+            String[] orderSplit = order.toString().split("_");
+            String orderType = orderSplit[0];
+            String province1 = orderSplit[1];
+            String province2 = "";
+            if(orderSplit.length > 1) {
+                province2 = orderSplit[2];
+            }
+
+            System.out.println("order type: " + orderType + " from "+province1 + " to " + province2);
+
+        }
     }
 }

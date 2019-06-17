@@ -164,13 +164,20 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
 
     @FXML
+    public void clickedSendOrder() {
+        gameController.clickedSendOrder(lvOrders);
+    }
+
+    @FXML
     public void clickedAddOrder() {
+        if(selectedProvince == null)
+            return;
+
         try {
             int actionIndex = comboxAction.getSelectionModel().getSelectedIndex();
             int provinceIndex = comboxProv1.getSelectionModel().getSelectedIndex();
-            if (actionIndex != 0 &&
-                    provinceIndex != 0 ||
-                    actionIndex == 3) {
+
+            if (actionIndex != 0) {
                 String action = comboxAction.getValue().toString();
                 String prov1 = comboxProv1.getValue().toString();
                 String order= null;
@@ -295,10 +302,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         }
 
         if(gameViewObservable.hasComboBoxes()) {
-            System.out.println("FILL COMBO BOXES gameViewObservable.getComboBox1Values(): " + gameViewObservable.getComboBox1Values().toString());
-
             fillComboBox(comboxProv1, true, gameViewObservable.getComboBox1Values());
-            System.out.println("filled box 1");
         }
     }
 

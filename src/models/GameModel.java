@@ -148,7 +148,6 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
 
         this.activeGame = game;
-        System.out.println("gameViewObservers: " +gameViewObservers.size());
         this.setPointsChanged();
         this.notifyGameViewObservers();
 
