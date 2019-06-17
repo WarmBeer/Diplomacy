@@ -328,7 +328,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     private void updateComboBoxes(Province target) {
 
-        ArrayList<String> borderProvinces = new ArrayList<>();
         target.setScaleX(0.5);
         target.setScaleY(0.5);
         gameController.changedComboBox(comboxAction.getValue().toString(), selectedProvince, comboxProv1);
