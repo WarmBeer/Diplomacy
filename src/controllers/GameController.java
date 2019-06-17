@@ -77,7 +77,7 @@ public class GameController  {
             gameJSON.Provinces.add(provinceJSON);
         }
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();;
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try {
             String jarLocation = KeyHandler.getJarLocation();
             String saveFile = gson.toJson(gameJSON);

@@ -145,6 +145,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         textInput.clear();
     }
 
+
     private void updateMessages(ArrayList<String> messageArraylist){
         messagesList.getItems().clear();
 

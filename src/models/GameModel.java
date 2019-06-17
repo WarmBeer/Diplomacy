@@ -48,7 +48,6 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
     public GameModel(Stage stage, GameController gameController) {
         this.gameView = new GameView(stage, gameController);
-        gameViewObservers.add(this.gameView);
     }
 
     public void show() {
@@ -100,9 +99,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
                                 break;
                         }
 
-
                             stationed.addOrder(unitJSON.orderType, unitJSON.orderTarget);
-                            print(stationed.getCurrentOrder());
                             createUnit(provinceJSON.stationed.unitType, province);
                     }
 
@@ -128,6 +125,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
                     break;
             }
         }
+
 
         this.activeGame = game;
         System.out.println("gameViewObservers: " +gameViewObservers.size());
