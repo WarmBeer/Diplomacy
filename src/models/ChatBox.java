@@ -3,7 +3,6 @@ package models;
 import observers.ChatObservable;
 import observers.ChatObserver;
 import services.FirebaseService;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +19,6 @@ public class ChatBox implements ChatObservable {
     private List<ChatObserver> observers = new ArrayList<>();
     private ArrayList<String> updatedMessageArraylist = new ArrayList<>();
     private FirebaseService firebaseservice;
-    private final int UPDATETIMEINSECONDS = 5;
 
     public ChatBox(FirebaseService fb){
         firebaseservice = fb;
@@ -61,6 +59,10 @@ public class ChatBox implements ChatObservable {
         notifyChatObservers();
     }
 
+    public void giveLimitWarning(){
+
+    }
+
     @Override
     public void registerChatObserver(ChatObserver chatobserver) {
         observers.add(chatobserver);
@@ -84,24 +86,3 @@ public class ChatBox implements ChatObservable {
     }
 
 }
-
-
-
-
-
-//    public void startAutoUpdatingChat(){
-//        //System.out.println("Autoupdate niet gestart. Check chatbox.java voor meer info.");
-//        Runnable helloRunnable = new Runnable() {
-//            public void run() {
-//                Platform.runLater(new Runnable() {
-//                    public void run() {
-//                        updateArrayListWithMessages();
-//                        notifyChatObservers();
-//                    }
-//                });
-//            }
-//        };
-//
-//        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-//        executor.scheduleAtFixedRate(helloRunnable, 0, UPDATETIMEINSECONDS, TimeUnit.SECONDS);
-//    }

@@ -12,8 +12,7 @@ public class Unit extends ImageView {
     public enum orderType {
         HOLD,
         MOVE,
-        SUPPORT,
-        ATTACK
+        SUPPORT
     }
 
     private HashMap<String, Object> currentOrder;
@@ -25,7 +24,7 @@ public class Unit extends ImageView {
     public Unit(String path, Province province, Main.unitType unitType) {
         super.setImage(new Image(path));
         currentOrder = new HashMap<>();
-        currentOrder.put("orderType", "");
+        currentOrder.put("orderType", "Hold");
         currentOrder.put("orderTarget", "");
         supporters = new ArrayList<>();
         this.province = province;
@@ -52,5 +51,19 @@ public class Unit extends ImageView {
 
     public HashMap<String, Object> getCurrentOrder() {
         return currentOrder;
+    }
+
+    public orderType getOrderType() {
+        switch (currentOrder.get("orderType").toString()) {
+            case "Move":
+                return orderType.MOVE;
+
+            case "Support":
+                return orderType.SUPPORT;
+
+            default:
+            case "Hold":
+                return orderType.HOLD;
+        }
     }
 }

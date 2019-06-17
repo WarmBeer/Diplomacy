@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static application.Main.print;
-
 public class GameController  {
 
     private GameModel gameModel;
@@ -31,10 +29,12 @@ public class GameController  {
     public MainController mainController;
     private FirebaseService fb;
     private List<Unit> orderedUnits;
+    private final int CHARACTERLIMIT = 50;
 
     public GameController(Stage stage){
         orderedUnits = new ArrayList<>();
         fb = new FirebaseService();
+        fb = FirebaseService.getInstance();
         this.chatbox = new ChatBox(fb);
         this.gameModel = new GameModel(stage, this);
     }
@@ -52,9 +52,6 @@ public class GameController  {
 
         GameJSON gameJSON = fb.getGame(gameUID);
 
-        if (gameJSON == null) {
-            print("Something went wrong getting the game from FB...");
-        }
         /*
         Reader reader = new BufferedReader(new InputStreamReader(
                 this.getClass().getResourceAsStream("/" + "Diplomacy.json")));
@@ -122,10 +119,7 @@ public class GameController  {
     public void requestLoadGame(String gameUID){
         try{
             GameJSON gameJSON = retrieveGameJSON(gameUID);
-            if (gameJSON == null) {
-                print("Oh no....");
-            }
-            print(gameJSON);
+
             gameModel.initGame(gameJSON);
             createChat();
         }
@@ -133,6 +127,8 @@ public class GameController  {
             System.out.println("Exception while request to load a game");
             E.printStackTrace();
         }
+
+        gameModel.createUnitsPerPlayer();
     }
 
     public void registerOrderObserver(OrderObserver orderObserver){
@@ -151,11 +147,7 @@ public class GameController  {
         chatbox.makeChat(gameModel.getActiveGame().getGameUID());
     }
 
-//    public void startUpdatingChat(){
-//        chatbox.startAutoUpdatingChat();
-//    }
-
-    public void addMessage(String message){
+    public void addMessage(String message) {
         chatbox.addChatMessage(message, Main.getKEY(), gameModel.getActiveGame().getGameUID());
         sendOrders();
     }
@@ -170,6 +162,21 @@ public class GameController  {
         gameModel.registerGameViewObserver(gameView);
     }
 
+    //LATER INVOEGEN IN VIEW
+    public String cleanMessage(String message){
+        String temp_data = message.replaceAll("\\$", "").replaceAll(" ", "");
+        return message;
+    }
+
+    //LATER INVOEGEN IN VIEW
+    public boolean bellowCharacterLimit(String message){
+        if(message.length() < CHARACTERLIMIT){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     public void returnToMain() {
         this.mainController.showMainMenu();
