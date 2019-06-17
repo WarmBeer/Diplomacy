@@ -7,6 +7,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.annotations.Nullable;
+import domains.GameJSON;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,14 +28,11 @@ public class FirebaseService {
     private final String ARRAYNAME = "messageArray";
     private final String CHILDPATH = "Chatbox";
     private final String FIRSTMESSAGE = "System: Welkom bij Diplomacy!";
-    private String gameID;
     private Firestore db;
 
 
-    public FirebaseService(String gameID){
-        this.gameID = gameID;
+    public FirebaseService(){
         makeFirebaseConnection();
-        listen();
     }
 
 
@@ -48,7 +46,7 @@ public class FirebaseService {
      */
     public static FirebaseService getInstance(String gameID) {
         if (firebaseservice == null) {
-            firebaseservice = new FirebaseService(gameID);
+            firebaseservice = new FirebaseService();
         }
         return firebaseservice;
     }
@@ -72,7 +70,7 @@ public class FirebaseService {
      * Makes a document is firebase for this chat/game session.
      * @author Thomas Zijl
      */
-    public void makeChatInFirebase(){
+    public void makeChatInFirebase(String GameUID){
         try{
             Map<String, Object> chatMap = new HashMap();
 
@@ -81,7 +79,7 @@ public class FirebaseService {
             chatMap.put(ARRAYNAME, messageArray);
 
             // Add a new document in collection gameID with id childpath
-            ApiFuture<WriteResult> future = db.collection(gameID).document(CHILDPATH).set(chatMap);
+            ApiFuture<WriteResult> future = db.collection("Chats").document(GameUID).set(chatMap);
 
             //Console update
             System.out.println("Save location made. - time : " + future.get().getUpdateTime());
@@ -102,9 +100,9 @@ public class FirebaseService {
      * Get all messages as an arraylist from the firebase document
      * @author Thomas Zijl
      */
-    public ArrayList<String> getMessages() throws ExecutionException, InterruptedException {
+    public ArrayList<String> getMessages(String GameUID) throws ExecutionException, InterruptedException {
         //Get right document from firebase
-        DocumentReference docRef = db.collection(gameID).document(CHILDPATH);
+        DocumentReference docRef = db.collection("Chats").document(GameUID);
         ApiFuture<DocumentSnapshot> future = docRef.get();
         DocumentSnapshot document = future.get();
 
@@ -126,9 +124,9 @@ public class FirebaseService {
      * @param newMessage Message + time stamp as String.
      * @author Thomas Zijl
      */
-    public void addMessage(String newMessage){
+    public void addMessage(String newMessage, String GameUID){
         try{
-            DocumentReference chatbox = db.collection(gameID).document(CHILDPATH);
+            DocumentReference chatbox = db.collection("Chats").document(GameUID);
             ApiFuture<WriteResult> writeResult = chatbox.update(ARRAYNAME, FieldValue.arrayUnion(newMessage));
             System.out.println("Message send. - time : " + writeResult.get());
         }
@@ -142,14 +140,24 @@ public class FirebaseService {
         }
     }
 
+    public void saveGame(GameJSON gameJSON){
+        try{
+            ApiFuture<WriteResult> future = db.collection("Games").document(gameJSON.gameUID).set(gameJSON);
+        }
+        catch(Exception e){
+            System.out.println("In de firebaseservice is een Excecution Exception opgetreden!");
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Geeft een update naar de meegeleverde controller
      * op het moment dat er een wijziging in het firebase document plaatsvindt.
      */
-    private void listen() {
+    private void listen(String GameUID) {
 
-        DocumentReference chatbox =  db.collection(gameID).document(CHILDPATH);
+        DocumentReference chatbox =  db.collection("Chats").document(GameUID);
         chatbox.addSnapshotListener(new EventListener<DocumentSnapshot>() {
 
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirestoreException e) {

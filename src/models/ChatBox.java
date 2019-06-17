@@ -22,13 +22,13 @@ public class ChatBox implements ChatObservable {
     private FirebaseService firebaseservice;
     private final int UPDATETIMEINSECONDS = 5;
 
-    public ChatBox(String gameID){
-        firebaseservice = firebaseservice.getInstance(gameID);
+    public ChatBox(FirebaseService fb){
+        firebaseservice = fb;
     }
 
 
-    public void makeChat(){
-        firebaseservice.makeChatInFirebase();
+    public void makeChat(String GameUID){
+        firebaseservice.makeChatInFirebase(GameUID);
     }
 
 
@@ -39,9 +39,9 @@ public class ChatBox implements ChatObservable {
     }
 
 
-    private void updateArrayListWithMessages(){
+    private void updateArrayListWithMessages(String GameUID){
         try{
-            updatedMessageArraylist = firebaseservice.getMessages();
+            updatedMessageArraylist = firebaseservice.getMessages(GameUID);
         }
         catch (ExecutionException EE){
             System.out.println("Chatbox model is kapot");
@@ -54,10 +54,10 @@ public class ChatBox implements ChatObservable {
     }
 
 
-    public void addChatMessage(String nieuwBericht, String userName) {
+    public void addChatMessage(String nieuwBericht, String userName, String GameUID) {
         String newMessage = makeNewMessage(nieuwBericht, userName);
-        firebaseservice.addMessage(newMessage);
-        updateArrayListWithMessages();
+        firebaseservice.addMessage(newMessage, GameUID);
+        updateArrayListWithMessages(GameUID);
         notifyChatObservers();
     }
 

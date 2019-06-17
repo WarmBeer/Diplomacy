@@ -11,6 +11,7 @@ import models.ChatBox;
 import models.GameModel;
 import observers.ChatObserver;
 import observers.OrderObserver;
+import services.FirebaseService;
 import utilities.KeyHandler;
 import views.GameView;
 
@@ -24,14 +25,17 @@ public class GameController  {
     private GameModel gameModel;
     private ChatBox chatbox;
     public MainController mainController;
+    private FirebaseService fb;
 
     public GameController(Stage stage){
-        createChat("11111111");
+        fb = new FirebaseService();
+        this.chatbox = new ChatBox(fb);
         this.gameModel = new GameModel(stage, this);
     }
 
-    public void createChat(String gameUID) {
-        this.chatbox = new ChatBox(gameUID);
+    public void saveToFirebase() {
+        GameJSON gameJSON = saveGameToJSON();
+        fb.saveGame(gameJSON);
     }
 
     public GameJSON retrieveGameJSON(String gameUID) {
@@ -43,7 +47,7 @@ public class GameController  {
         return gameJSON;
     }
 
-    public void saveGameToJSON() {
+    public GameJSON saveGameToJSON() {
 
         String gameSave = "";
 
@@ -90,7 +94,7 @@ public class GameController  {
             io.printStackTrace();
         }
 
-        print(gameSave);
+        return gameJSON;
     }
 
     public void show() {
@@ -100,6 +104,7 @@ public class GameController  {
     public void requestLoadGame(String gameUID){
         try{
             gameModel.initGame(retrieveGameJSON(gameUID));
+            createChat();
         }
         catch(Exception E){
             System.out.println("Exception while request to load a game");
@@ -119,8 +124,8 @@ public class GameController  {
         gameModel.addOrder(action, prov1, prov2);
     }
 
-    public void createChat(){
-        chatbox.makeChat();
+    private void createChat(){
+        chatbox.makeChat(gameModel.getActiveGame().getGameUID());
     }
 
 //    public void startUpdatingChat(){
@@ -128,7 +133,7 @@ public class GameController  {
 //    }
 
     public void addMessage(String message){
-        chatbox.addChatMessage(message, Main.getKEY());
+        chatbox.addChatMessage(message, Main.getKEY(), gameModel.getActiveGame().getGameUID());
     }
 
     public void registerGameObserver(GameView gameView) {

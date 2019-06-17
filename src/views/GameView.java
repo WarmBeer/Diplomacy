@@ -54,11 +54,11 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
 
     private void pressedStart() {
-        gameController.createChat();
         gameController.registerOrderObserver(this);
         gameController.registerChatObserver(this);
         gameController.registerGameObserver(this);
         gameController.requestLoadGame("11111111");
+        gameController.saveToFirebase();
     }
 
     public void chatboxLaunch(Stage primaryStage) {
@@ -76,7 +76,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             Scene scene = new Scene( root, 1920, 1080 );
             root.getChildren().addAll(content, troops, points);
             primaryStage.setScene(scene);
-            primaryStage.setFullScreen(true);
+            primaryStage.setMaximized(true);
             primaryStage.show();
 
         }
