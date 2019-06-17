@@ -51,23 +51,28 @@
                                   </Tab>
                                 </tabs>
                               </TabPane>
-                              <TextArea fx:id="textInput" layoutX="7.0" layoutY="729.0" prefHeight="18.0" prefWidth="263.0" promptText="Typ hier uw bericht..." />
-                              <Button fx:id="sendButton" layoutX="275.0" layoutY="729.0" mnemonicParsing="false" onAction="#addChatMessage" prefHeight="26.0" prefWidth="133.0" text="Send" />
-                              <Pane layoutY="763.0" prefHeight="254.0" prefWidth="421.0" style="-fx-border-color: blue;">
+                              <TextArea fx:id="textInput" layoutX="7.0" layoutY="729.0" minHeight="-Infinity" prefHeight="26.0" prefWidth="259.0" promptText="Typ hier uw bericht..." />
+                              <Button fx:id="sendButton" layoutX="362.0" layoutY="729.0" mnemonicParsing="false" onAction="#addChatMessage" prefHeight="26.0" prefWidth="46.0" text="Send" />
+                              <Pane fx:id="pOrderMenu" layoutY="763.0" prefHeight="254.0" prefWidth="421.0" style="-fx-border-color: darkgray;">
                                  <children>
-                                    <Label layoutX="6.0" layoutY="2.0" prefWidth="106.0" text="OrderMenu">
-                                       <font>
-                                          <Font name="System Bold" size="18.0" />
-                                       </font>
-                                    </Label>
-                                    <ComboBox fx:id="comboxProv1" layoutY="29.0" prefHeight="25.0" prefWidth="115.0" promptText="Province1" />
-                                    <ComboBox fx:id="comboxAction" layoutX="7.0" layoutY="29.0" prefHeight="25.0" prefWidth="85.0" promptText="Action" />
-                                    <Button fx:id="bOrder" layoutX="339.0" layoutY="29.0" mnemonicParsing="false" onAction="#clickedAddOrder" prefHeight="25.0" prefWidth="75.0" text="Add Order" />
-                                    <ListView fx:id="lvOrders" layoutX="7.0" layoutY="61.0" prefHeight="155.0" prefWidth="407.0" />
+                                    <ListView fx:id="lvOrders" layoutX="8.0" layoutY="61.0" prefHeight="155.0" prefWidth="407.0" />
                                     <Button layoutX="332.0" layoutY="221.0" mnemonicParsing="false" text="Send Orders" />
-                                    <ComboBox fx:id="comboxProv2" layoutX="218.0" layoutY="29.0" prefHeight="25.0" prefWidth="115.0" promptText="Province2" />
+                                    <Pane fx:id="pOrderSettings" layoutX="1.0" layoutY="1.0" prefHeight="60.0" prefWidth="420.0">
+                                       <children>
+                                          <Label layoutX="5.0" prefWidth="106.0" text="OrderMenu">
+                                             <font>
+                                                <Font name="System Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox fx:id="comboxProv1" layoutX="96.0" layoutY="27.0" prefHeight="25.0" prefWidth="115.0" />
+                                          <ComboBox fx:id="comboxAction" layoutX="6.0" layoutY="27.0" onAction="#checkAction" prefHeight="25.0" prefWidth="85.0" />
+                                          <Button fx:id="bOrder" layoutX="338.0" layoutY="27.0" mnemonicParsing="false" onAction="#clickedAddOrder" prefHeight="25.0" prefWidth="75.0" text="Add Order" />
+                                          <ComboBox fx:id="comboxProv2" layoutX="217.0" layoutY="27.0" prefHeight="25.0" prefWidth="115.0" />
+                                       </children>
+                                    </Pane>
                                  </children>
                               </Pane>
+                              <ComboBox fx:id="comboxAction1" layoutX="270.0" layoutY="729.0" prefHeight="25.0" prefWidth="85.0" promptText="Speler" />
                            </children>
                         </Pane>
                      </children>

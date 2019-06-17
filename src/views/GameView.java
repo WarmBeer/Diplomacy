@@ -14,6 +14,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -124,10 +126,11 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML private Button in_GameMenuKnop;
     @FXML public Button button;
     @FXML public Button border;
-    @FXML public ComboBox comboxAction;
-    @FXML public ComboBox comboxProv1;
-    @FXML public ComboBox comboxProv2;
-    @FXML public ListView lvOrders;
+    @FXML private Pane pOrderSettings;
+    @FXML private ComboBox comboxAction;
+    @FXML private ComboBox comboxProv1;
+    @FXML private ComboBox comboxProv2;
+    @FXML private ListView lvOrders;
     @FXML public TextField tfMessage; // Value injected by FXMLLoader
     @FXML public TextArea taUpdates; // Value injected by FXMLLoader
     @FXML private MediaPlayer mediaplayer;
@@ -193,14 +196,61 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
         //Testdata om dropdownmenu te testen
-        comboxAction.getItems().addAll("Move", "Support", "Embark", "Hold");
-        comboxProv1.getItems().addAll("Province1a", "Province1b", "Province1c", "Province1d", "Province1e");
-        comboxProv2.getItems().addAll("Province2a", "Province2b", "Province2c", "Province2d", "Province2e");
-        String gameSoundFile = "src/resources/Darude - Sandstorm.mp3";
-        Media gameSound = new Media(new File(gameSoundFile).toURI().toString());
-        mediaplayer = new MediaPlayer(gameSound);
-        mediaplayer.setAutoPlay(true);
+        comboxAction.getItems().addAll("Action", "Move", "Support", "Hold");
+        comboxProv1.getItems().addAll("Province1", "Province1a", "Province1b", "Province1c", "Province1d", "Province1e");
+        comboxProv2.getItems().addAll("Province2", "Province2a", "Province2b", "Province2c", "Province2d", "Province2e");
+        comboxAction.getSelectionModel().select(0);
+        comboxProv1.getSelectionModel().select(0);
+        comboxProv2.getSelectionModel().select(0);
+        lvOrders.setOnKeyPressed(new EventHandler<KeyEvent>()
+        {
+            public void handle(final KeyEvent keyEvent )
+            {
+                if (lvOrders.getSelectionModel().getSelectedItem() != null )
+                {
+                    if (keyEvent.getCode().equals(KeyCode.DELETE ) )
+                    {
+                        lvOrders.getItems().remove(lvOrders.getSelectionModel().getSelectedItem());
+                    }
+                }
+            }
+        });
+    }
 
+    // Temporary variable to REPRESENT a clicked unit.
+    private String selectedUnit = "currentPlayer";
+    public void setOrderMenu() {
+        if (!selectedUnit.equals("currentPlayer")) {
+            pOrderSettings.setDisable(true);
+        }
+    }
+    // Event fired when Action combobox Value is changed.
+    public void checkAction() {
+        //System.out.println("Checking value of comboxAction... " + comboxAction.getValue());
+        switch (comboxAction.getValue().toString()) {
+            case "Action":
+                comboxProv1.getSelectionModel().select(0);
+                comboxProv2.getSelectionModel().select(0);
+                comboxProv1.setDisable(false);
+                comboxProv2.setDisable(false);
+                break;
+            case "Move":
+                comboxProv1.getSelectionModel().select(1);
+                comboxProv1.setDisable(true);
+                comboxProv2.getSelectionModel().select(1);
+                comboxProv2.setDisable(false);
+                break;
+            case "Support":
+                comboxProv1.setDisable(false);
+                comboxProv2.setDisable(false);
+                break;
+            case "Hold":
+                comboxProv1.getSelectionModel().select(1);
+                comboxProv1.setDisable(true);
+                comboxProv2.getSelectionModel().select(0);
+                comboxProv2.setDisable(true);
+                break;
+        }
     }
 
 
