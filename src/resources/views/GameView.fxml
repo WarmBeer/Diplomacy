@@ -65,15 +65,14 @@
                                                 <Font name="System Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="comboxAction" layoutX="6.0" layoutY="27.0" onAction="#checkAction" prefHeight="25.0" prefWidth="85.0" />
-                                          <ComboBox fx:id="comboxProv1" layoutX="96.0" layoutY="27.0" prefHeight="25.0" prefWidth="115.0" />
-                                          <ComboBox fx:id="comboxProv2" layoutX="217.0" layoutY="27.0" prefHeight="25.0" prefWidth="115.0" />
+                                          <ComboBox fx:id="comboxAction" layoutX="6.0" layoutY="27.0" onAction="#checkAction" prefHeight="25.0" prefWidth="94.0" />
+                                          <ComboBox fx:id="comboxProv1" layoutX="105.0" layoutY="27.0" prefHeight="25.0" prefWidth="228.0" />
                                           <Button fx:id="bOrder" layoutX="338.0" layoutY="27.0" mnemonicParsing="false" onAction="#clickedAddOrder" prefHeight="25.0" prefWidth="75.0" text="Add Order" />
                                        </children>
                                     </Pane>
                                  </children>
                               </Pane>
-                              <ComboBox fx:id="comboxAction1" layoutX="270.0" layoutY="729.0" prefHeight="25.0" prefWidth="85.0" promptText="Speler" />
+                              <ComboBox fx:id="comboxPrivateChat" layoutX="270.0" layoutY="729.0" prefHeight="25.0" prefWidth="85.0" promptText="Speler" />
                            </children>
                         </Pane>
                      </children>

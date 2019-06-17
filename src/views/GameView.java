@@ -1,6 +1,7 @@
 package views;
 
 import controllers.GameController;
+import domains.Province;
 import controllers.MainController;
 import domains.Province;
 import javafx.event.ActionEvent;
@@ -10,12 +11,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -28,6 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.LogManager;
 
@@ -47,6 +52,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private GameController gameController;
     private MainController mainController;
     private Stage stage;
+    private Province selectedProvince;
 
     public GameView(Stage stage, GameController gameController){
         this.gameController = gameController;
@@ -129,7 +135,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML private Pane pOrderSettings;
     @FXML private ComboBox comboxAction;
     @FXML private ComboBox comboxProv1;
-    @FXML private ComboBox comboxProv2;
+    @FXML private ComboBox comboxPrivateChat;
     @FXML private ListView lvOrders;
     @FXML public TextField tfMessage; // Value injected by FXMLLoader
     @FXML public TextArea taUpdates; // Value injected by FXMLLoader
@@ -165,13 +171,22 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML
     public void clickedAddOrder() {
         try {
-            if ((comboxAction.getSelectionModel().getSelectedIndex() != 0 && comboxProv1.getSelectionModel().getSelectedIndex() != 0 && comboxProv2.getSelectionModel().getSelectedIndex() != 0) || ((comboxAction.getSelectionModel().getSelectedIndex() != 0 && comboxAction.getSelectionModel().getSelectedIndex() != 1) && comboxProv1.getSelectionModel().getSelectedIndex() != 0 && comboxProv2.getSelectionModel().getSelectedIndex() == 0)) {
+            int actionIndex = comboxAction.getSelectionModel().getSelectedIndex();
+            int provinceIndex = comboxProv1.getSelectionModel().getSelectedIndex();
+            if (actionIndex != 0 &&
+                    provinceIndex != 0 ||
+                    actionIndex == 3) {
                 String action = comboxAction.getValue().toString();
                 String prov1 = comboxProv1.getValue().toString();
-                String prov2 = comboxProv2.getValue().toString();
-                String order = action + "_" + prov1 + "_" + prov2;
+                String order= null;
+                if(actionIndex == 3) {
+                    order = action + "_" + selectedProvince.getName();
+                } else {
+                    order = action + "_" + selectedProvince.getName() + "_" + prov1;
+                }
+
                 lvOrders.getItems().add(order);
-                //gameController.addOrderIsClicked(action, prov1, prov2);
+                //gameController.addOrderIsClicked(action, prov1);
             }
         }
         catch (Exception e) {
@@ -202,13 +217,15 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
-        //Testdata om dropdownmenu te testen
+        //Testdata to test dropdownmenus.
         comboxAction.getItems().addAll("Action", "Move", "Support", "Hold");
-        comboxProv1.getItems().addAll("Province1", "Province1a", "Province1b", "Province1c", "Province1d", "Province1e");
-        comboxProv2.getItems().addAll("Province2", "Province2a", "Province2b", "Province2c", "Province2d", "Province2e");
+        comboxProv1.getItems().addAll("Select Province", "Province1a", "Province1b", "Province1c", "Province1d", "Province1e");
+        comboxPrivateChat.getItems().addAll("Player2", "Player3", "Player4", "Player5");
+        // Set all dropdowns to first item.
         comboxAction.getSelectionModel().select(0);
         comboxProv1.getSelectionModel().select(0);
-        comboxProv2.getSelectionModel().select(0);
+        comboxProv1.setDisable(true);
+        // Enable DEL key to delete selected orders from list.
         lvOrders.setOnKeyPressed(new EventHandler<KeyEvent>()
         {
             public void handle(final KeyEvent keyEvent )
@@ -222,6 +239,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                 }
             }
         });
+        // Enable ENTER key to send text easily, same as Send button click.
         textInput.setOnKeyPressed(new EventHandler<KeyEvent>()
         {
             public void handle(final KeyEvent keyEvent )
@@ -250,35 +268,74 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         switch (comboxAction.getValue().toString()) {
             case "Action":
                 comboxProv1.getSelectionModel().select(0);
-                comboxProv2.getSelectionModel().select(0);
-                comboxProv1.setDisable(false);
-                comboxProv2.setDisable(false);
+                comboxProv1.setDisable(true);
                 break;
             case "Move":
                 comboxProv1.getSelectionModel().select(1);
-                comboxProv1.setDisable(true);
-                comboxProv2.getSelectionModel().select(1);
-                comboxProv2.setDisable(false);
+                comboxProv1.setDisable(false);
                 break;
             case "Support":
                 comboxProv1.setDisable(false);
-                comboxProv2.setDisable(false);
+                comboxProv1.getSelectionModel().select(1);
                 break;
             case "Hold":
                 comboxProv1.getSelectionModel().select(1);
                 comboxProv1.setDisable(true);
-                comboxProv2.getSelectionModel().select(0);
-                comboxProv2.setDisable(true);
                 break;
         }
+
+        if(selectedProvince != null)
+            updateComboBoxes(selectedProvince);
     }
 
     @Override
     public void update(GameViewObservable gameViewObservable) {
         troops.getChildren().removeAll(troops.getChildren());
-        troops.getChildren().addAll(gameViewObservable.getTroopsGroup().getChildren());
-        points.getChildren().removeAll(points.getChildren());
-        points.getChildren().addAll(gameViewObservable.getPointsGroup().getChildren());
+        troops.getChildren().addAll(gameViewObservable.getTroopsGroup());
+
+        if(gameViewObservable.pointsChanged()){
+            points.getChildren().removeAll(points.getChildren());
+            points.getChildren().addAll(gameViewObservable.getPointsGroup());
+            addProvinceEvents(gameViewObservable.getProvinces());
+        }
+
+        if(gameViewObservable.hasComboBoxes()) {
+            System.out.println("FILL COMBO BOXES gameViewObservable.getComboBox1Values(): " + gameViewObservable.getComboBox1Values().toString());
+
+            fillComboBox(comboxProv1, true, gameViewObservable.getComboBox1Values());
+            System.out.println("filled box 1");
+        }
+    }
+
+    private void fillComboBox(ComboBox comboBox, boolean selectFirst, ArrayList<String> items) {
+        comboBox.getItems().removeAll(comboBox.getItems());
+        comboBox.getItems().addAll(items);
+        if(selectFirst)
+            comboBox.getSelectionModel().select(0);
+    }
+
+    private void fillComboBox(ComboBox comboBox, boolean selectFirst, String... items) {
+        this.fillComboBox(comboBox, selectFirst, new ArrayList<>(Arrays.asList(items)));
+    }
+
+    private void addProvinceEvents(List<Province> provinces) {
+        for(Province province : provinces) {
+            province.setOnMouseClicked(event -> {
+                for(Province province1 : provinces) {
+                    province1.setScaleX(0.2);
+                    province1.setScaleY(0.2);
+                }
+                this.selectedProvince = (Province) event.getTarget();
+                this.updateComboBoxes((Province) event.getTarget());
+            });
+        }
+    }
+
+    private void updateComboBoxes(Province target) {
+
+        target.setScaleX(0.5);
+        target.setScaleY(0.5);
+        gameController.changedComboBox(comboxAction.getValue().toString(), selectedProvince, comboxProv1);
     }
 
     //Dit maakt de in_game menu visible.
