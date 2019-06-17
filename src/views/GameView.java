@@ -160,10 +160,14 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML
     public void clickedAddOrder() {
         try {
-            String action = comboxAction.getValue().toString();
-            String prov1 = comboxProv1.getValue().toString();
-            String prov2 = comboxProv2.getValue().toString();
-            gameController.addOrderIsClicked(action, prov1, prov2);
+            if ((comboxAction.getSelectionModel().getSelectedIndex() != 0 && comboxProv1.getSelectionModel().getSelectedIndex() != 0 && comboxProv2.getSelectionModel().getSelectedIndex() != 0) || ((comboxAction.getSelectionModel().getSelectedIndex() != 0 && comboxAction.getSelectionModel().getSelectedIndex() != 1) && comboxProv1.getSelectionModel().getSelectedIndex() != 0 && comboxProv2.getSelectionModel().getSelectedIndex() == 0)) {
+                String action = comboxAction.getValue().toString();
+                String prov1 = comboxProv1.getValue().toString();
+                String prov2 = comboxProv2.getValue().toString();
+                String order = action + "_" + prov1 + "_" + prov2;
+                lvOrders.getItems().add(order);
+                //gameController.addOrderIsClicked(action, prov1, prov2);
+            }
         }
         catch (Exception e) {
             System.out.println("In GameView is iets fout gegaan tijdens het toevoegen van een order...");
@@ -264,7 +268,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         }
     }
 
-
     @Override
     public void update(GameViewObservable gameViewObservable) {
         troops.getChildren().removeAll(troops.getChildren());
@@ -273,10 +276,8 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         points.getChildren().addAll(gameViewObservable.getPointsGroup().getChildren());
     }
 
-
     @FXML
     private void OpenMenu() {
-
         MainMenu.setVisible(!MainMenu.isVisible());
     }
 
@@ -286,8 +287,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             geluidsKnop.setText("Uit");
             geluidsKnop.setAlignment(Pos.CENTER);
             mediaplayer.pause();
-
-
         }
         else {
             if (geluidsKnop.isSelected() == false ) {

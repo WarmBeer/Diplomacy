@@ -663,5 +663,8 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         orderList.add(order);
         notifyOrderObservers();
     }
+    public void removeOrder(int index) {
+
+    }
 
 }
