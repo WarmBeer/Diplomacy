@@ -11,14 +11,15 @@ public class MainController {
 
     public MainController(Stage primaryStage) {
         superModel = new SuperModel(primaryStage, this);
+        this.gameController = new GameController(primaryStage, this);
     }
 
     public void clickedOptions() {
 
     }
 
-    public void clickedJoinGame() {
-        gameController.show();
+    public void clickedJoinGame(String gameUID) {
+        gameController.requestLoadGame(gameUID);
     }
 
     public void clickedHostGame() {

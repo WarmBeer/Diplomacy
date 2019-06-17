@@ -135,6 +135,7 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML
     public void handleMouseClick(MouseEvent arg0) {
         String gameID = (String) listGames.getSelectionModel().getSelectedItem();
-        gameController.requestLoadGame(gameID);
+        System.out.print("Clicked on: " + gameID);
+        mainController.clickedJoinGame(gameID);
     }
 }

@@ -26,17 +26,17 @@ public class GameController  {
 
     private GameModel gameModel;
     private ChatBox chatbox;
-    public MainController mainController;
+    private MainController mainController;
     private FirebaseService fb;
     private List<Unit> orderedUnits;
     private final int CHARACTERLIMIT = 50;
 
-    public GameController(Stage stage){
+    public GameController(Stage stage, MainController mainController){
         orderedUnits = new ArrayList<>();
-        fb = new FirebaseService();
         fb = FirebaseService.getInstance();
         this.chatbox = new ChatBox(fb);
         this.gameModel = new GameModel(stage, this);
+        this.mainController = mainController;
     }
 
     public void saveToFirebase() {
@@ -118,6 +118,7 @@ public class GameController  {
 
     public void requestLoadGame(String gameUID){
         try{
+            gameModel.show();
             GameJSON gameJSON = retrieveGameJSON(gameUID);
 
             gameModel.initGame(gameJSON);

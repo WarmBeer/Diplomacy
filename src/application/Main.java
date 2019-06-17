@@ -16,8 +16,6 @@ public class Main extends Application {
 
     private static final String ALPHA_NUMERIC_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static String KEY = "";
-    private GameView game;
-    private GameController gameController;
     private MainController mainController;
     public enum unitType {ARMY, FLEET}
 
@@ -30,11 +28,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.mainController = new MainController(primaryStage);
-        this.gameController = new GameController(primaryStage);
-
-        //for the controllers to communicate
-        gameController.mainController = mainController;
-        mainController.gameController = gameController;
 
         setup();
 
