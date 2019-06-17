@@ -30,6 +30,10 @@ public class SuperModel implements Model, MainMenuViewObservable {
         notifyMainMenuViewObservers();
     }
 
+    public void dontShowMainMenu() {
+        this.showMainMenu = false;
+    }
+
     @Override
     public void registerMainMenuViewObserver(MainMenuViewObserver mainMenuViewObserver) {
         MainMenuViewObservers.add(mainMenuViewObserver);

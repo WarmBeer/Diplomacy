@@ -5,6 +5,6 @@
 
 <VBox fx:id="box" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pagination fx:id="paginationrules" pageCount="24" prefHeight="1006.0" prefWidth="770.0" />
+      <Pagination fx:id="paginationrules" pageCount="24" prefHeight="945.0" prefWidth="726.0" />
    </children>
 </VBox>

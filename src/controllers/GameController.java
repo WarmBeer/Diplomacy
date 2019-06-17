@@ -100,6 +100,7 @@ public class GameController  {
     }
 
     public void show() {
+        this.mainController.dontShowMainMenu();
         this.gameModel.show();
     }
 
@@ -143,6 +144,9 @@ public class GameController  {
     }
 
 
+    public void returnToMain() {
+        this.mainController.showMainMenu();
+    }
 
     public void changedComboBox(String action, Province selectedProvince, ComboBox comboBox1) {
         gameModel.changedComboBox(action, selectedProvince, comboBox1);

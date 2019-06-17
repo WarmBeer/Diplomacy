@@ -1,5 +1,6 @@
 package views;
 
+import controllers.GameController;
 import controllers.MainController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,11 +9,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SceneBuilder;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import observers.MainMenuViewObservable;
 import observers.MainMenuViewObserver;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -23,6 +29,13 @@ public class MainMenuView implements MainMenuViewObserver {
     private static String VIEW_FILE = "/resources/views/MainMenu.fxml";
     private static String STYLESHEET_FILE = "/resources/MainMenu.css";
     private MainController mainController;
+    private GameController gameController;
+
+    @FXML
+    private ToggleButton geluidsKnop;
+
+    @FXML
+    private AnchorPane gameOpties;
 
     @FXML
     private Button optionsButton;
@@ -32,6 +45,9 @@ public class MainMenuView implements MainMenuViewObserver {
 
     @FXML
     private Button hostGameButton;
+
+    @FXML
+    private Button AfsluitenButton;
 
     @FXML
     public void clickedOptions() {
@@ -48,6 +64,11 @@ public class MainMenuView implements MainMenuViewObserver {
         mainController.clickedHostGame();
     }
 
+    @FXML
+    public void showOptions() {
+        gameOpties.setVisible(!gameOpties.isVisible());
+    }
+
     public MainMenuView(Stage primaryStage, MainController mainController) throws IOException {
         this.mainController = mainController;
         this.stage = primaryStage;
@@ -58,8 +79,8 @@ public class MainMenuView implements MainMenuViewObserver {
         Parent content = loader.load();
 
         primaryStage.setTitle("Diplomacy v0.2");
-        Scene scene = new Scene( content, 1280, 720 );
-        primaryStage.setScene(scene);
+        scene = new Scene( content, 1280, 720 );
+        //primaryStage.setScene(scene);
 
         //FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW_FILE));
 //        Parent root = loader.load();
@@ -72,7 +93,7 @@ public class MainMenuView implements MainMenuViewObserver {
     public void show() {
         //stage.hide();
         //stage.setFullScreen(true);
-       // stage.setScene(scene);
+        stage.setScene(scene);
         stage.show();
     }
 
@@ -81,5 +102,11 @@ public class MainMenuView implements MainMenuViewObserver {
         if(mainMenuViewObservable.doShowMainMenu()) {
             this.show();
         }
+    }
+
+    //Dit sluit het spel af.
+    @FXML
+    private void afsluitenView() {
+        System.exit(0);
     }
 }
