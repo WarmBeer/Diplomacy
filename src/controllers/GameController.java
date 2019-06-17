@@ -123,9 +123,9 @@ public class GameController  {
         chatbox.makeChat();
     }
 
-    public void startUpdatingChat(){
-        chatbox.startAutoUpdatingChat();
-    }
+//    public void startUpdatingChat(){
+//        chatbox.startAutoUpdatingChat();
+//    }
 
     public void addMessage(String message){
         chatbox.addChatMessage(message, Main.getKEY());

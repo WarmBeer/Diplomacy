@@ -6,10 +6,15 @@ import com.google.cloud.firestore.*;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.database.annotations.Nullable;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -29,6 +34,7 @@ public class FirebaseService {
     public FirebaseService(String gameID){
         this.gameID = gameID;
         makeFirebaseConnection();
+        listen();
     }
 
 
@@ -134,5 +140,22 @@ public class FirebaseService {
             System.out.println("In de firebaseservice is een Interrupted Exception opgetreden!");
             IE.printStackTrace();
         }
+    }
+
+
+    /**
+     * Geeft een update naar de meegeleverde controller
+     * op het moment dat er een wijziging in het firebase document plaatsvindt.
+     */
+    private void listen() {
+
+        DocumentReference chatbox =  db.collection(gameID).document(CHILDPATH);
+        chatbox.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+
+            public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirestoreException e) {
+                System.out.println("Update chat");
+                //Notify all observers in chat?
+            }
+        });
     }
 }
