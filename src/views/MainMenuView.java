@@ -4,28 +4,27 @@ import controllers.GameController;
 import controllers.MainController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.SceneBuilder;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import observers.MainMenuViewObservable;
 import observers.MainMenuViewObserver;
+import services.FirebaseService;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.logging.LogManager;
 
 public class MainMenuView implements MainMenuViewObserver {
     private Stage stage;
     private Scene scene;
+    private FirebaseService fb;
 
     private static String VIEW_FILE = "/resources/views/MainMenu.fxml";
     private static String STYLESHEET_FILE = "/resources/MainMenu.css";
@@ -66,7 +65,7 @@ public class MainMenuView implements MainMenuViewObserver {
 
     @FXML
     public void clickedJoinGame() {
-        mainController.clickedJoinGame();
+
     }
 
     @FXML
@@ -90,13 +89,8 @@ public class MainMenuView implements MainMenuViewObserver {
 
         primaryStage.setTitle("Diplomacy v0.2");
         scene = new Scene( content, 1280, 720 );
-        //primaryStage.setScene(scene);
 
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource(VIEW_FILE));
-//        Parent root = loader.load();
-//        this.scene = SceneBuilder.create().root(root).width(1280).height(720)
-//                .fill(Color.GRAY).build();
-//        scene.getStylesheets().add(STYLESHEET_FILE);
+
 
     }
 
@@ -125,5 +119,22 @@ public class MainMenuView implements MainMenuViewObserver {
         listGamesAnchor.setVisible(!listGamesAnchor.isVisible());
         listGames.setVisible(!listGames.isVisible());
         ReturnMenu.setVisible(!ReturnMenu.isVisible());
+
+        //NIET MVC!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        fb = FirebaseService.getInstance();
+        listGames.getItems().clear();
+        ArrayList<String> gameIDS = fb.getGameIDs();
+
+        for(String game : gameIDS){
+            listGames.getItems().add(listGames.getItems().size(), game);
+            listGames.scrollTo(game);
+            LogManager.getLogManager().reset();
+        }
+    }
+
+    @FXML
+    public void handleMouseClick(MouseEvent arg0) {
+        String gameID = (String) listGames.getSelectionModel().getSelectedItem();
+        gameController.requestLoadGame(gameID);
     }
 }

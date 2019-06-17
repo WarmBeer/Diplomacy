@@ -31,24 +31,26 @@ public class FirebaseService {
 
     public FirebaseService() {
         makeFirebaseConnection();
-        getGameIDs();
     }
 
 
     /**
      * Creates instance of firebaseservice with Singleton Pattern.
-     * We can call SpelbordController.getInstance() from everywhere
+     * We can call FirebaseService.getInstance() from everywhere
      * And there is only 1 instance.
      *
      * @param gameID Game ID as String.
      * @return A instance of the class FirebaseService.
      * @author Thomas Zijl
      */
-    public static FirebaseService getInstance(String gameID) {
+    public static FirebaseService getInstance() {
         if (firebaseservice == null) {
             firebaseservice = new FirebaseService();
+            return firebaseservice;
         }
-        return firebaseservice;
+        else{
+            return firebaseservice;
+        }
     }
 
 
@@ -59,6 +61,7 @@ public class FirebaseService {
             FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(credentials).build();
             FirebaseApp.initializeApp(options);
             db = FirestoreClient.getFirestore();
+
         } catch (IOException IOE) {
             IOE.printStackTrace();
         }
@@ -67,7 +70,6 @@ public class FirebaseService {
 
     /**
      * Makes a document is firebase for this chat/game session.
-     *
      * @author Thomas Zijl
      */
     public void makeChatInFirebase(String GameUID) {
@@ -181,10 +183,12 @@ public class FirebaseService {
             }
         }
         catch (InterruptedException IE){
-
+            IE.printStackTrace();
+            System.out.println("Iets fout in firebase service...");
         }
         catch (ExecutionException EE){
-
+            EE.printStackTrace();
+            System.out.println("Iets fout in firebase service...");
         }
 
         return gameNames;

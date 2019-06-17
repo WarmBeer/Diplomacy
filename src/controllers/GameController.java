@@ -29,7 +29,7 @@ public class GameController  {
     private final int CHARACTERLIMIT = 50;
 
     public GameController(Stage stage){
-        fb = new FirebaseService();
+        fb = FirebaseService.getInstance();
         this.chatbox = new ChatBox(fb);
         this.gameModel = new GameModel(stage, this);
     }
