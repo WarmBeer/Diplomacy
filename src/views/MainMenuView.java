@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SceneBuilder;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
@@ -30,6 +31,15 @@ public class MainMenuView implements MainMenuViewObserver {
     private static String STYLESHEET_FILE = "/resources/MainMenu.css";
     private MainController mainController;
     private GameController gameController;
+
+    @FXML
+    private Button ReturnMenu;
+
+    @FXML
+    private AnchorPane listGamesAnchor;
+
+    @FXML
+    private ListView listGames;
 
     @FXML
     private ToggleButton geluidsKnop;
@@ -108,5 +118,12 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML
     private void afsluitenView() {
         System.exit(0);
+    }
+
+    @FXML
+    private void showGamesList() {
+        listGamesAnchor.setVisible(!listGamesAnchor.isVisible());
+        listGames.setVisible(!listGames.isVisible());
+        ReturnMenu.setVisible(!ReturnMenu.isVisible());
     }
 }

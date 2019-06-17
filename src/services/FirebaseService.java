@@ -83,6 +83,7 @@ public class FirebaseService {
 
             //Console update
             System.out.println("Save location made. - time : " + future.get().getUpdateTime());
+            db.collection("Chats").document("11111111");
 
         } catch (ExecutionException EE) {
             System.out.println("In de firebaseservice is een Excecution Exception opgetreden!");
