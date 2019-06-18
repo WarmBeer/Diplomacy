@@ -164,6 +164,19 @@ public class GameController  {
         }
     }
 
+    public void hideVisualPoints(Boolean hide) {
+        if (hide) {
+            gameModel.hideVisualPoints();
+        }
+        else {
+            gameModel.showVisualPoints();
+        }
+    }
+
+    public void showVisualPoints() {
+        gameModel.showVisualPoints();
+    }
+
     public void registerGameObserver(GameView gameView) {
         gameModel.registerGameViewObserver(gameView);
     }

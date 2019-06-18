@@ -21,4 +21,6 @@ public interface GameViewObservable {
     boolean pointsChanged();
 
     boolean hasComboBoxes();
+
+    boolean doRemoveAllPoints();
 }

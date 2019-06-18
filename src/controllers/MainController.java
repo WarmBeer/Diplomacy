@@ -27,7 +27,6 @@ public class MainController {
     }
 
     public void clickedHostGame() {
-
     }
 
     public void dontShowMainMenu() {

@@ -36,7 +36,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     //Game setup variables
     private Parent content;
-    private GameController gamecontroller;
     public final String GAME_VIEW = "/resources/views/GameView.fxml";
     public final String STYLESHEET_FILE = "/Resources/style.css";
     private static String SPEL_REGELS = "/views/Spelregels.fxml";
@@ -303,6 +302,11 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             addProvinceEvents(gameViewObservable.getProvinces());
         }
 
+        if(gameViewObservable.doRemoveAllPoints()) {
+            troops.getChildren().removeAll(troops.getChildren());
+            points.getChildren().removeAll(points.getChildren());
+        }
+
         if(gameViewObservable.hasComboBoxes()) {
             fillComboBox(comboxProv1, true, gameViewObservable.getComboBox1Values());
         }
@@ -343,6 +347,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML
     private void OpenMenu() {
         MainMenu.setVisible(!MainMenu.isVisible());
+        gameController.hideVisualPoints(MainMenu.isVisible());
     }
 
     @FXML

@@ -49,6 +49,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     ArrayList<GameViewObserver> gameViewObservers = new ArrayList<>();
     private boolean pointsChanged = false;
     private boolean hasComboBoxes = false;
+    private boolean removeVisualPoints = false;
     private ArrayList<String> provComboBoxValues;
 
     public GameModel(Stage stage, GameController gameController) {
@@ -746,6 +747,21 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         }
         return false;
 
+    }
+
+    public void hideVisualPoints() {
+        removeVisualPoints = true;
+        notifyGameViewObservers();
+    }
+
+    public void showVisualPoints() {
+        removeVisualPoints = false;
+        notifyGameViewObservers();
+    }
+
+    @Override
+    public boolean doRemoveAllPoints() {
+        return removeVisualPoints;
     }
 
     @Override

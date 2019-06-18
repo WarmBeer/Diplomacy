@@ -3,11 +3,10 @@ package views;
 import controllers.MainController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -17,6 +16,7 @@ import observers.MainMenuViewObserver;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.logging.LogManager;
 
 public class MainMenuView implements MainMenuViewObserver {
@@ -27,6 +27,12 @@ public class MainMenuView implements MainMenuViewObserver {
     private static String STYLESHEET_FILE = "/resources/MainMenu.css";
     private MainController mainController;
     private ArrayList<String> gameIDS;
+
+    @FXML
+    private ComboBox aantalPersonen;
+
+    @FXML
+    private ComboBox aantalTijd;
 
     @FXML
     private Button ReturnMenu;
@@ -150,5 +156,10 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML
     private void showHostGame() {
         hostGameAnchor.setVisible(!hostGameAnchor.isVisible());
+        aantalPersonen.getItems().addAll("", "1", "2", "3", "4", "5", "6", "7");
+        aantalTijd.getItems().addAll("", "5 min", "10 min", "15 min", "20 min");
+        aantalPersonen.getSelectionModel().select(0);
+        aantalTijd.getSelectionModel().select(0);
     }
+
 }
