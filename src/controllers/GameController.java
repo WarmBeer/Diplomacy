@@ -213,7 +213,7 @@ public class GameController  {
             if(provinceUnit == null) {
                 System.out.println("Unit is null! you added an order from a province without unit");
             } else {
-                provinceUnit.addOrder(provinceUnit.getOrderType(orderType), province2.getAbbreviation());
+                provinceUnit.addOrder(provinceUnit.getCurrentOrder(), province2);
             }
 
         }
