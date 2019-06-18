@@ -755,9 +755,9 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     }
 
     public Province getProvinceFromName(String provinceName) {
-        for(Province province : getProvinces()) {
-            if(province.getName().equals(provinceName))
-                return province;
+        for(int i = 0;i < getProvinces().size();i++) {
+            if(getProvinces().get(i).getName().equals(provinceName))
+                return getProvinces().get(i);
         }
         return null;
     }

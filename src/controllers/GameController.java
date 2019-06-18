@@ -151,7 +151,7 @@ public class GameController  {
 
     public void addMessage(String message) {
         chatbox.addChatMessage(message, Main.getKEY(), gameModel.getActiveGame().getGameUID());
-        processOrders();
+        //processOrders();
     }
 
     public void sendOrders() {
@@ -207,35 +207,33 @@ public class GameController  {
             if(orderSplit.length > 2) {
                 province2Name = orderSplit[2];
             }
-            Province province1 = gameModel.getProvinceFromName(province1Name);
-            Province province2 = gameModel.getProvinceFromName(province2Name);
-            Unit provinceUnit = province1.getUnit();
-            if(provinceUnit == null) {
+            if(gameModel.getProvinceFromName(province1Name).getUnit() == null) {
                 System.out.println("Unit is null! you added an order from a province without unit");
             } else {
-                provinceUnit.addOrder(provinceUnit.getCurrentOrder(), province2);
+                gameModel.getProvinceFromName(province1Name).getUnit().addOrder(gameModel.getProvinceFromName(province1Name).getUnit().getCurrentOrder(), gameModel.getProvinceFromName(province2Name));
+                System.out.println(gameModel.getProvinceFromName(province1Name).getUnit().getCurrentOrder() + gameModel.getProvinceFromName(province2Name).getAbbreviation());
+                addUnitOrder(gameModel.getProvinceFromName(province1Name).getUnit());
             }
 
         }
+        sendOrders();
     }
 
     //TODO: Fix deze shit.
     private void processOrders() {
+        for (Unit unit : gameModel.getActiveGame().getUnits()) {
+            orderedUnits.add(unit);
+        }
         List<Unit> supportOrders = new ArrayList<>();
         List<Unit> moveOrders = new ArrayList<>();
-        for (int i = 0;i<gameModel.getActiveGame().getProvinces().size();i++) {
-            if (gameModel.getActiveGame().getProvinces().get(i).getUnit() != null) {
-                System.out.println(gameModel.getActiveGame().getProvinces().get(i).getUnit().getCurrentOrder());
-                switch (gameModel.getActiveGame().getProvinces().get(i).getUnit().getCurrentOrder()) {
-                    case SUPPORT:
-                        System.out.println("supportttt");
-                        supportOrders.add(gameModel.getActiveGame().getProvinces().get(i).getUnit());
-                        break;
-                    case MOVE:
-                        System.out.println("moveeeeeeeee to " + gameModel.getActiveGame().getProvinces().get(i).getUnit().getTargetProvince().getAbbreviation());
-                        moveOrders.add(gameModel.getActiveGame().getProvinces().get(i).getUnit());
-                        break;
-                }
+        for (int i = 0;i<orderedUnits.size();i++) {
+            switch (orderedUnits.get(i).getCurrentOrder()) {
+                case SUPPORT:
+                    supportOrders.add(orderedUnits.get(i));
+                    break;
+                case MOVE:
+                    moveOrders.add(orderedUnits.get(i));
+                    break;
             }
         }
 

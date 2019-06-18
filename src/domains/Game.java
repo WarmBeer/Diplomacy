@@ -70,4 +70,15 @@ public class Game {
     public List<Province> getProvinces() {
         return Provinces;
     }
+
+    public List<Unit> getUnits() {
+        List<Unit> units = new ArrayList<>();
+
+        for (Province province : Provinces) {
+            if (province.getUnit() != null) {
+                units.add(province.getUnit());
+            }
+        }
+        return units;
+    }
 }

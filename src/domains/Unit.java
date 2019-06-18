@@ -59,17 +59,18 @@ public class Unit extends ImageView {
             targetProvince = this.province;
         }
         if (!dead) {
-            System.out.println("yeeeeeeet");
             switch (currentOrder) {
                 case MOVE:
                     if(targetProvince.getUnit() == null) {
                         targetProvince.addUnit(this);
                         province.removeUnit();
+                        targetProvince.setOwner(owner);
                         this.province = targetProvince;
                     } else if (targetProvince.getUnit().getSupporters().size() < this.supporters.size()) {
                         targetProvince.getUnit().destroy();
                         targetProvince.addUnit(this);
                         province.removeUnit();
+                        targetProvince.setOwner(owner);
                         this.province = targetProvince;
                     }
                     break;

@@ -172,7 +172,7 @@ public class FirebaseService {
         try {
             GameJSON gameJSON = getGame(gameUID);
             for (int i = 0; i < gameJSON.Provinces.size(); i++) {
-                if (gameJSON.Provinces.get(i).abbr == unit.getProvince().getAbbreviation()) {
+                if (gameJSON.Provinces.get(i).abbr.equals( unit.getProvince().getAbbreviation()) ) {
                     Province province = unit.getTargetProvince();
                     gameJSON.Provinces.get(i).stationed.orderTarget = province.getAbbreviation();
                     gameJSON.Provinces.get(i).stationed.orderType = unit.getCurrentOrder();
