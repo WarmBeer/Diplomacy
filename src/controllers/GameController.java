@@ -51,7 +51,6 @@ public class GameController  {
     private GameJSON retrieveGameJSON(String gameUID) {
 
         GameJSON gameJSON = fb.getGame(gameUID);
-
         /*
         Reader reader = new BufferedReader(new InputStreamReader(
                 this.getClass().getResourceAsStream("/" + "Diplomacy.json")));
@@ -187,21 +186,6 @@ public class GameController  {
         gameModel.changedComboBox(action, selectedProvince, comboBox1);
     }
 
-    public void clickedSendOrder(ListView ordersList) {
-        for(Object order : ordersList.getItems()) {
-            String[] orderSplit = order.toString().split("_");
-            String orderType = orderSplit[0];
-            String province1 = orderSplit[1];
-            String province2 = "";
-            if(orderSplit.length > 1) {
-                province2 = orderSplit[2];
-            }
-
-            System.out.println("order type: " + orderType + " from "+province1 + " to " + province2);
-
-        }
-    }
-
     private Boolean provinceExists(Province province) {
         for (Object o : gameModel.getActiveGame().getProvinces()) {
             // use utility function from java.util to deal with nulls
@@ -212,8 +196,28 @@ public class GameController  {
         return false;
     }
 
-    //TODO: Fix deze shit.
+    public void clickedSendOrder(ListView ordersList) {
+        for(Object order : ordersList.getItems()) {
+            String[] orderSplit = order.toString().split("_");
+            String orderType = orderSplit[0];
+            String province1Name = orderSplit[1];
+            String province2Name = "";
+            if(orderSplit.length > 2) {
+                province2Name = orderSplit[2];
+            }
+            Province province1 = gameModel.getProvinceFromName(province1Name);
+            Province province2 = gameModel.getProvinceFromName(province2Name);
+            Unit provinceUnit = province1.getUnit();
+            if(provinceUnit == null) {
+                System.out.println("Unit is null! you added an order from a province without unit");
+            } else {
+                provinceUnit.addOrder(provinceUnit.getOrderType(orderType), province2.getAbbreviation());
+            }
 
+        }
+    }
+
+    //TODO: Fix deze shit.
     private void processOrders() {
         List<Orders> orders = new ArrayList<>();
         List<Orders> holdOrders = new ArrayList<>();

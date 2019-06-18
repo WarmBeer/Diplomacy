@@ -53,8 +53,8 @@ public class Unit extends ImageView {
         return currentOrder;
     }
 
-    public orderType getOrderType() {
-        switch (currentOrder.get("orderType").toString()) {
+    public orderType getOrderType(String orderTypeString) {
+        switch (orderTypeString) {
             case "Move":
                 return orderType.MOVE;
 

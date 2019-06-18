@@ -174,7 +174,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
         try {
             int actionIndex = comboxAction.getSelectionModel().getSelectedIndex();
-            int provinceIndex = comboxProv1.getSelectionModel().getSelectedIndex();
 
             if (actionIndex != 0) {
                 String action = comboxAction.getValue().toString();
@@ -187,7 +186,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                 }
 
                 lvOrders.getItems().add(order);
-                //gameController.addOrderIsClicked(action, prov1);
             }
         }
         catch (Exception e) {
@@ -224,7 +222,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         mediaplayer = new MediaPlayer(gameSound);
         mediaplayer.setAutoPlay(true);
         comboxAction.getItems().addAll("Action", "Move", "Support", "Hold");
-        comboxProv1.getItems().addAll("Select Province", "Province1a", "Province1b", "Province1c", "Province1d", "Province1e");
+        comboxProv1.getItems().addAll("Select Province");
         comboxPrivateChat.getItems().addAll("Player2", "Player3", "Player4", "Player5");
         // Set all dropdowns to first item.
         comboxAction.getSelectionModel().select(0);
@@ -269,23 +267,19 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
     // Event fired when Action combobox Value is changed.
     public void checkAction() {
-        //System.out.println("Checking value of comboxAction... " + comboxAction.getValue());
+
+        comboxProv1.setDisable(true);
         switch (comboxAction.getValue().toString()) {
             case "Action":
                 comboxProv1.getSelectionModel().select(0);
-                comboxProv1.setDisable(true);
                 break;
             case "Move":
-                comboxProv1.getSelectionModel().select(1);
-                comboxProv1.setDisable(false);
-                break;
             case "Support":
-                comboxProv1.setDisable(false);
                 comboxProv1.getSelectionModel().select(1);
+                comboxProv1.setDisable(false);
                 break;
             case "Hold":
                 comboxProv1.getSelectionModel().select(1);
-                comboxProv1.setDisable(true);
                 break;
         }
 
@@ -336,7 +330,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
 
     private void updateComboBoxes(Province target) {
-
         target.setScaleX(0.5);
         target.setScaleY(0.5);
         gameController.changedComboBox(comboxAction.getValue().toString(), selectedProvince, comboxProv1);
@@ -345,25 +338,19 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     @FXML
     private void OpenMenu() {
-
         MainMenu.setVisible(!MainMenu.isVisible());
     }
 
     @FXML
     private void geluidAanUit() {
-        if (geluidsKnop.isSelected() == true) {
+        if (geluidsKnop.isSelected()) {
             geluidsKnop.setText("Uit");
             geluidsKnop.setAlignment(Pos.CENTER);
             mediaplayer.pause();
-
-
-        }
-        else {
-            if (geluidsKnop.isSelected() == false ) {
-                geluidsKnop.setText("Aan");
-                geluidsKnop.setAlignment(Pos.CENTER);
-                mediaplayer.play();
-            }
+        } else {
+            geluidsKnop.setText("Aan");
+            geluidsKnop.setAlignment(Pos.CENTER);
+            mediaplayer.play();
         }
     }
 

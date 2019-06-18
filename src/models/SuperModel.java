@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 public class SuperModel implements Model, MainMenuViewObservable {
 
-    public final String MAIN_MENU = "/views/MainMenu_OLD.fxml"; //DIT MOET WEG UITEINDELIJK
     ArrayList<MainMenuViewObserver> MainMenuViewObservers = new ArrayList<>();
     private MainMenuView mainMenuView;
     private boolean showMainMenu = false;

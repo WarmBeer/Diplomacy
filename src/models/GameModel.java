@@ -734,5 +734,12 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         return this.provComboBoxValues;
     }
 
+    public Province getProvinceFromName(String provinceName) {
+        for(Province province : getProvinces()) {
+            if(province.getName().equals(provinceName))
+                return province;
+        }
+        return null;
+    }
 
 }
