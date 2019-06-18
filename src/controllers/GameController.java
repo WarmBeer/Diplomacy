@@ -131,6 +131,10 @@ public class GameController  {
         gameModel.createUnitsPerPlayer();
     }
 
+    public void checkOrder(ListView lvOrders, String order) {
+        gameModel.checkDuplicateUnitOrder(lvOrders, order);
+    }
+
     public void registerOrderObserver(OrderObserver orderObserver){
         this.gameModel.registerOrderObserver(orderObserver);
     }

@@ -10,6 +10,7 @@ import domains.*;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import observers.GameViewObservable;
@@ -642,6 +643,20 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     public void moveUnit(Unit unit, double x, double y) {
         unit.setX(x);
         unit.setY(y);
+    }
+
+    // If a Unit already has an order, remove it from Orderlist.
+    public void checkDuplicateUnitOrder(ListView lvOrders, String newOrder) {
+        String[] data = newOrder.split("_");
+        String province = data[1];
+        Object toRemove = null;
+        for (Object order : lvOrders.getItems()) {
+            if (order.toString().split("_")[1].equals(province)) {
+                System.out.println("Duplicate order found for Unit, removing order.");
+                toRemove = order;
+            }
+        }
+        if (toRemove != null) { lvOrders.getItems().remove(toRemove); }
     }
 
     @Override
