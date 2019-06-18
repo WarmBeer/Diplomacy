@@ -171,7 +171,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     public void clickedAddOrder() {
         if(selectedProvince == null)
             return;
-
         try {
             int actionIndex = comboxAction.getSelectionModel().getSelectedIndex();
 
@@ -184,7 +183,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                 } else {
                     order = action + "_" + selectedProvince.getName() + "_" + prov1;
                 }
-
+                checkDuplicateUnitOrder(order);
                 lvOrders.getItems().add(order);
             }
         }
@@ -192,6 +191,20 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             System.out.println("In GameView is iets fout gegaan tijdens het toevoegen van een order...");
             e.printStackTrace();
         }
+    }
+
+    // If a Unit already has an order, remove it from Orderlist.
+    public void checkDuplicateUnitOrder(String newOrder) {
+        String[] data = newOrder.split("_");
+        String province = data[1];
+        Object toRemove = null;
+        for (Object order : lvOrders.getItems()) {
+            if (order.toString().split("_")[1].equals(province)) {
+                System.out.println("Duplicate order found for Unit, removing order.");
+                toRemove = order;
+            }
+        }
+        if (toRemove != null) { lvOrders.getItems().remove(toRemove); }
     }
 
     public void updateOrderlist(ArrayList<String> orderList){
