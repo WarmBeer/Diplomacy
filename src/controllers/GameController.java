@@ -121,7 +121,8 @@ public class GameController  {
             GameJSON gameJSON = retrieveGameJSON(gameUID);
 
             gameModel.initGame(gameJSON);
-            createChat();
+            chatbox.notifyChatObservers();
+
         }
         catch(Exception E){
             System.out.println("Exception while request to load a game");
@@ -144,7 +145,7 @@ public class GameController  {
     }
 
     private void createChat(){
-        chatbox.makeChat(gameModel.getActiveGame().getGameUID());
+        chatbox.makeNewChat(gameModel.getActiveGame().getGameUID());
     }
 
     public void addMessage(String message) {
@@ -229,5 +230,9 @@ public class GameController  {
 
             }
         }
+    }
+
+    public void refresChat(){
+        chatbox.notifyChatObservers();
     }
 }
