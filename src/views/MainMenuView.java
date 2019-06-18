@@ -1,6 +1,5 @@
 package views;
 
-import controllers.GameController;
 import controllers.MainController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +13,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import observers.MainMenuViewObservable;
 import observers.MainMenuViewObserver;
-import services.FirebaseService;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,12 +22,11 @@ import java.util.logging.LogManager;
 public class MainMenuView implements MainMenuViewObserver {
     private Stage stage;
     private Scene scene;
-    private FirebaseService fb;
 
     private static String VIEW_FILE = "/resources/views/MainMenu.fxml";
     private static String STYLESHEET_FILE = "/resources/MainMenu.css";
     private MainController mainController;
-    private GameController gameController;
+    private ArrayList<String> gameIDS;
 
     @FXML
     private Button ReturnMenu;
@@ -98,7 +95,7 @@ public class MainMenuView implements MainMenuViewObserver {
 
         primaryStage.setTitle("Diplomacy v0.2");
         scene = new Scene( content, 1280, 720 );
-
+        primaryStage.setResizable(false);
 
 
     }
@@ -129,10 +126,8 @@ public class MainMenuView implements MainMenuViewObserver {
         listGames.setVisible(!listGames.isVisible());
         ReturnMenu.setVisible(!ReturnMenu.isVisible());
 
-        //NIET MVC!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        fb = FirebaseService.getInstance();
         listGames.getItems().clear();
-        ArrayList<String> gameIDS = fb.getGameIDs();
+        gameIDS = mainController.getFullGameName();
 
         for(String game : gameIDS){
             listGames.getItems().add(listGames.getItems().size(), game);
@@ -141,10 +136,14 @@ public class MainMenuView implements MainMenuViewObserver {
         }
     }
 
+    //Player klikt op GameID, deze functie opend het bijbehordende gamescherm
     @FXML
     public void handleMouseClick(MouseEvent arg0) {
-        String gameID = (String) listGames.getSelectionModel().getSelectedItem();
-        System.out.print("Clicked on: " + gameID);
+        int gameIDIndex = listGames.getSelectionModel().getSelectedIndex();
+        gameIDS = mainController.getGameIDS();
+        String gameID = gameIDS.get(gameIDIndex);
+
+        System.out.println(gameID);
         mainController.clickedJoinGame(gameID);
     }
 

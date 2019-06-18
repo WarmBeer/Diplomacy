@@ -122,7 +122,8 @@ public class GameController  {
             GameJSON gameJSON = retrieveGameJSON(gameUID);
 
             gameModel.initGame(gameJSON);
-            createChat();
+            chatbox.notifyChatObservers();
+
         }
         catch(Exception E){
             System.out.println("Exception while request to load a game");
@@ -145,7 +146,7 @@ public class GameController  {
     }
 
     private void createChat(){
-        chatbox.makeChat(gameModel.getActiveGame().getGameUID());
+        chatbox.makeNewChat(gameModel.getActiveGame().getGameUID());
     }
 
     public void addMessage(String message) {
@@ -187,23 +188,38 @@ public class GameController  {
         gameModel.changedComboBox(action, selectedProvince, comboBox1);
     }
 
+    private Boolean provinceExists(Province province) {
+        for (Object o : gameModel.getActiveGame().getProvinces()) {
+            // use utility function from java.util to deal with nulls
+            if (Objects.equals(o, province)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void clickedSendOrder(ListView ordersList) {
         for(Object order : ordersList.getItems()) {
             String[] orderSplit = order.toString().split("_");
             String orderType = orderSplit[0];
-            String province1 = orderSplit[1];
-            String province2 = "";
-            if(orderSplit.length > 1) {
-                province2 = orderSplit[2];
+            String province1Name = orderSplit[1];
+            String province2Name = "";
+            if(orderSplit.length > 2) {
+                province2Name = orderSplit[2];
             }
-
-            System.out.println("order type: " + orderType + " from "+province1 + " to " + province2);
+            Province province1 = gameModel.getProvinceFromName(province1Name);
+            Province province2 = gameModel.getProvinceFromName(province2Name);
+            Unit provinceUnit = province1.getUnit();
+            if(provinceUnit == null) {
+                System.out.println("Unit is null! you added an order from a province without unit");
+            } else {
+                provinceUnit.addOrder(provinceUnit.getOrderType(orderType), province2.getAbbreviation());
+            }
 
         }
     }
 
     //TODO: Fix deze shit.
-
     private void processOrders() {
         List<Unit> supportOrders = new ArrayList<>();
         List<Unit> moveOrders = new ArrayList<>();
@@ -231,5 +247,9 @@ public class GameController  {
         }
         gameModel.notifyGameViewObservers();
         saveToFirebase();
+    }
+
+    public void refresChat(){
+        chatbox.notifyChatObservers();
     }
 }

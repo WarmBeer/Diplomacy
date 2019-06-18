@@ -57,15 +57,19 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     public void init() {
         chatboxLaunch(stage);
         pressedStart();
+
     }
 
     private void pressedStart() {
         gameController.registerOrderObserver(this);
         gameController.registerChatObserver(this);
         gameController.registerGameObserver(this);
+        //gamecontroller.refresChat();
         //gameController.requestLoadGame("11111111");
         //gameController.saveToFirebase();
     }
+
+
 
     public void chatboxLaunch(Stage primaryStage) {
         try{
@@ -84,7 +88,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             primaryStage.setScene(scene);
             primaryStage.setMaximized(true);
             primaryStage.show();
-
         }
         catch(IOException IOE){
             IOE.printStackTrace();
@@ -108,6 +111,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
 
     //FXML Variables
+    @FXML private Button returnSpelRegelsButton;
     @FXML private Button returnInGameMenuKnop;
     @FXML private ToggleButton geluidsKnop;
     @FXML private AnchorPane gameOpties;
@@ -171,10 +175,8 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     public void clickedAddOrder() {
         if(selectedProvince == null)
             return;
-
         try {
             int actionIndex = comboxAction.getSelectionModel().getSelectedIndex();
-            int provinceIndex = comboxProv1.getSelectionModel().getSelectedIndex();
 
             if (actionIndex != 0) {
                 String action = comboxAction.getValue().toString();
@@ -185,15 +187,28 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                 } else {
                     order = action + "_" + selectedProvince.getName() + "_" + prov1;
                 }
-
+                checkDuplicateUnitOrder(order);
                 lvOrders.getItems().add(order);
-                //gameController.addOrderIsClicked(action, prov1);
             }
         }
         catch (Exception e) {
             System.out.println("In GameView is iets fout gegaan tijdens het toevoegen van een order...");
             e.printStackTrace();
         }
+    }
+
+    // If a Unit already has an order, remove it from Orderlist.
+    public void checkDuplicateUnitOrder(String newOrder) {
+        String[] data = newOrder.split("_");
+        String province = data[1];
+        Object toRemove = null;
+        for (Object order : lvOrders.getItems()) {
+            if (order.toString().split("_")[1].equals(province)) {
+                System.out.println("Duplicate order found for Unit, removing order.");
+                toRemove = order;
+            }
+        }
+        if (toRemove != null) { lvOrders.getItems().remove(toRemove); }
     }
 
     public void updateOrderlist(ArrayList<String> orderList){
@@ -224,7 +239,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         mediaplayer = new MediaPlayer(gameSound);
         mediaplayer.setAutoPlay(true);
         comboxAction.getItems().addAll("Action", "Move", "Support", "Hold");
-        comboxProv1.getItems().addAll("Select Province", "Province1a", "Province1b", "Province1c", "Province1d", "Province1e");
+        comboxProv1.getItems().addAll("Select Province");
         comboxPrivateChat.getItems().addAll("Player2", "Player3", "Player4", "Player5");
         // Set all dropdowns to first item.
         comboxAction.getSelectionModel().select(0);
@@ -269,23 +284,19 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
     // Event fired when Action combobox Value is changed.
     public void checkAction() {
-        //System.out.println("Checking value of comboxAction... " + comboxAction.getValue());
+
+        comboxProv1.setDisable(true);
         switch (comboxAction.getValue().toString()) {
             case "Action":
                 comboxProv1.getSelectionModel().select(0);
-                comboxProv1.setDisable(true);
                 break;
             case "Move":
-                comboxProv1.getSelectionModel().select(1);
-                comboxProv1.setDisable(false);
-                break;
             case "Support":
-                comboxProv1.setDisable(false);
                 comboxProv1.getSelectionModel().select(1);
+                comboxProv1.setDisable(false);
                 break;
             case "Hold":
                 comboxProv1.getSelectionModel().select(1);
-                comboxProv1.setDisable(true);
                 break;
         }
 
@@ -336,7 +347,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
 
     private void updateComboBoxes(Province target) {
-
         target.setScaleX(0.5);
         target.setScaleY(0.5);
         gameController.changedComboBox(comboxAction.getValue().toString(), selectedProvince, comboxProv1);
@@ -345,25 +355,19 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     @FXML
     private void OpenMenu() {
-
         MainMenu.setVisible(!MainMenu.isVisible());
     }
 
     @FXML
     private void geluidAanUit() {
-        if (geluidsKnop.isSelected() == true) {
+        if (geluidsKnop.isSelected()) {
             geluidsKnop.setText("Uit");
             geluidsKnop.setAlignment(Pos.CENTER);
             mediaplayer.pause();
-
-
-        }
-        else {
-            if (geluidsKnop.isSelected() == false ) {
-                geluidsKnop.setText("Aan");
-                geluidsKnop.setAlignment(Pos.CENTER);
-                mediaplayer.play();
-            }
+        } else {
+            geluidsKnop.setText("Aan");
+            geluidsKnop.setAlignment(Pos.CENTER);
+            mediaplayer.play();
         }
     }
 
@@ -388,7 +392,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     //Hier worden de pagina's gecreërd met de plaatjes erin.
     @FXML
     public VBox createPage(int pageIndex) {
-        box = new VBox();
+        VBox box = new VBox();
         final ArrayList<String> imagesRules = new ArrayList<>();
         for (int i = 1; i <= 24; i++) {
             imagesRules.add("/resources/rules/rulebook-" + i + ".png");
@@ -402,13 +406,16 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     //Hier wordt de FXML file ingeladen en voegt hij de methode createPage eraan toe.
     @FXML
     private void spelRegelsView() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SPEL_REGELS));
-        fxmlLoader.setController(this);
-        Parent contentRegels = (Parent) fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(contentRegels));
-        stage.show();
-        stage.setTitle("Spelregels");
+//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SPEL_REGELS));
+//        fxmlLoader.setController(this);
+//        Parent contentRegels = (Parent) fxmlLoader.load();
+//        Stage stage = new Stage();
+//        stage.setScene(new Scene(contentRegels));
+//        stage.show();
+//        stage.setTitle("Spelregels");
+
+        box.setVisible(!box.isVisible());
+        paginationrules.setVisible(!paginationrules.isVisible());
 
         paginationrules.setPageFactory((Integer pageIndex) -> createPage(pageIndex));
     }
@@ -417,6 +424,12 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML
     private void returnToMainMenu() {
         gameController.returnToMain();
+    }
+
+    @FXML
+    private void returnSpelRegels() {
+        box.setVisible(!box.isVisible());
+        paginationrules.setVisible(!paginationrules.isVisible());
     }
 }
 

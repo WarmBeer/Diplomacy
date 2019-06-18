@@ -22,10 +22,11 @@ public class ChatBox implements ChatObservable {
 
     public ChatBox(FirebaseService fb){
         firebaseservice = fb;
+        notifyChatObservers();
     }
 
 
-    public void makeChat(String GameUID){
+    public void makeNewChat(String GameUID){
         firebaseservice.makeChatInFirebase(GameUID);
     }
 

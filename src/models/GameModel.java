@@ -282,7 +282,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
 
         //----AUSTRIA-HUNGARY//---//---
-        Province rum = new Province("Romania", "rum", true, 1083, 1083);
+        Province rum = new Province("Rumania", "rum", true, 960, 738);
         game.addProvince(rum);
         Province ser = new Province("Serbia", "ser", true, 870, 805);
         game.addProvince(ser);
@@ -754,5 +754,12 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         return this.provComboBoxValues;
     }
 
+    public Province getProvinceFromName(String provinceName) {
+        for(Province province : getProvinces()) {
+            if(province.getName().equals(provinceName))
+                return province;
+        }
+        return null;
+    }
 
 }
