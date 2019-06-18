@@ -108,6 +108,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
 
     //FXML Variables
+    @FXML private Button returnSpelRegelsButton;
     @FXML private Button returnInGameMenuKnop;
     @FXML private ToggleButton geluidsKnop;
     @FXML private AnchorPane gameOpties;
@@ -388,7 +389,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     //Hier worden de pagina's gecreërd met de plaatjes erin.
     @FXML
     public VBox createPage(int pageIndex) {
-        box = new VBox();
+        VBox box = new VBox();
         final ArrayList<String> imagesRules = new ArrayList<>();
         for (int i = 1; i <= 24; i++) {
             imagesRules.add("/resources/rules/rulebook-" + i + ".png");
@@ -402,13 +403,16 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     //Hier wordt de FXML file ingeladen en voegt hij de methode createPage eraan toe.
     @FXML
     private void spelRegelsView() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SPEL_REGELS));
-        fxmlLoader.setController(this);
-        Parent contentRegels = (Parent) fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(contentRegels));
-        stage.show();
-        stage.setTitle("Spelregels");
+//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SPEL_REGELS));
+//        fxmlLoader.setController(this);
+//        Parent contentRegels = (Parent) fxmlLoader.load();
+//        Stage stage = new Stage();
+//        stage.setScene(new Scene(contentRegels));
+//        stage.show();
+//        stage.setTitle("Spelregels");
+
+        box.setVisible(!box.isVisible());
+        paginationrules.setVisible(!paginationrules.isVisible());
 
         paginationrules.setPageFactory((Integer pageIndex) -> createPage(pageIndex));
     }
@@ -417,6 +421,12 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML
     private void returnToMainMenu() {
         gameController.returnToMain();
+    }
+
+    @FXML
+    private void returnSpelRegels() {
+        box.setVisible(!box.isVisible());
+        paginationrules.setVisible(!paginationrules.isVisible());
     }
 }
 

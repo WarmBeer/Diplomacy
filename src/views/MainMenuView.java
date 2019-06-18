@@ -95,7 +95,7 @@ public class MainMenuView implements MainMenuViewObserver {
 
         primaryStage.setTitle("Diplomacy v0.2");
         scene = new Scene( content, 1280, 720 );
-
+        primaryStage.setResizable(false);
 
 
     }
