@@ -51,6 +51,7 @@ public class GameController  {
     private GameJSON retrieveGameJSON(String gameUID) {
 
         GameJSON gameJSON = fb.getGame(gameUID);
+
         /*
         Reader reader = new BufferedReader(new InputStreamReader(
                 this.getClass().getResourceAsStream("/" + "Diplomacy.json")));
@@ -82,8 +83,8 @@ public class GameController  {
 
             if (province.getUnit() != null) {
                 unitJSON.unitType = province.getUnit().getUnitType();
-                unitJSON.orderType = (Unit.orderType) province.getUnit().getCurrentOrder().get("orderType");
-                unitJSON.orderTarget = (String) province.getUnit().getCurrentOrder().get("orderTarget");
+                unitJSON.orderType = province.getUnit().getCurrentOrder();
+                unitJSON.orderTarget = province.getUnit().getTargetProvince().getAbbreviation();
             }
 
             if (unitJSON.unitType == null) {
@@ -121,14 +122,15 @@ public class GameController  {
             GameJSON gameJSON = retrieveGameJSON(gameUID);
 
             gameModel.initGame(gameJSON);
-            createChat();
+            chatbox.notifyChatObservers();
+
         }
         catch(Exception E){
             System.out.println("Exception while request to load a game");
             E.printStackTrace();
         }
 
-        gameModel.createUnitsPerPlayer();
+        //gameModel.createUnitsPerPlayer();
     }
 
     public void checkOrder(ListView lvOrders, String order) {
@@ -148,12 +150,12 @@ public class GameController  {
     }
 
     private void createChat(){
-        chatbox.makeChat(gameModel.getActiveGame().getGameUID());
+        chatbox.makeNewChat(gameModel.getActiveGame().getGameUID());
     }
 
     public void addMessage(String message) {
         chatbox.addChatMessage(message, Main.getKEY(), gameModel.getActiveGame().getGameUID());
-        sendOrders();
+        processOrders();
     }
 
     public void sendOrders() {
@@ -215,7 +217,7 @@ public class GameController  {
             if(provinceUnit == null) {
                 System.out.println("Unit is null! you added an order from a province without unit");
             } else {
-                provinceUnit.addOrder(provinceUnit.getOrderType(orderType), province2.getAbbreviation());
+                provinceUnit.addOrder(provinceUnit.getCurrentOrder(), province2);
             }
 
         }
@@ -223,15 +225,35 @@ public class GameController  {
 
     //TODO: Fix deze shit.
     private void processOrders() {
-        List<Orders> orders = new ArrayList<>();
-        List<Orders> holdOrders = new ArrayList<>();
-        List<Orders> moveOrders = new ArrayList<>();
-        Game processedGame = gameModel.getActiveGame();
-        //processedGame.resetProvinces();
+        List<Unit> supportOrders = new ArrayList<>();
+        List<Unit> moveOrders = new ArrayList<>();
         for (int i = 0;i<gameModel.getActiveGame().getProvinces().size();i++) {
             if (gameModel.getActiveGame().getProvinces().get(i).getUnit() != null) {
-
+                System.out.println(gameModel.getActiveGame().getProvinces().get(i).getUnit().getCurrentOrder());
+                switch (gameModel.getActiveGame().getProvinces().get(i).getUnit().getCurrentOrder()) {
+                    case SUPPORT:
+                        System.out.println("supportttt");
+                        supportOrders.add(gameModel.getActiveGame().getProvinces().get(i).getUnit());
+                        break;
+                    case MOVE:
+                        System.out.println("moveeeeeeeee to " + gameModel.getActiveGame().getProvinces().get(i).getUnit().getTargetProvince().getAbbreviation());
+                        moveOrders.add(gameModel.getActiveGame().getProvinces().get(i).getUnit());
+                        break;
+                }
             }
         }
+
+        for (int i = 0;i<supportOrders.size();i++) {
+            supportOrders.get(i).doOrder();
+        }
+        for (int i = 0;i<moveOrders.size();i++) {
+            moveOrders.get(i).doOrder();
+        }
+        gameModel.notifyGameViewObservers();
+        saveToFirebase();
+    }
+
+    public void refresChat(){
+        chatbox.notifyChatObservers();
     }
 }

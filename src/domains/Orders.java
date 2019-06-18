@@ -10,7 +10,7 @@ public class Orders {
     public Orders(Unit unit) {
         this.unit = unit;
         this.origin = unit.getProvince();
-        this.target = (Province) unit.getCurrentOrder().get("orderTarget");
-        this.type = (Unit.orderType) unit.getCurrentOrder().get("orderType");
+        this.target = unit.getTargetProvince();
+        this.type = unit.getCurrentOrder();
     }
 }

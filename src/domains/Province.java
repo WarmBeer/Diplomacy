@@ -122,6 +122,10 @@ public class Province extends ImageView {
         borderedProvinces.add(province);
     }
 
+    public void removeUnit() {
+        this.stationed = null;
+    }
+
     public ArrayList<Province> getBorders() {
         return this.borderedProvinces;
     }

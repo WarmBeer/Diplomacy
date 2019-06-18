@@ -3,20 +3,21 @@ package services;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
-import com.google.cloud.firestore.EventListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.annotations.Nullable;
 import domains.GameJSON;
 import domains.Province;
-import domains.ProvinceJSON;
 import domains.Unit;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -42,7 +43,7 @@ public class FirebaseService {
      * We can call FirebaseService.getInstance() from everywhere
      * And there is only 1 instance.
      *
-     * @param gameID Game ID as String.
+     * @param gameUID Game ID as String.
      * @return A instance of the class FirebaseService.
      * @author Thomas Zijl
      */
@@ -162,7 +163,6 @@ public class FirebaseService {
             gameJSON = document.toObject(GameJSON.class);
         }
         catch(Exception e){
-            System.out.println("REEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             e.printStackTrace();
         }
         return gameJSON;
@@ -173,9 +173,9 @@ public class FirebaseService {
             GameJSON gameJSON = getGame(gameUID);
             for (int i = 0; i < gameJSON.Provinces.size(); i++) {
                 if (gameJSON.Provinces.get(i).abbr == unit.getProvince().getAbbreviation()) {
-                    Province province = (Province) unit.getCurrentOrder().get("orderTarget");
+                    Province province = unit.getTargetProvince();
                     gameJSON.Provinces.get(i).stationed.orderTarget = province.getAbbreviation();
-                    gameJSON.Provinces.get(i).stationed.orderType = (Unit.orderType) unit.getCurrentOrder().get("orderType");
+                    gameJSON.Provinces.get(i).stationed.orderType = unit.getCurrentOrder();
                 }
             }
             saveGame(gameJSON);
@@ -202,7 +202,7 @@ public class FirebaseService {
     }
 
 
-    public ArrayList<String> getGameIDs() {
+    public ArrayList<String> getGameName() {
         ArrayList<String> gameNames = new ArrayList<>();
 
         try{
@@ -212,8 +212,8 @@ public class FirebaseService {
             int documentCount = futures.get().getDocuments().size();
 
             for(int i = 0; i < documentCount; i++){
-                gameNames.add(futures.get().getDocuments().get(i).getId().toString());
-                System.out.println(gameNames.get(i));
+                gameNames.add("Game " + (i + 1) +": " + futures.get().getDocuments().get(i).getData().get("name") + " - ID: " + futures.get().getDocuments().get(i).getId());
+                System.out.println();
             }
         }
         catch (InterruptedException IE){
@@ -226,5 +226,31 @@ public class FirebaseService {
         }
 
         return gameNames;
+    }
+
+    public ArrayList<String> getGameIDs() {
+        ArrayList<String> gameIDs = new ArrayList<>();
+
+        try{
+            CollectionReference ref = db.collection("Games");
+            ApiFuture<QuerySnapshot> futures = ref.get();
+
+            int documentCount = futures.get().getDocuments().size();
+
+            for(int i = 0; i < documentCount; i++){
+                gameIDs.add(futures.get().getDocuments().get(i).getId());
+                System.out.println();
+            }
+        }
+        catch (InterruptedException IE){
+            IE.printStackTrace();
+            System.out.println("Iets fout in firebase service...");
+        }
+        catch (ExecutionException EE){
+            EE.printStackTrace();
+            System.out.println("Iets fout in firebase service...");
+        }
+
+        return gameIDs;
     }
 }
