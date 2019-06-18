@@ -79,6 +79,16 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         notifyGameViewObservers();
     }
 
+    private Province getProvince(String abbr) {
+        System.out.println(abbr);
+        for (int i = 0;i<activeGame.getProvinces().size();i++) {
+            if(activeGame.getProvinces().get(i).getAbbreviation() == abbr) {
+                return activeGame.getProvinces().get(i);
+            }
+        }
+        return null;
+    }
+
     @FXML
     public void initGame(GameJSON gameJSON) {
         Game game = new Game(gameJSON.gameUID, gameJSON.name, gameJSON.turnTime, gameJSON.turn);
@@ -101,11 +111,13 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
             for (Province province : game.getProvinces()) {
                 if (province.getAbbreviation().equals(provinceJSON.abbr)) {
 
-//                    for(Country country : game.getCountries()) {
-//                        if(provinceJSON.owner == country.getName()) {
-//                            province.setOwner(country);
-//                        }
-//                    }
+
+                    for(Country country : game.getCountries()) {
+                        if(provinceJSON.owner == country.getName()) {
+                            province.setOwner(country);
+                        }
+                    }
+
 
                     Unit stationed = null;
 
@@ -120,8 +132,16 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
                                 break;
                         }
 
-                            stationed.addOrder(unitJSON.orderType, unitJSON.orderTarget);
-                            createUnit(provinceJSON.stationed.unitType, province);
+
+                        Province target = null;
+                        for (int i = 0;i<game.getProvinces().size();i++) {
+                            if(game.getProvinces().get(i).getAbbreviation().equals(unitJSON.orderTarget)) {
+                                System.out.println(game.getProvinces().get(i).getAbbreviation() + " : " + unitJSON.orderTarget);
+                                target = game.getProvinces().get(i);
+                            }
+                        }
+                        stationed.addOrder(unitJSON.orderType, target);
+                        createUnit(provinceJSON.stationed.unitType, province);
                     }
 
                     province.addUnit(stationed);

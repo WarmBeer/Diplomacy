@@ -42,7 +42,7 @@ public class FirebaseService {
      * We can call FirebaseService.getInstance() from everywhere
      * And there is only 1 instance.
      *
-     * @param gameID Game ID as String.
+     * @param gameUID Game ID as String.
      * @return A instance of the class FirebaseService.
      * @author Thomas Zijl
      */
@@ -173,9 +173,9 @@ public class FirebaseService {
             GameJSON gameJSON = getGame(gameUID);
             for (int i = 0; i < gameJSON.Provinces.size(); i++) {
                 if (gameJSON.Provinces.get(i).abbr == unit.getProvince().getAbbreviation()) {
-                    Province province = (Province) unit.getCurrentOrder().get("orderTarget");
+                    Province province = unit.getTargetProvince();
                     gameJSON.Provinces.get(i).stationed.orderTarget = province.getAbbreviation();
-                    gameJSON.Provinces.get(i).stationed.orderType = (Unit.orderType) unit.getCurrentOrder().get("orderType");
+                    gameJSON.Provinces.get(i).stationed.orderType = unit.getCurrentOrder();
                 }
             }
             saveGame(gameJSON);
