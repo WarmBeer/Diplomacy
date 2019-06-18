@@ -39,7 +39,7 @@ public class MainController {
     }
 
     public ArrayList<String> getFullGameName(){
-        ArrayList<String> gameNames = fb.getGameIDs();
+        ArrayList<String> gameNames = fb.getGameName();
         return gameNames;
     }
 
