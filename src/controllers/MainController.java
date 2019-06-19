@@ -59,4 +59,8 @@ public class MainController {
         return GameIDs;
     }
 
+//    public void fillingLobbyMainControl() {
+//        gameController.addPlayersAndCountriesLobby();
+//    }
+
 }

@@ -79,7 +79,22 @@ public class MainMenuView implements MainMenuViewObserver {
 
     @FXML
     public void clickedStartGameHost() {
-        lobbyAnchor.setVisible(false);
+        System.out.println("hal");
+        boolean isHost = true;
+
+        if(isHost == true){
+            lobbyAnchor.setVisible(false);
+            int gameIDIndex = listGames.getSelectionModel().getSelectedIndex();
+            gameIDS = mainController.getGameIDS();
+            String gameID = gameIDS.get(gameIDIndex);
+
+            System.out.println(gameID);
+            mainController.clickedJoinGame(gameID);
+        }
+        else{
+            System.out.println("Nope");
+        }
+
     }
 
     @FXML
@@ -143,7 +158,8 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML
     public void handleMouseClick(MouseEvent arg0) {
         String gameID = getChooseGameID();
-        mainController.clickedJoinGame(gameID);
+        lobbyAnchor.setVisible(true);
+        //mainController.clickedJoinGame(gameID);
     }
 
     public String getChooseGameID(){
@@ -159,6 +175,14 @@ public class MainMenuView implements MainMenuViewObserver {
         hostGameAnchor.setVisible(!hostGameAnchor.isVisible());
         aantalTijd.getItems().addAll("", "5 min", "10 min", "15 min", "20 min");
         aantalTijd.getSelectionModel().select(0);
+    }
+
+//    public void fillingLobby() {
+//        mainController.fillingLobbyMainControl();
+//    }
+
+    public void createLobbyView() {
+
     }
 
 }

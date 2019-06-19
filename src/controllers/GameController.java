@@ -158,6 +158,7 @@ public class GameController  {
 
     public void addMessage(String message) {
         chatbox.addChatMessage(message, Main.getKEY(), gameModel.getActiveGame().getGameUID());
+        //processOrders();
     }
 
     public void sendFirstMessage() {
@@ -298,6 +299,14 @@ public class GameController  {
             IE.printStackTrace();
             return messageArraylist;
         }
+
+    }
+
+//    public void addPlayersAndCountriesLobby() {
+//        gameModel.startLobby();
+//    }
+
+    public void createLobbyGController() {
 
     }
 }
