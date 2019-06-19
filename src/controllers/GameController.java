@@ -20,6 +20,7 @@ import views.GameView;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class GameController  {
@@ -266,5 +267,10 @@ public class GameController  {
 
     public void refresChat(){
         chatbox.notifyChatObservers();
+    }
+
+    public ArrayList<Map> getPlayersList(){
+        ArrayList<Map> playerlist = fb.getPlayerInformation();
+        return playerlist;
     }
 }

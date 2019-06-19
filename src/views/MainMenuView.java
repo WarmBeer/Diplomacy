@@ -28,47 +28,37 @@ public class MainMenuView implements MainMenuViewObserver {
     private MainController mainController;
     private ArrayList<String> gameIDS;
 
-    @FXML
-    private ComboBox aantalPersonen;
-
-    @FXML
-    private ComboBox aantalTijd;
-
-    @FXML
-    private Button ReturnMenu;
-
-    @FXML
-    private Button hostGameReturn;
-
-    @FXML
-    private Button HostGameButton;
-
-    @FXML
-    private AnchorPane hostGameAnchor;
-
-    @FXML
-    private AnchorPane listGamesAnchor;
-
-    @FXML
-    private ListView listGames;
-
-    @FXML
-    private ToggleButton geluidsKnop;
-
-    @FXML
-    private AnchorPane gameOpties;
-
-    @FXML
-    private Button optionsButton;
-
-    @FXML
-    private Button joinGameButton;
-
-    @FXML
-    private Button hostGameButton;
-
-    @FXML
-    private Button AfsluitenButton;
+    //FXML Variables
+    @FXML private Label player1;
+    @FXML private Label player2;
+    @FXML private Label player3;
+    @FXML private Label player4;
+    @FXML private Label player5;
+    @FXML private Label player6;
+    @FXML private Label player7;
+    @FXML private Label country1;
+    @FXML private Label country2;
+    @FXML private Label country3;
+    @FXML private Label country4;
+    @FXML private Label country5;
+    @FXML private Label country6;
+    @FXML private Label country7;
+    @FXML private Button startGameHost;
+    @FXML private AnchorPane lobbyAnchor;
+    @FXML private ComboBox aantalPersonen;
+    @FXML private ComboBox aantalTijd;
+    @FXML private Button ReturnMenu;
+    @FXML private Button hostGameReturn;
+    @FXML private AnchorPane hostGameAnchor;
+    @FXML private AnchorPane listGamesAnchor;
+    @FXML private ListView listGames;
+    @FXML private ToggleButton geluidsKnop;
+    @FXML private AnchorPane gameOpties;
+    @FXML private Button optionsButton;
+    @FXML private Button joinGameButton;
+    @FXML private Button hostGameButton;
+    @FXML private Button afsluitenButton;
+    @FXML private Button createCustomGame;
 
     @FXML
     public void clickedOptions() {
@@ -82,7 +72,13 @@ public class MainMenuView implements MainMenuViewObserver {
 
     @FXML
     public void clickedHostGame() {
+        lobbyAnchor.setVisible(true);
         mainController.clickedHostGame();
+    }
+
+    @FXML
+    public void clickedStartGameHost() {
+        lobbyAnchor.setVisible(false);
     }
 
     @FXML

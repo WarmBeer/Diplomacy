@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -9,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane cache="false" minHeight="720.0" minWidth="1280.0" mouseTransparent="false" style="-fx-background-image: url(&quot;background_image.jpg&quot;);&#10;-fx-background-repeat: stretch;&#10;    -fx-background-size: 100%;&#10;    -fx-background-position: left top;&#10;   " xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane cache="false" minHeight="720.0" minWidth="1280.0" mouseTransparent="false" style="-fx-background-image: url(&quot;background_image.jpg&quot;);&#10;-fx-background-repeat: stretch;&#10;    -fx-background-size: 100%;&#10;    -fx-background-position: left top;&#10;   " xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <AnchorPane prefHeight="720.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
          <children>
@@ -28,7 +29,7 @@
                   <Font name="Gabriola" size="50.0" />
                </font>
             </Button>
-            <Button fx:id="AfsluitenButton" contentDisplay="CENTER" layoutX="465.0" layoutY="521.0" maxHeight="150.0" maxWidth="350.0" minHeight="98.0" minWidth="293.0" mnemonicParsing="false" onAction="#afsluitenView" prefHeight="98.0" prefWidth="399.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Exit game">
+            <Button fx:id="afsluitenButton" contentDisplay="CENTER" layoutX="465.0" layoutY="521.0" maxHeight="150.0" maxWidth="350.0" minHeight="98.0" minWidth="293.0" mnemonicParsing="false" onAction="#afsluitenView" prefHeight="98.0" prefWidth="399.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Exit game">
                <font>
                   <Font name="Gabriola" size="50.0" />
                </font>
@@ -40,7 +41,7 @@
               </Button>
             <AnchorPane fx:id="hostGameAnchor" layoutX="436.0" layoutY="24.0" prefHeight="672.0" prefWidth="403.0" style="-fx-background-color: rgb(221, 221, 219); -fx-border-color: white; -fx-background-insets: -10px;" visible="false">
                <children>
-                  <Button layoutX="55.0" layoutY="546.0" minHeight="67.0" minWidth="190.0" mnemonicParsing="false" onAction="#clickedHostGame" prefHeight="67.0" prefWidth="294.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Create custom game">
+                  <Button fx:id="createCustomGame" layoutX="55.0" layoutY="546.0" minHeight="67.0" minWidth="190.0" mnemonicParsing="false" onAction="#clickedHostGame" prefHeight="67.0" prefWidth="294.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Create custom game">
                      <font>
                         <Font name="Gabriola" size="35.0" />
                      </font>
@@ -87,6 +88,97 @@
                         <Font name="Gabriola" size="35.0" />
                      </font>
                   </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="lobbyAnchor" layoutX="382.0" layoutY="23.0" prefHeight="673.0" prefWidth="522.0" style="-fx-background-color: rgb(221, 221, 219); -fx-border-color: white; -fx-background-insets: -10px;" visible="false">
+               <children>
+                  <Text layoutX="166.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lobby" textAlignment="CENTER" wrappingWidth="172.595703125">
+                     <font>
+                        <Font name="Gabriola" size="40.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="startGameHost" layoutX="156.0" layoutY="538.0" mnemonicParsing="false" onAction="#clickedStartGameHost" prefHeight="71.0" prefWidth="211.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Start Game (Host-only)">
+                     <font>
+                        <Font name="Gabriola" size="24.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="player1" layoutX="100.0" layoutY="90.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="player2" layoutX="100.0" layoutY="145.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="player3" layoutX="100.0" layoutY="200.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="player4" layoutX="100.0" layoutY="255.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="player5" layoutX="100.0" layoutY="310.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="player6" layoutX="100.0" layoutY="365.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="player7" layoutX="100.0" layoutY="420.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="country1" layoutX="350.0" layoutY="90.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="country4" layoutX="350.0" layoutY="255.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="country5" layoutX="350.0" layoutY="310.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="country6" layoutX="350.0" layoutY="365.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="country7" layoutX="350.0" layoutY="420.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="country2" layoutX="350.0" layoutY="145.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="country3" layoutX="350.0" layoutY="200.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Text layoutX="240.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--&gt;" />
+                  <Text layoutX="240.0" layoutY="158.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--&gt;" />
+                  <Text layoutX="240.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--&gt;" />
+                  <Text layoutX="240.0" layoutY="268.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--&gt;" />
+                  <Text layoutX="240.0" layoutY="433.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--&gt;" />
+                  <Text layoutX="240.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--&gt;" />
+                  <Text layoutX="240.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="--&gt;" />
                </children>
             </AnchorPane>
          </children>
