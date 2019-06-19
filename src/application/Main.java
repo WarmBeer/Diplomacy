@@ -14,7 +14,6 @@ import java.util.Scanner;
 
 public class Main extends Application {
 
-    private static final String ALPHA_NUMERIC_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static String KEY = "";
     private MainController mainController;
     public enum unitType {ARMY, FLEET}

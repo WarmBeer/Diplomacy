@@ -20,11 +20,9 @@ import observers.OrderObserver;
 import utilities.KeyHandler;
 import views.GameView;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static application.Main.print;
 import static application.Main.unitType;
 
 public class GameModel implements Model, OrderObservable, GameViewObservable {
@@ -45,6 +43,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
     private GameView gameView;
     private Game activeGame;
+    private Game lobbyGame;
     ArrayList<OrderObserver> viewObservers = new ArrayList<>();
     ArrayList<GameViewObserver> gameViewObservers = new ArrayList<>();
     private boolean pointsChanged = false;
@@ -138,7 +137,6 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
                         Province target = null;
                         for (int i = 0;i<game.getProvinces().size();i++) {
                             if(game.getProvinces().get(i).getAbbreviation().equals(unitJSON.orderTarget)) {
-                                System.out.println(game.getProvinces().get(i).getAbbreviation() + " : " + unitJSON.orderTarget);
                                 target = game.getProvinces().get(i);
                             }
                         }
@@ -174,6 +172,77 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         this.setPointsChanged();
         this.notifyGameViewObservers();
 
+    }
+
+    public void playerJoined(String uid, String name, Countries owner) {
+        if (this.lobbyGame.getPlayers().size() < 7) {
+            Player player = new Player();
+            player.setId(this.lobbyGame.getPlayers().size());
+            player.setCountry(owner);
+            player.setName(name);
+            player.setUID(uid);
+
+            this.lobbyGame.addPlayer(player);
+
+            Country country = new Country(player.getCountry());
+            country.setPlayer(player);
+            this.lobbyGame.addCountry(country);
+        }
+    }
+
+    @FXML
+    public void createLobby(String gameName, int turnTime) {
+        String gameUID = KeyHandler.generateKey(8);
+        Game game = new Game(gameUID, gameName, turnTime, 1);
+
+        this.lobbyGame = game;
+    }
+
+    public void startLobby() {
+        points = new Group();
+        troops = new Group();
+        initProvinces(this.lobbyGame);
+
+        Country independent = new Country(Countries.INDEPENDENT);
+        this.lobbyGame.addCountry(independent);
+
+        for(Player player : this.lobbyGame.getPlayers()) {
+            Country country = new Country(player.getCountry());
+            country.setPlayer(player);
+            this.lobbyGame.addCountry(country);
+
+            for (int i = 0;i < this.lobbyGame.getProvinces().size();i++) {
+                if (this.lobbyGame.getProvinces().get(i).getCountry().equals(player.getCountry())) {
+                    this.lobbyGame.getProvinces().get(i).setOwner(country);
+                }
+            }
+        }
+
+        //Maak troepen aan
+        for(Province province: this.lobbyGame.getProvinces()){
+            points.getChildren().add(province);
+
+            if (province.getOwner() == null) {
+                province.setOwner(independent);
+            }
+
+            switch(province.getProvinceType()){
+                case SEA:
+                    province.setImage(new Image("Point coastal.png"));
+                    break;
+                case LAND:
+                    province.setImage(new Image("Point.png"));
+                    break;
+            }
+        }
+
+        createUnitsPerPlayer();
+
+
+        this.activeGame = this.lobbyGame;
+        this.lobbyGame = null;
+        this.setPointsChanged();
+        this.notifyGameViewObservers();
     }
 
     public void initProvinces(Game game) {
@@ -776,9 +845,6 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         String order = action + "_" + prov1 + "_" + prov2;
         orderList.add(order);
         notifyOrderObservers();
-    }
-    public void removeOrder(int index) {
-
     }
 
     public ArrayList<String> getComboBox1Values() {

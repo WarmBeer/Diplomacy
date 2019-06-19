@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Unit extends ImageView {
@@ -16,7 +15,6 @@ public class Unit extends ImageView {
         SUPPORT
     }
 
-    //private HashMap<String, Object> currentOrder;
     private orderType currentOrder;
     private Province targetProvince;
     private ArrayList<Unit> supporters;

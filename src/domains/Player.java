@@ -21,6 +21,22 @@ public class Player {
         return country;
     }
 
+    public void setUID(String uid) {
+        this.UID = uid;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCountry(GameModel.Countries country) {
+        this.country = country;
+    }
+
     public Player() {
 
     }
