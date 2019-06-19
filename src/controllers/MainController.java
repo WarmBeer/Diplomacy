@@ -11,6 +11,8 @@ public class MainController {
     private SuperModel superModel;
     public GameController gameController;
     private FirebaseService fb;
+    private String currentGameUID;
+    private boolean gameUIDIsReady = false;
 
     public MainController(Stage primaryStage) {
         superModel = new SuperModel(primaryStage, this);
@@ -23,7 +25,17 @@ public class MainController {
     }
 
     public void clickedJoinGame(String gameUID) {
-        gameController.requestLoadGame(gameUID);
+        setGameID(gameUID);
+        gameController.requestLoadGame(this.currentGameUID);
+    }
+
+    private void setGameID(String gameUID){
+        currentGameUID = gameUID;
+        gameUIDIsReady = true;
+    }
+
+    public String getGameID(){
+        return currentGameUID;
     }
 
     public void clickedHostGame() {
@@ -46,5 +58,9 @@ public class MainController {
         ArrayList<String> GameIDs = fb.getGameIDs();
         return GameIDs;
     }
+
+//    public void fillingLobbyMainControl() {
+//        gameController.addPlayersAndCountriesLobby();
+//    }
 
 }

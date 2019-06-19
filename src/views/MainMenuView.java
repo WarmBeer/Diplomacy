@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import observers.MainMenuViewObservable;
 import observers.MainMenuViewObserver;
@@ -45,8 +46,8 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML private Label country7;
     @FXML private Button startGameHost;
     @FXML private AnchorPane lobbyAnchor;
-    @FXML private ComboBox aantalPersonen;
     @FXML private ComboBox aantalTijd;
+    @FXML private Text gameNaam;
     @FXML private Button ReturnMenu;
     @FXML private Button hostGameReturn;
     @FXML private AnchorPane hostGameAnchor;
@@ -78,7 +79,22 @@ public class MainMenuView implements MainMenuViewObserver {
 
     @FXML
     public void clickedStartGameHost() {
-        lobbyAnchor.setVisible(false);
+        System.out.println("hal");
+        boolean isHost = true;
+
+        if(isHost == true){
+            lobbyAnchor.setVisible(false);
+            int gameIDIndex = listGames.getSelectionModel().getSelectedIndex();
+            gameIDS = mainController.getGameIDS();
+            String gameID = gameIDS.get(gameIDIndex);
+
+            System.out.println(gameID);
+            mainController.clickedJoinGame(gameID);
+        }
+        else{
+            System.out.println("Nope");
+        }
+
     }
 
     @FXML
@@ -141,21 +157,32 @@ public class MainMenuView implements MainMenuViewObserver {
     //Player klikt op GameID, deze functie opend het bijbehordende gamescherm
     @FXML
     public void handleMouseClick(MouseEvent arg0) {
+        String gameID = getChooseGameID();
+        lobbyAnchor.setVisible(true);
+        //mainController.clickedJoinGame(gameID);
+    }
+
+    public String getChooseGameID(){
         int gameIDIndex = listGames.getSelectionModel().getSelectedIndex();
         gameIDS = mainController.getGameIDS();
         String gameID = gameIDS.get(gameIDIndex);
-
         System.out.println(gameID);
-        mainController.clickedJoinGame(gameID);
+        return gameID;
     }
 
     @FXML
     private void showHostGame() {
         hostGameAnchor.setVisible(!hostGameAnchor.isVisible());
-        aantalPersonen.getItems().addAll("", "1", "2", "3", "4", "5", "6", "7");
         aantalTijd.getItems().addAll("", "5 min", "10 min", "15 min", "20 min");
-        aantalPersonen.getSelectionModel().select(0);
         aantalTijd.getSelectionModel().select(0);
+    }
+
+//    public void fillingLobby() {
+//        mainController.fillingLobbyMainControl();
+//    }
+
+    public void createLobbyView() {
+
     }
 
 }

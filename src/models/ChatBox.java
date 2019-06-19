@@ -37,6 +37,11 @@ public class ChatBox implements ChatObservable {
         return newMessage;
     }
 
+    private String makeFirstMessage(String userName){
+        String systemMessage = ("System: Player  " + userName + "  joined the game!");
+        return systemMessage;
+    }
+
 
     private void updateArrayListWithMessages(String GameUID){
         try{
@@ -55,6 +60,13 @@ public class ChatBox implements ChatObservable {
 
     public void addChatMessage(String nieuwBericht, String userName, String GameUID) {
         String newMessage = makeNewMessage(nieuwBericht, userName);
+        firebaseservice.addMessage(newMessage, GameUID);
+        updateArrayListWithMessages(GameUID);
+        notifyChatObservers();
+    }
+
+    public void addFirstMessage(String userName, String GameUID) {
+        String newMessage = makeFirstMessage(userName);
         firebaseservice.addMessage(newMessage, GameUID);
         updateArrayListWithMessages(GameUID);
         notifyChatObservers();

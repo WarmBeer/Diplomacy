@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class GameController  {
 
@@ -31,6 +32,7 @@ public class GameController  {
     private FirebaseService fb;
     private List<Unit> orderedUnits;
     private final int CHARACTERLIMIT = 50;
+    private ArrayList<String> messageArraylist;
 
     public GameController(Stage stage, MainController mainController){
         orderedUnits = new ArrayList<>();
@@ -159,6 +161,12 @@ public class GameController  {
         //processOrders();
     }
 
+    public void sendFirstMessage() {
+        String gameUID = mainController.getGameID();
+        chatbox.addFirstMessage(Main.getKEY(), gameUID);
+    }
+
+
     public void sendOrders() {
         for (Unit unit : orderedUnits) {
             fb.sendOrders(gameModel.getActiveGame().getGameUID(), unit);
@@ -270,7 +278,35 @@ public class GameController  {
     }
 
     public ArrayList<Map> getPlayersList(){
-        ArrayList<Map> playerlist = fb.getPlayerInformation();
+        String gameUID = mainController.getGameID();
+        ArrayList<Map> playerlist = fb.getPlayerInformation(gameUID);
         return playerlist;
+    }
+
+
+
+    public ArrayList<String> getAllMessages(){
+        try{
+            String gameUID = mainController.getGameID();
+            messageArraylist = fb.getMessages(gameUID);
+            return messageArraylist;
+        } catch(ExecutionException EE) {
+            System.out.println("In de gamecontroller is een Excecution Exception opgetreden!");
+            EE.printStackTrace();
+            return messageArraylist;
+        } catch (InterruptedException IE) {
+            System.out.println("In de gamecontroller is een Interrupted Exception opgetreden!");
+            IE.printStackTrace();
+            return messageArraylist;
+        }
+
+    }
+
+//    public void addPlayersAndCountriesLobby() {
+//        gameModel.startLobby();
+//    }
+
+    public void createLobbyGController() {
+
     }
 }

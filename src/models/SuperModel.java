@@ -1,6 +1,7 @@
 package models;
 
 import controllers.MainController;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import observers.MainMenuViewObservable;
 import observers.MainMenuViewObserver;
@@ -22,6 +23,13 @@ public class SuperModel implements Model, MainMenuViewObservable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        setAppIcon(primaryStage);
+    }
+
+    private void setAppIcon(Stage primaryStage) {
+        Image icon = new Image("icon.png");
+        primaryStage.getIcons().add(icon);
     }
 
     public void show() {
