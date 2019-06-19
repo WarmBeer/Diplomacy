@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import observers.MainMenuViewObservable;
 import observers.MainMenuViewObserver;
@@ -45,8 +46,8 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML private Label country7;
     @FXML private Button startGameHost;
     @FXML private AnchorPane lobbyAnchor;
-    @FXML private ComboBox aantalPersonen;
     @FXML private ComboBox aantalTijd;
+    @FXML private Text gameNaam;
     @FXML private Button ReturnMenu;
     @FXML private Button hostGameReturn;
     @FXML private AnchorPane hostGameAnchor;
@@ -152,9 +153,7 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML
     private void showHostGame() {
         hostGameAnchor.setVisible(!hostGameAnchor.isVisible());
-        aantalPersonen.getItems().addAll("", "1", "2", "3", "4", "5", "6", "7");
         aantalTijd.getItems().addAll("", "5 min", "10 min", "15 min", "20 min");
-        aantalPersonen.getSelectionModel().select(0);
         aantalTijd.getSelectionModel().select(0);
     }
 

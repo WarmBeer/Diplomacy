@@ -39,14 +39,14 @@
                       <Font name="Gabriola" size="35.0" />
                   </font>
               </Button>
-            <AnchorPane fx:id="hostGameAnchor" layoutX="436.0" layoutY="24.0" prefHeight="672.0" prefWidth="403.0" style="-fx-background-color: rgb(221, 221, 219); -fx-border-color: white; -fx-background-insets: -10px;" visible="false">
+            <AnchorPane fx:id="hostGameAnchor" layoutX="436.0" layoutY="24.0" prefHeight="672.0" prefWidth="403.0" style="-fx-background-color: rgb(221, 221, 219); -fx-border-color: white; -fx-background-insets: -10px;">
                <children>
                   <Button fx:id="createCustomGame" layoutX="55.0" layoutY="546.0" minHeight="67.0" minWidth="190.0" mnemonicParsing="false" onAction="#clickedHostGame" prefHeight="67.0" prefWidth="294.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Create custom game">
                      <font>
                         <Font name="Gabriola" size="35.0" />
                      </font>
                   </Button>
-                  <Text layoutX="67.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aantal spelers: ">
+                  <Text layoutX="153.0" layoutY="84.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Naam spel:">
                      <font>
                         <Font name="Gabriola" size="30.0" />
                      </font>
@@ -61,8 +61,12 @@
                         <Font name="Gabriola" size="35.0" />
                      </font>
                   </Button>
-                  <ComboBox fx:id="aantalPersonen" layoutX="253.0" layoutY="104.0" prefHeight="25.0" prefWidth="87.0" />
                   <ComboBox fx:id="aantalTijd" layoutX="253.0" layoutY="179.0" prefHeight="25.0" prefWidth="87.0" />
+                  <Text fx:id="gameNaam" layoutX="171.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="66.13671875">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="gameOpties" layoutX="526.0" layoutY="199.0" prefHeight="194.0" prefWidth="228.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white; -fx-background-color: lightgrey;" visible="false">
