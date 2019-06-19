@@ -3,6 +3,7 @@ package services;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.*;
+import com.google.cloud.firestore.EventListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
@@ -14,10 +15,7 @@ import domains.Unit;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -31,6 +29,7 @@ public class FirebaseService {
     private final String CHILDPATH = "Chatbox";
     private final String FIRSTMESSAGE = "System: Welkom bij Diplomacy!";
     private Firestore db;
+    private ArrayList<Map> players;
 
 
     public FirebaseService() {
@@ -252,5 +251,28 @@ public class FirebaseService {
         }
 
         return gameIDs;
+    }
+
+    public ArrayList<Map> getPlayerInformation(){
+        try{
+            //Get right document from firebase
+            DocumentReference docRef = db.collection("Games").document("11111111");
+            ApiFuture<DocumentSnapshot> future = docRef.get();
+            DocumentSnapshot document = future.get();
+
+            players = (ArrayList<Map>) document.getData().get("Players");
+
+            return players;
+        }
+        catch (InterruptedException IE){
+            IE.printStackTrace();
+            System.out.println("Iets fout in firebase service...");
+            return players;
+        }
+        catch (ExecutionException EE){
+            EE.printStackTrace();
+            System.out.println("Iets fout in firebase service...");
+            return players;
+        }
     }
 }

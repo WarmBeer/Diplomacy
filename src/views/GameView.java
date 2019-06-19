@@ -22,14 +22,13 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import observers.*;
+import sun.awt.Symbol;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.LogManager;
 
 public class GameView implements OrderObserver, ChatObserver, Initializable, GameViewObserver {
@@ -56,7 +55,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     public void init() {
         chatboxLaunch(stage);
         pressedStart();
-
     }
 
     private void pressedStart() {
@@ -87,6 +85,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             primaryStage.setScene(scene);
             primaryStage.setMaximized(true);
             primaryStage.show();
+            updatePlayerInformation();
         }
         catch(IOException IOE){
             IOE.printStackTrace();
@@ -137,7 +136,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML public TextField tfMessage; // Value injected by FXMLLoader
     @FXML public TextArea taUpdates; // Value injected by FXMLLoader
     @FXML private MediaPlayer mediaplayer;
-
+    @FXML private ListView playersList;
 
     //FXML Methodes / Listeners
     @FXML private void afsluitenController(){
@@ -423,5 +422,16 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         box.setVisible(!box.isVisible());
         paginationrules.setVisible(!paginationrules.isVisible());
     }
+
+
+    public void updatePlayerInformation() {
+        ArrayList<Map> playerlist = gameController.getPlayersList();
+
+        for(int x = 0; x < playerlist.size(); x++){
+            String playerinfo = ((String) playerlist.get(x).get("name") +"  plays as:   " + (String) playerlist.get(x).get("country"));
+            playersList.getItems().add(playerinfo);
+        }
+
+    };
 }
 
