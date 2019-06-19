@@ -96,7 +96,7 @@
                      </children>
                   </AnchorPane>
 
-                  <VBox fx:id="MainMenu" layoutX="711.0" layoutY="184.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="400.0">
+                  <VBox fx:id="MainMenu" layoutX="711.0" layoutY="184.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="400.0" visible="false">
                      <children>
                         <Button fx:id="OpslaanKnop" cache="true" mnemonicParsing="false" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Save Game" translateX="50.0">
                            <VBox.margin>
