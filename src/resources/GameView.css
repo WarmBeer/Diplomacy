@@ -1,0 +1,8 @@
+.list-view .list-cell:even {
+-fx-background-color: #fce5c4;
+-fx-text-fill: black;
+}
+.list-view .list-cell:odd {
+-fx-background-color: #edd7b8;
+-fx-text-fill: black;
+}

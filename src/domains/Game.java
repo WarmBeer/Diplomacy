@@ -27,6 +27,10 @@ public class Game {
         Players = new ArrayList<>();
     }
 
+    public void nextTurn() {
+        turn++;
+    }
+
     public void addCountry(Country country) {
         this.Countries.add(country);
     }

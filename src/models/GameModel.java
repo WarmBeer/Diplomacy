@@ -151,14 +151,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
                 province.setOwner(independent);
             }
 
-            switch(province.getProvinceType()){
-                case SEA:
-                    province.setImage(new Image("Point coastal.png"));
-                    break;
-                case LAND:
-                    province.setImage(new Image("Point.png"));
-                    break;
-            }
+            province.setImage(new Image("sprites/" + province.getOwner().getName() + ".png"));
         }
 
 
@@ -675,8 +668,8 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
             province.setTranslateX(-25);
             province.setTranslateY(-35);
 
-            province.setScaleX(0.2);
-            province.setScaleY(0.2);
+            province.setScaleX(0.3);
+            province.setScaleY(0.3);
 
             province.setX(province.getX());
             province.setY(province.getY());

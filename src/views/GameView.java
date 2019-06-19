@@ -36,7 +36,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     //Game setup variables
     private Parent content;
     public final String GAME_VIEW = "/resources/views/GameView.fxml";
-    public final String STYLESHEET_FILE = "/Resources/style.css";
+    public final String STYLESHEET_FILE = "/Resources/GameView.css";
     private static String SPEL_REGELS = "/views/Spelregels.fxml";
 
     //Ingame variables
@@ -81,6 +81,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
             primaryStage.setTitle("Diplomacy v0.2");
             Scene scene = new Scene( root, 1920, 1080 );
+            scene.getStylesheets().add(getClass().getResource(STYLESHEET_FILE).toExternalForm());
             root.getChildren().addAll(content, troops, points);
             primaryStage.setScene(scene);
             primaryStage.setMaximized(true);
@@ -157,6 +158,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         messagesList.getItems().clear();
 
         for(String bericht : messageArraylist){
+
             messagesList.getItems().add(messagesList.getItems().size(), bericht);
             messagesList.scrollTo(bericht);
 
@@ -329,8 +331,8 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             province.setOnMouseClicked(event -> {
 
                 for(Province province1 : provinces) {
-                    province1.setScaleX(0.2);
-                    province1.setScaleY(0.2);
+                    province1.setScaleX(0.3);
+                    province1.setScaleY(0.3);
                 }
                 this.selectedProvince = (Province) event.getTarget();
                 this.updateComboBoxes((Province) event.getTarget());
