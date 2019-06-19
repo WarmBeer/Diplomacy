@@ -42,6 +42,10 @@ public class GameController  {
         this.mainController = mainController;
     }
 
+    public GameModel giveGameModel(){
+        return this.gameModel;
+    }
+
     public void saveToFirebase() {
         GameJSON gameJSON = saveGameToJSON();
         fb.saveGame(gameJSON);

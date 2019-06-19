@@ -3,7 +3,6 @@ package views;
 import controllers.MainController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -11,13 +10,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import models.GameModel;
 import observers.MainMenuViewObservable;
 import observers.MainMenuViewObserver;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.Map;
 import java.util.logging.LogManager;
 
 public class MainMenuView implements MainMenuViewObserver {
@@ -154,11 +154,25 @@ public class MainMenuView implements MainMenuViewObserver {
         }
     }
 
-    //Player klikt op GameID, deze functie opend het bijbehordende gamescherm
+
+
+    // TODO: 19-6-2019 Parameter zijn nu nog hardcoded, moet gefixt worden (om game te starten)
     @FXML
     public void handleMouseClick(MouseEvent arg0) {
         String gameID = getChooseGameID();
         lobbyAnchor.setVisible(true);
+        mainController.passGameModel().joinLobby(gameID);
+
+        //playerJoined moet hier
+        GameModel.Countries test = GameModel.Countries.RUSSIA;
+        mainController.passGameModel().playerJoined(gameID,"Thomas", test);
+
+        initLobbyLabels();
+
+        //Vul labels met shit
+        updateJoinedPlayersinformation();
+
+
         //mainController.clickedJoinGame(gameID);
     }
 
@@ -177,12 +191,25 @@ public class MainMenuView implements MainMenuViewObserver {
         aantalTijd.getSelectionModel().select(0);
     }
 
-//    public void fillingLobby() {
-//        mainController.fillingLobbyMainControl();
-//    }
+    public void updateJoinedPlayersinformation() {
+        ArrayList<Map> playerinfo = mainController.getPlayersList();
+    }
 
-    public void createLobbyView() {
-
+    public void initLobbyLabels(){
+        player1.setText("Empty");
+        country1.setText("Empty");
+        player2.setText("Empty");
+        country2.setText("Empty");
+        player3.setText("Empty");
+        country3.setText("Empty");
+        player4.setText("Empty");
+        country4.setText("Empty");
+        player5.setText("Empty");
+        country5.setText("Empty");
+        player6.setText("Empty");
+        country6.setText("Empty");
+        player7.setText("Empty");
+        country7.setText("Empty");
     }
 
 }

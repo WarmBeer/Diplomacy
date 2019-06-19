@@ -30,6 +30,9 @@ public class FirebaseService {
     private final String FIRSTMESSAGE = "System: Welkom bij Diplomacy!";
     private Firestore db;
     private ArrayList<Map> players;
+    private String getGameName;
+    private int getGameTurnTime;
+    private int getGameTurn;
 
 
     public FirebaseService() {
@@ -42,7 +45,6 @@ public class FirebaseService {
      * We can call FirebaseService.getInstance() from everywhere
      * And there is only 1 instance.
      *
-     * @param gameUID Game ID as String.
      * @return A instance of the class FirebaseService.
      * @author Thomas Zijl
      */
@@ -273,6 +275,80 @@ public class FirebaseService {
             EE.printStackTrace();
             System.out.println("Iets fout in firebase service...");
             return players;
+        }
+    }
+
+
+
+
+    public String getGameName(String gameUID){
+        try{
+            //Get right document from firebase
+            DocumentReference docRef = db.collection("Games").document(gameUID);
+            ApiFuture<DocumentSnapshot> future = docRef.get();
+            DocumentSnapshot document = future.get();
+
+            getGameName = (String)document.getData().get("name");
+
+            return getGameName;
+        }
+        catch (InterruptedException IE){
+            IE.printStackTrace();
+            System.out.println("Iets fout in firebase service...");
+            return getGameName;
+        }
+        catch (ExecutionException EE){
+            EE.printStackTrace();
+            System.out.println("Iets fout in firebase service...");
+            return getGameName;
+        }
+    }
+
+    public int getGameTurnTime(String gameUID){
+        try{
+            //Get right document from firebase
+            DocumentReference docRef = db.collection("Games").document(gameUID);
+            ApiFuture<DocumentSnapshot> future = docRef.get();
+            DocumentSnapshot document = future.get();
+
+            long getGameTurnTimeAsLong = (long) document.getData().get("turnTime");
+            getGameTurnTime = Math.toIntExact(getGameTurnTimeAsLong);
+
+            return getGameTurnTime;
+        }
+        catch (InterruptedException IE){
+            IE.printStackTrace();
+            System.out.println("Iets fout in firebase service...");
+            return getGameTurnTime;
+        }
+        catch (ExecutionException EE){
+            EE.printStackTrace();
+            System.out.println("Iets fout in firebase service...");
+            return getGameTurnTime;
+        }
+    }
+
+    public int getGameTurn(String gameUID){
+        try{
+            //Get right document from firebase
+            DocumentReference docRef = db.collection("Games").document(gameUID);
+            ApiFuture<DocumentSnapshot> future = docRef.get();
+            DocumentSnapshot document = future.get();
+
+            long getGameTurnAsLong = (long) document.getData().get("turn");
+            getGameTurn = Math.toIntExact(getGameTurnAsLong);
+
+            return getGameTurn;
+        }
+        catch (InterruptedException IE){
+            IE.printStackTrace();
+            System.out.println("Iets fout in firebase service...");
+            return getGameTurn;
+        }
+        catch (ExecutionException EE){
+            EE.printStackTrace();
+            System.out.println("Iets fout in firebase service...");
+            return getGameTurn;
         }
     }
 }

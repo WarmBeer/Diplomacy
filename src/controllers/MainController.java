@@ -1,10 +1,12 @@
 package controllers;
 
 import javafx.stage.Stage;
+import models.GameModel;
 import models.SuperModel;
 import services.FirebaseService;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MainController {
 
@@ -13,6 +15,11 @@ public class MainController {
     private FirebaseService fb;
     private String currentGameUID;
     private boolean gameUIDIsReady = false;
+
+    public GameModel passGameModel(){
+        GameModel gamemodel = gameController.giveGameModel();
+        return gamemodel;
+    }
 
     public MainController(Stage primaryStage) {
         superModel = new SuperModel(primaryStage, this);
@@ -60,7 +67,14 @@ public class MainController {
     }
 
 //    public void fillingLobbyMainControl() {
-//        gameController.addPlayersAndCountriesLobby();
+//        fb.getPlayerInformation(getGameID());
 //    }
+
+    // TODO: 19-6-2019 GAME ID IS NOG FIXED DOOR BUG!!! 
+    public ArrayList<Map> getPlayersList(){
+        String gameUID = getGameID();
+        ArrayList<Map> playerlist = fb.getPlayerInformation("11111111");
+        return playerlist;
+    }
 
 }
