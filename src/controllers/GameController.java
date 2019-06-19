@@ -156,8 +156,8 @@ public class GameController  {
         chatbox.makeNewChat(gameModel.getActiveGame().getGameUID());
     }
 
-    public void addMessage(String message) {
-        chatbox.addChatMessage(message, Main.getKEY(), gameModel.getActiveGame().getGameUID());
+    public void addMessage(String toPlayer, String message) {
+        chatbox.addChatMessage(toPlayer, message, Main.getKEY(), gameModel.getActiveGame().getGameUID());
         //processOrders();
     }
 
