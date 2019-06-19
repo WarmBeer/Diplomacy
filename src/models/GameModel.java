@@ -52,6 +52,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     }
 
     public void show() {
+        this.removeVisualPoints = false;
         this.gameView.init();
     }
     
