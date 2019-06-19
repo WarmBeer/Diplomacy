@@ -8,7 +8,6 @@
 <?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
@@ -42,11 +41,11 @@
                                           <ListView fx:id="messagesList" prefHeight="301.0" prefWidth="330.0" />
                                        </content>
                                   </Tab>
-                                  <Tab text="Activity Updates">
+                                  <Tab text="Players">
                                     <content>
                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
-                                                <TextArea prefHeight="690.0" prefWidth="403.0" text="Player2: Army Country6 moved to Country4.&#10;Player3: Army Country4 destroyed.&#10;Player3: Army Country14 moved to Country18." />
+                                                <ListView fx:id="playersList" prefHeight="680.0" prefWidth="405.0" />
                                              </children>
                                           </AnchorPane>
                                     </content>
