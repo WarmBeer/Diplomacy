@@ -142,12 +142,16 @@ public class MainMenuView implements MainMenuViewObserver {
     //Player klikt op GameID, deze functie opend het bijbehordende gamescherm
     @FXML
     public void handleMouseClick(MouseEvent arg0) {
+        String gameID = getChooseGameID();
+        mainController.clickedJoinGame(gameID);
+    }
+
+    public String getChooseGameID(){
         int gameIDIndex = listGames.getSelectionModel().getSelectedIndex();
         gameIDS = mainController.getGameIDS();
         String gameID = gameIDS.get(gameIDIndex);
-
         System.out.println(gameID);
-        mainController.clickedJoinGame(gameID);
+        return gameID;
     }
 
     @FXML

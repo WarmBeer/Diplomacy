@@ -1,10 +1,5 @@
 package models;
 
-import application.Main;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import controllers.GameController;
 import domains.*;
 import javafx.fxml.FXML;
@@ -49,6 +44,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     private boolean pointsChanged = false;
     private boolean hasComboBoxes = false;
     private boolean removeVisualPoints = false;
+    private boolean disableOrderMenu = false;
     private ArrayList<String> provComboBoxValues;
 
     public GameModel(Stage stage, GameController gameController) {
@@ -56,6 +52,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     }
 
     public void show() {
+        this.removeVisualPoints = false;
         this.gameView.init();
     }
     
@@ -67,27 +64,25 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         provComboBoxValues = new ArrayList<>();
 
         hasComboBoxes = true;
+        Player provinceLeader = selectedProvince.getOwner().getLeader();
+        boolean isThisClient = provinceLeader.isThisLocalPlayer();
 
-        if(!action.equals("Hold")){
-            for(Province province : selectedProvince.getBorders()) {
-                provComboBoxValues.add(province.getName());
+        //the player slected a province that isn't theirs
+        if(!isThisClient) {
+            setDisableOrderMenu(true);
+        } else {
+            setDisableOrderMenu(false);
+            if(!action.equals("Hold")){
+                for(Province province : selectedProvince.getBorders()) {
+                    provComboBoxValues.add(province.getName());
+                }
             }
-        }
-        if(action.equals("Hold") || action.equals("Action")) {
-            provComboBoxValues.add("Select Province");
+            if(action.equals("Hold") || action.equals("Action")) {
+                provComboBoxValues.add("Select Province");
+            }
         }
 
         notifyGameViewObservers();
-    }
-
-    private Province getProvince(String abbr) {
-        System.out.println(abbr);
-        for (int i = 0;i<activeGame.getProvinces().size();i++) {
-            if(activeGame.getProvinces().get(i).getAbbreviation() == abbr) {
-                return activeGame.getProvinces().get(i);
-            }
-        }
-        return null;
     }
 
     @FXML
@@ -833,6 +828,15 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         return removeVisualPoints;
     }
 
+    public void setDisableOrderMenu(boolean disableOrderMenu) {
+        this.disableOrderMenu = disableOrderMenu;
+    }
+
+    @Override
+    public boolean getDisableOrderMenu() {
+        return disableOrderMenu;
+    }
+
     @Override
     public ArrayList<String> getOrderList() {
         return orderList;
@@ -849,6 +853,14 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
     public ArrayList<String> getComboBox1Values() {
         return this.provComboBoxValues;
+    }
+
+    public Province getProvinceFromAbbr(String provinceAbbr) {
+        for(Province province : getProvinces()) {
+            if(province.getAbbreviation().equals(provinceAbbr))
+                return province;
+        }
+        return null;
     }
 
     public Province getProvinceFromName(String provinceName) {

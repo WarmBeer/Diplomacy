@@ -23,4 +23,6 @@ public interface GameViewObservable {
     boolean hasComboBoxes();
 
     boolean doRemoveAllPoints();
+
+    boolean getDisableOrderMenu();
 }
