@@ -296,6 +296,8 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         troops.getChildren().removeAll(troops.getChildren());
         troops.getChildren().addAll(gameViewObservable.getTroopsGroup());
 
+        pOrderSettings.setDisable(gameViewObservable.getDisableOrderMenu());
+
         if(gameViewObservable.pointsChanged()){
             points.getChildren().removeAll(points.getChildren());
             points.getChildren().addAll(gameViewObservable.getPointsGroup());

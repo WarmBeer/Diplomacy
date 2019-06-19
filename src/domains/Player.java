@@ -21,7 +21,20 @@ public class Player {
         return country;
     }
 
+    public boolean isThisLocalPlayer() {
+        return application.Main.getKEY().equals(UID);
+    }
+
     public Player() {
 
+    }
+
+    @Override
+    public String toString() {
+        return id + ") " + this.getName() + " (" + UID + ") country: " + country.toString();
+    }
+
+    public String getUID() {
+        return UID;
     }
 }

@@ -1,10 +1,5 @@
 package models;
 
-import application.Main;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import controllers.GameController;
 import domains.*;
 import javafx.fxml.FXML;
@@ -17,14 +12,11 @@ import observers.GameViewObservable;
 import observers.GameViewObserver;
 import observers.OrderObservable;
 import observers.OrderObserver;
-import utilities.KeyHandler;
 import views.GameView;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static application.Main.print;
 import static application.Main.unitType;
 
 public class GameModel implements Model, OrderObservable, GameViewObservable {
@@ -50,6 +42,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     private boolean pointsChanged = false;
     private boolean hasComboBoxes = false;
     private boolean removeVisualPoints = false;
+    private boolean disableOrderMenu = false;
     private ArrayList<String> provComboBoxValues;
 
     public GameModel(Stage stage, GameController gameController) {
@@ -68,14 +61,22 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         provComboBoxValues = new ArrayList<>();
 
         hasComboBoxes = true;
+        Player provinceLeader = selectedProvince.getOwner().getLeader();
+        boolean isThisClient = provinceLeader.isThisLocalPlayer();
 
-        if(!action.equals("Hold")){
-            for(Province province : selectedProvince.getBorders()) {
-                provComboBoxValues.add(province.getName());
+        //the player slected a province that isn't theirs
+        if(!isThisClient) {
+            setDisableOrderMenu(true);
+        } else {
+            setDisableOrderMenu(false);
+            if(!action.equals("Hold")){
+                for(Province province : selectedProvince.getBorders()) {
+                    provComboBoxValues.add(province.getName());
+                }
             }
-        }
-        if(action.equals("Hold") || action.equals("Action")) {
-            provComboBoxValues.add("Select Province");
+            if(action.equals("Hold") || action.equals("Action")) {
+                provComboBoxValues.add("Select Province");
+            }
         }
 
         notifyGameViewObservers();
@@ -762,6 +763,15 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     @Override
     public boolean doRemoveAllPoints() {
         return removeVisualPoints;
+    }
+
+    public void setDisableOrderMenu(boolean disableOrderMenu) {
+        this.disableOrderMenu = disableOrderMenu;
+    }
+
+    @Override
+    public boolean getDisableOrderMenu() {
+        return disableOrderMenu;
     }
 
     @Override

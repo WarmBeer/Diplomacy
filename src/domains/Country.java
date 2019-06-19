@@ -20,6 +20,10 @@ public class Country {
         return this.name;
     }
 
+    public Player getLeader() {
+        return this.leader;
+    }
+
     public void setPlayer(Player player) {
         this.leader = player;
     }
