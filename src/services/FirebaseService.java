@@ -253,10 +253,10 @@ public class FirebaseService {
         return gameIDs;
     }
 
-    public ArrayList<Map> getPlayerInformation(){
+    public ArrayList<Map> getPlayerInformation(String gameID){
         try{
             //Get right document from firebase
-            DocumentReference docRef = db.collection("Games").document("11111111");
+            DocumentReference docRef = db.collection("Games").document(gameID);
             ApiFuture<DocumentSnapshot> future = docRef.get();
             DocumentSnapshot document = future.get();
 

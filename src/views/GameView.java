@@ -47,6 +47,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private Stage stage;
     private Province selectedProvince;
 
+
     public GameView(Stage stage, GameController gameController){
         this.gameController = gameController;
         this.stage = stage;
@@ -86,6 +87,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             primaryStage.setMaximized(true);
             primaryStage.show();
             updatePlayerInformation();
+            firstMessage();
         }
         catch(IOException IOE){
             IOE.printStackTrace();
@@ -93,7 +95,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         catch(Exception E){
             E.printStackTrace();
         }
-
         /*
         //Als host true is, maak dan een chatsavelocatie aan in firebase. Sorry Henk.
         if(host){
@@ -151,6 +152,10 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         String newMessage = (textInput.getText());
         gameController.addMessage(newMessage);
         textInput.clear();
+    }
+
+    public void firstMessage(){
+        gameController.sendFirstMessage();
     }
 
     private void updateMessages(ArrayList<String> messageArraylist){
@@ -433,7 +438,11 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             String playerinfo = ((String) playerlist.get(x).get("name") +"  plays as:   " + (String) playerlist.get(x).get("country"));
             playersList.getItems().add(playerinfo);
         }
-
     };
+
+    public void startChatWithGame(){
+        ArrayList<String> messageArraylist = gameController.getAllMessages();
+        updateMessages(messageArraylist);
+    }
 }
 
