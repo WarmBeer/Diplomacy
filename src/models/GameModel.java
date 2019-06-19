@@ -12,6 +12,7 @@ import observers.GameViewObservable;
 import observers.GameViewObserver;
 import observers.OrderObservable;
 import observers.OrderObserver;
+import utilities.KeyHandler;
 import views.GameView;
 
 import java.util.ArrayList;
@@ -81,16 +82,6 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         }
 
         notifyGameViewObservers();
-    }
-
-    private Province getProvince(String abbr) {
-        System.out.println(abbr);
-        for (int i = 0;i<activeGame.getProvinces().size();i++) {
-            if(activeGame.getProvinces().get(i).getAbbreviation() == abbr) {
-                return activeGame.getProvinces().get(i);
-            }
-        }
-        return null;
     }
 
     @FXML
@@ -861,6 +852,14 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
     public ArrayList<String> getComboBox1Values() {
         return this.provComboBoxValues;
+    }
+
+    public Province getProvinceFromAbbr(String provinceAbbr) {
+        for(Province province : getProvinces()) {
+            if(province.getAbbreviation().equals(provinceAbbr))
+                return province;
+        }
+        return null;
     }
 
     public Province getProvinceFromName(String provinceName) {
