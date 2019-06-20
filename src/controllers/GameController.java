@@ -349,7 +349,7 @@ public class GameController  {
     }
 
     public List<Player> getPlayersList(String gameUID){
-        List<Player> playerlist = fb.getPlayerInformation(gameUID);
+        List<Player> playerlist = fb.getPlayersFromFB(gameUID);
         return playerlist;
     }
 
