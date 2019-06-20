@@ -27,10 +27,6 @@ public class MainController {
         this.fb = FirebaseService.getInstance();
     }
 
-    public void clickedOptions() {
-
-    }
-
     public void clickedJoinGame(String gameUID) {
         setGameID(gameUID);
         gameController.requestLoadGame(this.currentGameUID);

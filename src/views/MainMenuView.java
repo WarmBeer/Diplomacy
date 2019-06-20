@@ -46,8 +46,10 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML private Label country5;
     @FXML private Label country6;
     @FXML private Label country7;
+    @FXML private Button ReturnLobby;
     @FXML private Button startGameHost;
     @FXML private AnchorPane lobbyAnchor;
+    @FXML private AnchorPane loginScreenAnchor;
     @FXML private ComboBox aantalTijd;
     @FXML private Text gameNaam;
     @FXML private Button ReturnMenu;
@@ -61,16 +63,12 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML private Button joinGameButton;
     @FXML private Button hostGameButton;
     @FXML private Button afsluitenButton;
+    @FXML private Button laadGameButton;
     @FXML private Button createCustomGame;
 
     @FXML
     public void clickedOptions() {
-        mainController.clickedOptions();
-    }
-
-    @FXML
-    public void clickedJoinGame() {
-
+        gameOpties.setVisible(!gameOpties.isVisible());
     }
 
     @FXML
@@ -81,7 +79,6 @@ public class MainMenuView implements MainMenuViewObserver {
 
     @FXML
     public void clickedStartGameHost() {
-        System.out.println("hal");
         boolean isHost = true;
 
         if(isHost == true){
@@ -97,11 +94,6 @@ public class MainMenuView implements MainMenuViewObserver {
             System.out.println("Nope");
         }
 
-    }
-
-    @FXML
-    public void showOptions() {
-        gameOpties.setVisible(!gameOpties.isVisible());
     }
 
     public MainMenuView(Stage primaryStage, MainController mainController) throws IOException {
@@ -143,8 +135,8 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML
     private void showGamesList() {
         listGamesAnchor.setVisible(!listGamesAnchor.isVisible());
-        listGames.setVisible(!listGames.isVisible());
-        ReturnMenu.setVisible(!ReturnMenu.isVisible());
+//        listGames.setVisible(!listGames.isVisible());
+//        ReturnMenu.setVisible(!ReturnMenu.isVisible());
 
         listGames.getItems().clear();
         gameIDS = mainController.getFullGameName();
@@ -176,6 +168,22 @@ public class MainMenuView implements MainMenuViewObserver {
         updateJoinedPlayersinformation();
 
         //mainController.clickedJoinGame(gameID);
+    }
+    @FXML
+    private void returnLobby() {
+        lobbyAnchor.setVisible(false);
+    }
+
+    // TODO: 20-6-2019
+    @FXML
+    private void showLoginScreen() {
+        while (loginScreenAnchor.isVisible() == true) {
+            joinGameButton.setDisable(true);
+            hostGameButton.setDisable(true);
+            laadGameButton.setDisable(true);
+            afsluitenButton.setDisable(true);
+
+        }
     }
 
     public String getChooseGameID(){
