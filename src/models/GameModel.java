@@ -237,7 +237,6 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
         createUnitsPerPlayer();
 
-
         this.activeGame = this.lobbyGame;
         this.lobbyGame = null;
         this.setPointsChanged();
@@ -520,7 +519,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
         //BORDERS FRANCE -> spain
         gas.addBorder(spa);
-        gas.addBorder(spa);
+        mar.addBorder(spa);
 
         //BORDERS RUSSIA TURKEY, BULGARIA, AUSTRALIA FRANCE, SWEDEN
         sev.addBorder(arm);
