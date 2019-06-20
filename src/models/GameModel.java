@@ -216,7 +216,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
     }
 
-    public void playerJoined(String gameUID, String uid, String name, Countries owner) {
+    public void playerJoined(String gameUID, String uid, String name) {
         //DOEN
         boolean playerJoinedBefore = false;
         ArrayList<String> activePlayers = firebase.getActivePlayerUIDS(gameUID);
@@ -229,6 +229,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
         if(playerJoinedBefore == false){
             if (this.lobbyGame.getPlayers().size() < 7) {
+                Countries owner = giveAvailableCountry(gameUID);
                 Player player = new Player();
                 player.setId(this.lobbyGame.getPlayers().size());
                 player.setCountry(owner);
@@ -243,6 +244,8 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
                 firebase.addPlayerInFirebase(player, gameUID);
             }
         }
+
+        firebase.addNewPlayerInFirebase(uid,name);
 
     }
 

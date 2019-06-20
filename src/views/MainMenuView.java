@@ -156,14 +156,14 @@ public class MainMenuView implements MainMenuViewObserver {
     public void handleMouseClick(MouseEvent arg0) {
         String gameID = getChooseGameID();
         String playerUID = Main.getKEY();
-        GameModel.Countries playerCountry = mainController.getAvailableCountry(gameID);
+
         String playerName = "Rick"; //DIT MOET NOG WORDEN VERBETERD, NU FIXED VALUE
 
         lobbyAnchor.setVisible(true);
         mainController.passGameModel().joinLobby(gameID);
 
         //registreer speler
-        mainController.passGameModel().playerJoined(gameID,playerUID,playerName,playerCountry );
+        mainController.passGameModel().playerJoined(gameID,playerUID,playerName);
 
         initLobbyLabels();
 
