@@ -135,7 +135,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML private TextField textInput;
     @FXML private Button sendButton;
     @FXML private ListView messagesList;
-    @FXML private VBox MainMenu;
+    @FXML private AnchorPane MainMenu;
     @FXML private Button OpslaanKnop;
     @FXML private Button LaadKnop;
     @FXML private Button SpelregelsKnop;

@@ -103,51 +103,38 @@
                         </Text>
                      </children>
                   </AnchorPane>
-
-                  <VBox fx:id="MainMenu" layoutX="711.0" layoutY="184.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="400.0" visible="false">
+                  <AnchorPane fx:id="MainMenu" layoutX="711.0" layoutY="184.0" prefHeight="554.0" prefWidth="385.0" style="-fx-background-color: rgb(221, 221, 219) #fce5c4; -fx-border-color: white;" visible="false">
                      <children>
-                        <Button fx:id="OpslaanKnop" cache="true" mnemonicParsing="false" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Save Game" translateX="50.0">
-                           <VBox.margin>
-                              <Insets top="33.0" />
-                           </VBox.margin>
+                        <Button fx:id="SpelregelsKnop" layoutX="43.0" layoutY="110.0" mnemonicParsing="false" onAction="#spelRegelsView" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Rules">
                            <font>
                               <Font name="Gabriola" size="35.0" />
                            </font>
                         </Button>
-                        <Button fx:id="SpelregelsKnop" layoutX="10.0" layoutY="80.0" mnemonicParsing="false" onAction="#spelRegelsView" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Rules" translateX="50.0">
-                           <VBox.margin>
-                              <Insets top="33.0" />
-                           </VBox.margin>
+                        <Button fx:id="OptiesKnop" layoutX="43.0" layoutY="220.0" mnemonicParsing="false" onAction="#inGameOpties" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Options">
                            <font>
                               <Font name="Gabriola" size="35.0" />
                            </font>
                         </Button>
-                        <Button fx:id="OptiesKnop" layoutX="10.0" layoutY="150.0" mnemonicParsing="false" onAction="#inGameOpties" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Options" translateX="50.0">
-                           <VBox.margin>
-                              <Insets top="33.0" />
-                           </VBox.margin>
+                        <Button fx:id="ReturnMainMenu" layoutX="43.0" layoutY="330.0" mnemonicParsing="false" onAction="#returnToMainMenu" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Return Main Menu">
                            <font>
                               <Font name="Gabriola" size="35.0" />
                            </font>
                         </Button>
-                        <Button fx:id="ReturnMainMenu" layoutX="10.0" layoutY="220.0" mnemonicParsing="false" onAction="#returnToMainMenu" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Return Main Menu" translateX="50.0">
-                           <VBox.margin>
-                              <Insets top="33.0" />
-                           </VBox.margin>
+                        <Button fx:id="AfsluitenKnop" layoutX="43.0" layoutY="440.0" mnemonicParsing="false" onAction="#afsluitenView" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Exit Game">
                            <font>
                               <Font name="Gabriola" size="35.0" />
                            </font>
                         </Button>
-                        <Button fx:id="AfsluitenKnop" layoutX="10.0" layoutY="250.0" mnemonicParsing="false" onAction="#afsluitenView" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Exit Game" translateX="50.0">
+                        <Text layoutX="160.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menu">
                            <font>
-                              <Font name="Gabriola" size="35.0" />
+                              <Font name="Cambria Math" size="27.0" />
                            </font>
-                           <VBox.margin>
-                              <Insets top="33.0" />
-                           </VBox.margin>
-                        </Button>
+                        </Text>
                      </children>
-                  </VBox>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </AnchorPane>
                   <VBox fx:id="box" layoutX="557.0" layoutY="18.0" prefHeight="980.0" prefWidth="708.0" style="-fx-background-color: rgb(221, 221, 219); -fx-border-color: rgb(221, 221, 219); -fx-background-insets: 1; -fx-border-width: 10px;" visible="false">
                      <children>
                         <Pagination fx:id="paginationrules" pageCount="24" prefHeight="962.0" prefWidth="708.0" visible="false">

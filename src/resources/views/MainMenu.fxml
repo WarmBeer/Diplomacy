@@ -15,22 +15,17 @@
    <top>
       <AnchorPane prefHeight="720.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
          <children>
-                <Button fx:id="joinGameButton" contentDisplay="CENTER" focusTraversable="true" layoutX="465.0" layoutY="66.0" maxHeight="150.0" maxWidth="350.0" minHeight="97.0" minWidth="307.0" mnemonicParsing="false" onAction="#showGamesList" pickOnBounds="false" prefHeight="98.0" prefWidth="350.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Join game" visible="true" wrapText="false">
+                <Button fx:id="joinGameButton" contentDisplay="CENTER" focusTraversable="true" layoutX="465.0" layoutY="130.0" maxHeight="150.0" maxWidth="350.0" minHeight="97.0" minWidth="307.0" mnemonicParsing="false" onAction="#showGamesList" pickOnBounds="false" prefHeight="98.0" prefWidth="350.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Join game" visible="true" wrapText="false">
                     <font>
                         <Font name="Gabriola" size="50.0" fx:id="x1" />
                     </font>
                 </Button>
-                <Button fx:id="hostGameButton" contentDisplay="CENTER" layoutX="465.0" layoutY="219.0" maxHeight="150.0" maxWidth="350.0" minHeight="98.0" minWidth="293.0" mnemonicParsing="false" onAction="#showHostGame" prefHeight="98.0" prefWidth="399.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Host game">
+                <Button fx:id="hostGameButton" contentDisplay="CENTER" layoutX="465.0" layoutY="280.0" maxHeight="150.0" maxWidth="350.0" minHeight="98.0" minWidth="293.0" mnemonicParsing="false" onAction="#showHostGame" prefHeight="98.0" prefWidth="399.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Host game">
                <font>
                   <Font name="Gabriola" size="50.0" />
                </font>
             </Button>
-            <Button fx:id="laadGameButton" contentDisplay="CENTER" layoutX="465.0" layoutY="371.0" maxHeight="150.0" maxWidth="350.0" minHeight="98.0" minWidth="293.0" mnemonicParsing="false" prefHeight="98.0" prefWidth="399.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Load game">
-               <font>
-                  <Font name="Gabriola" size="50.0" />
-               </font>
-            </Button>
-            <Button fx:id="afsluitenButton" contentDisplay="CENTER" layoutX="465.0" layoutY="521.0" maxHeight="150.0" maxWidth="350.0" minHeight="98.0" minWidth="293.0" mnemonicParsing="false" onAction="#afsluitenView" prefHeight="98.0" prefWidth="399.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Exit game">
+            <Button fx:id="afsluitenButton" contentDisplay="CENTER" layoutX="468.0" layoutY="430.0" maxHeight="150.0" maxWidth="350.0" minHeight="98.0" minWidth="293.0" mnemonicParsing="false" onAction="#afsluitenView" prefHeight="98.0" prefWidth="399.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Exit game">
                <font>
                   <Font name="Gabriola" size="50.0" />
                </font>
@@ -42,14 +37,14 @@
               </Button>
             <AnchorPane fx:id="loginScreenAnchor" layoutX="457.0" layoutY="125.0" prefHeight="410.0" prefWidth="364.0" style="-fx-background-color: rgb(221, 221, 219); -fx-border-color: white; -fx-background-insets: -10px;" visible="false">
                <children>
-                  <TextField layoutX="107.0" layoutY="137.0" />
+                  <TextField fx:id="textFieldUserName" layoutX="108.0" layoutY="151.0" />
                   <Text fill="RED" layoutX="139.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# No key found!" />
-                  <Text layoutX="113.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter your name:">
+                  <Text layoutX="113.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter your name:">
                      <font>
                         <Font size="13.0" />
                      </font>
                   </Text>
-                  <Button layoutX="115.0" layoutY="271.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="134.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Start game">
+                  <Button fx:id="startGameLoginScreen" layoutX="115.0" layoutY="303.0" mnemonicParsing="false" onAction="#createUser" prefHeight="61.0" prefWidth="134.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Create user">
                      <font>
                         <Font name="Gabriola" size="27.0" />
                      </font>
@@ -58,7 +53,7 @@
             </AnchorPane>
             <AnchorPane fx:id="hostGameAnchor" layoutX="436.0" layoutY="24.0" prefHeight="672.0" prefWidth="403.0" style="-fx-background-color: rgb(221, 221, 219); -fx-border-color: white; -fx-background-insets: -10px;" visible="false">
                <children>
-                  <Button fx:id="createCustomGame" onMouseClicked="#createCustomGame" layoutX="55.0" layoutY="546.0" minHeight="67.0" minWidth="190.0" mnemonicParsing="false" onAction="#clickedHostGame" prefHeight="67.0" prefWidth="294.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Create custom game">
+                  <Button fx:id="createCustomGame" onMouseClicked="#createCustomGame" layoutX="55.0" layoutY="411.0" minHeight="67.0" minWidth="190.0" mnemonicParsing="false" onAction="#clickedHostGame" prefHeight="67.0" prefWidth="294.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Create custom game">
                      <font>
                         <Font name="Gabriola" size="35.0" />
                      </font>
@@ -73,7 +68,7 @@
                         <Font name="Gabriola" size="30.0" />
                      </font>
                   </Text>
-                  <Button fx:id="hostGameReturn" layoutX="55.0" layoutY="411.0" minHeight="67.0" minWidth="190.0" mnemonicParsing="false" onAction="#showHostGame" prefHeight="67.0" prefWidth="294.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Return to menu">
+                  <Button fx:id="hostGameReturn" layoutX="55.0" layoutY="546.0" minHeight="67.0" minWidth="190.0" mnemonicParsing="false" onAction="#showHostGame" prefHeight="67.0" prefWidth="294.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Return to menu">
                      <font>
                         <Font name="Gabriola" size="35.0" />
                      </font>

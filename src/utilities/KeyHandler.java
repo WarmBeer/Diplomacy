@@ -1,6 +1,8 @@
 package utilities;
 
 
+import application.Main;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -28,6 +30,7 @@ public class KeyHandler {
             writer.close();
 
             System.out.println(key);
+            Main.setKEY(key);
         } catch (IOException io) {
             io.printStackTrace();
         }

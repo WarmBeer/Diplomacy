@@ -62,4 +62,8 @@ public class SuperModel implements Model, MainMenuViewObservable {
     public boolean doShowMainMenu() {
         return showMainMenu;
     }
+
+    public void showLoginScreenModel() {
+        mainMenuView.showLoginScreen();
+    }
 }

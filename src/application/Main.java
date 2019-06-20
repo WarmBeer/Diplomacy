@@ -33,6 +33,10 @@ public class Main extends Application {
         return  KEY;
     }
 
+    public static void setKEY(String key) {
+        KEY = key;
+    }
+
 
     public void setup() {
 
@@ -53,6 +57,7 @@ public class Main extends Application {
         } else {
             print("Key not found, creating one for you!");
             KeyHandler.createKeyFile(jarLocation);
+            mainController.createLoginName();
         }
     }
 

@@ -5,6 +5,8 @@ import javafx.stage.Stage;
 import models.GameModel;
 import models.SuperModel;
 import services.FirebaseService;
+import utilities.KeyHandler;
+import views.MainMenuView;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -73,4 +75,17 @@ public class MainController {
         return playerlist;
     }
 
+    public void createLoginName() {
+        superModel.showLoginScreenModel();
+    }
+
+//    public void createKey() {
+//        String jarLocation = KeyHandler.getJarLocation();
+//        KeyHandler.createKeyFile(jarLocation);
+//    }
+
+    public void addPlayerToGame(String getKEY, String playerName) {
+        System.out.println(getKEY + playerName);
+        fb.addNewPlayerInFirebase(getKEY, playerName);
+    }
 }

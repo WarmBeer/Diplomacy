@@ -31,6 +31,7 @@ public class MainMenuView implements MainMenuViewObserver {
     private ArrayList<String> gameIDS;
     ArrayList<Label> playerLabelsLobby = new ArrayList<>();
     ArrayList<Label> countryLabelsLobby = new ArrayList<>();
+    private String playerNamee;
 
     //FXML Variables
     @FXML private Label player1;
@@ -64,8 +65,9 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML private Button joinGameButton;
     @FXML private Button hostGameButton;
     @FXML private Button afsluitenButton;
-    @FXML private Button laadGameButton;
     @FXML private Button createCustomGame;
+    @FXML private Button startGameLoginScreen;
+    @FXML public TextField textFieldUserName;
     @FXML private TextField gameName;
     @FXML private ComboBox turnTime;
 
@@ -166,7 +168,7 @@ public class MainMenuView implements MainMenuViewObserver {
         String gameID = getChooseGameID();
         String playerUID = Main.getKEY();
 
-        String playerName = "Rick"; //DIT MOET NOG WORDEN VERBETERD, NU FIXED VALUE
+        String playerName = playerNamee;
 
         lobbyAnchor.setVisible(true);
         mainController.passGameModel().joinLobby(gameID);
@@ -185,15 +187,30 @@ public class MainMenuView implements MainMenuViewObserver {
         lobbyAnchor.setVisible(false);
     }
 
+    @FXML
+    public void createUser() {
+        // Alles schowen op de achtergrond, key aanmaken voor de persoon, hierna de naam + key koppelen aan firebase.
+        playerNamee = textFieldUserName.getText();
+        loginScreenAnchor.setVisible(false);
+        if (loginScreenAnchor.isVisible() == false) {
+            joinGameButton.setDisable(false);
+            hostGameButton.setDisable(false);
+            afsluitenButton.setDisable(false);
+        }
+        String getKEY = Main.getKEY();
+        mainController.addPlayerToGame(getKEY, playerNamee);
+
+    }
+
     // TODO: 20-6-2019
     @FXML
-    private void showLoginScreen() {
-        while (loginScreenAnchor.isVisible() == true) {
+    public void showLoginScreen() {
+//        mainController.createKey();
+        loginScreenAnchor.setVisible(!loginScreenAnchor.isVisible());
+        if (loginScreenAnchor.isVisible() == true) {
             joinGameButton.setDisable(true);
             hostGameButton.setDisable(true);
-            laadGameButton.setDisable(true);
             afsluitenButton.setDisable(true);
-
         }
     }
 
