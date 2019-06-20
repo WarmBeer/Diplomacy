@@ -167,6 +167,7 @@ public class MainMenuView implements MainMenuViewObserver {
 
         initLobbyLabels();
 
+
         //Vul labels met shit
         updateJoinedPlayersinformation();
     }

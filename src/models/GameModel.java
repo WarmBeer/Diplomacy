@@ -18,6 +18,7 @@ import views.GameView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static application.Main.unitType;
 
@@ -240,6 +241,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
                 firebase.addPlayerInFirebase(player, gameUID);
             }
         }
+
     }
 
     @FXML
