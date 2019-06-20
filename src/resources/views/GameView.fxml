@@ -103,7 +103,7 @@
                         </Text>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="MainMenu" layoutX="711.0" layoutY="184.0" prefHeight="554.0" prefWidth="385.0" style="-fx-background-color: rgb(221, 221, 219) #fce5c4; -fx-border-color: white;" visible="false">
+                  <AnchorPane fx:id="MainMenu" layoutX="711.0" layoutY="184.0" prefHeight="554.0" prefWidth="385.0" style="-fx-background-color: rgb(221, 221, 219) #fce5c4; -fx-border-color: white; -fx-border-insets: 10px; -fx-border-width: 3px;" visible="false">
                      <children>
                         <Button fx:id="SpelregelsKnop" layoutX="43.0" layoutY="110.0" mnemonicParsing="false" onAction="#spelRegelsView" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Rules">
                            <font>
