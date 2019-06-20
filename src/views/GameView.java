@@ -3,6 +3,7 @@ package views;
 import controllers.GameController;
 import domains.Province;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -126,7 +127,10 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML private AnchorPane gameOpties;
     @FXML private VBox box;
     @FXML public Pagination paginationrules;
+    @FXML private TabPane tabPane;
+    @FXML private Tab tabChat;
     @FXML private Pane chatPane;
+    @FXML private Pane pChatMessage;
     @FXML private TextField textInput;
     @FXML private Button sendButton;
     @FXML private ListView messagesList;
@@ -203,12 +207,12 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                         break;
                 }
 
-                if (toPlayer.equals("All") || toPlayer.equals(selectedUnit)) {
+                //if (toPlayer.equals("All") || toPlayer.equals(selectedUnit)) {
                     Label berichtLabel = new Label(bericht);
                     berichtLabel.setStyle("-fx-text-inner-background: green; -fx-text-fill: rgb(" + toRGB(privateColor) + ");");
                     messagesList.getItems().add(messagesList.getItems().size(), berichtLabel);
                     messagesList.scrollTo(berichtLabel);
-                }
+                //}
 
                 LogManager.getLogManager().reset();
             }
@@ -314,10 +318,19 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                 }
             }
         });
+        tabChat.setOnSelectionChanged(new EventHandler<Event>() {
+            @Override
+            public void handle(Event t) {
+                if (tabChat.isSelected()) {
+                    pChatMessage.setDisable(false);
+                }
+                else { pChatMessage.setDisable(true); }
+            }
+        });
     }
 
     // Temporary variable to REPRESENT a clicked unit.
-    private String selectedUnit = "currentPlayer";
+    private String selectedUnit = "Player2";
     public void setOrderMenu() {
         if (!selectedUnit.equals("currentPlayer")) {
             pOrderSettings.setDisable(true);
