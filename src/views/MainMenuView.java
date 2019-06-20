@@ -3,7 +3,6 @@ package views;
 import controllers.MainController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -11,13 +10,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import models.GameModel;
 import observers.MainMenuViewObservable;
 import observers.MainMenuViewObserver;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.Map;
 import java.util.logging.LogManager;
 
 public class MainMenuView implements MainMenuViewObserver {
@@ -28,6 +28,8 @@ public class MainMenuView implements MainMenuViewObserver {
     private static String STYLESHEET_FILE = "/resources/MainMenu.css";
     private MainController mainController;
     private ArrayList<String> gameIDS;
+    ArrayList<Label> playerLabelsLobby = new ArrayList<>();
+    ArrayList<Label> countryLabelsLobby = new ArrayList<>();
 
     //FXML Variables
     @FXML private Label player1;
@@ -154,11 +156,25 @@ public class MainMenuView implements MainMenuViewObserver {
         }
     }
 
-    //Player klikt op GameID, deze functie opend het bijbehordende gamescherm
+
+
+    // TODO: 19-6-2019 Parameter zijn nu nog hardcoded, moet gefixt worden (om game te starten)
     @FXML
     public void handleMouseClick(MouseEvent arg0) {
         String gameID = getChooseGameID();
+
         lobbyAnchor.setVisible(true);
+        mainController.passGameModel().joinLobby(gameID);
+
+        //playerJoined moet hier
+        GameModel.Countries test = GameModel.Countries.RUSSIA;
+        mainController.passGameModel().playerJoined(gameID,"Thomas", test);
+
+        initLobbyLabels();
+
+        //Vul labels met shit
+        updateJoinedPlayersinformation();
+
         //mainController.clickedJoinGame(gameID);
     }
 
@@ -177,12 +193,42 @@ public class MainMenuView implements MainMenuViewObserver {
         aantalTijd.getSelectionModel().select(0);
     }
 
-//    public void fillingLobby() {
-//        mainController.fillingLobbyMainControl();
-//    }
+    public void updateJoinedPlayersinformation() {
+        String gameUID = getChooseGameID();
+        ArrayList<Map> playerinfo = mainController.getPlayersList(gameUID);
 
-    public void createLobbyView() {
+        for(int x = 0; x < playerinfo.size(); x++){
+            String playername = (String) playerinfo.get(x).get("name");
+            String country = (String) playerinfo.get(x).get("country");
+            playerLabelsLobby.get(x).setText(playername);
+            countryLabelsLobby.get(x).setText(country);
 
+        }
+    }
+
+    public void initLobbyLabels(){
+        playerLabelsLobby.add(player1);
+        playerLabelsLobby.add(player2);
+        playerLabelsLobby.add(player3);
+        playerLabelsLobby.add(player4);
+        playerLabelsLobby.add(player5);
+        playerLabelsLobby.add(player6);
+        playerLabelsLobby.add(player7);
+        countryLabelsLobby.add(country1);
+        countryLabelsLobby.add(country2);
+        countryLabelsLobby.add(country3);
+        countryLabelsLobby.add(country4);
+        countryLabelsLobby.add(country5);
+        countryLabelsLobby.add(country6);
+        countryLabelsLobby.add(country7);
+
+        for(int x = 0; x < playerLabelsLobby.size(); x++){
+            final String DEFAULTPLAYERNAME =  "Still empty";
+            final String DEFAULTCOUNTRYNAME = "Still empty";
+            playerLabelsLobby.get(x).setText(DEFAULTPLAYERNAME);
+            countryLabelsLobby.get(x).setText(DEFAULTCOUNTRYNAME);
+
+        }
     }
 
 }

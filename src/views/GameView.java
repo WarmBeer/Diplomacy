@@ -3,6 +3,7 @@ package views;
 import controllers.GameController;
 import domains.Province;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +21,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import observers.*;
 import sun.awt.Symbol;
 
@@ -46,7 +49,14 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private GameController gameController;
     private Stage stage;
     private Province selectedProvince;
-
+    // COLORS (country/player)
+    private Color colAustria = Color.SANDYBROWN;
+    private Color colEngland = Color.SLATEGRAY;
+    private Color colFrance = Color.SKYBLUE;
+    private Color colGermany = Color.DARKGRAY;
+    private Color colItaly = Color.YELLOWGREEN;
+    private Color colRussia = Color.BEIGE;
+    private Color colTurkey = Color.DARKGOLDENROD;
 
     public GameView(Stage stage, GameController gameController){
         this.gameController = gameController;
@@ -117,7 +127,10 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML private AnchorPane gameOpties;
     @FXML private VBox box;
     @FXML public Pagination paginationrules;
+    @FXML private TabPane tabPane;
+    @FXML private Tab tabChat;
     @FXML private Pane chatPane;
+    @FXML private Pane pChatMessage;
     @FXML private TextField textInput;
     @FXML private Button sendButton;
     @FXML private ListView messagesList;
@@ -150,25 +163,67 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
 
     private void sendChatMessage() {
-        String newMessage = (textInput.getText());
-        gameController.addMessage(newMessage);
-        textInput.clear();
+        if (textInput.getText().length() > 0) {
+            String newMessage = (textInput.getText());
+            gameController.addMessage(newMessage);
+            textInput.clear();
+        }
     }
 
     public void firstMessage(){
         gameController.sendFirstMessage();
     }
 
-    private void updateMessages(ArrayList<String> messageArraylist){
+    private void updateMessages(ArrayList<String> messageArraylist) {
         messagesList.getItems().clear();
+        for (String bericht : messageArraylist) {
+            Color privateColor = Color.BLACK;
+            if (bericht.contains("_")) {
+                String toPlayer = bericht.split("_")[0];
+                bericht = bericht.split("_")[1];
+                switch (toPlayer) {
+                    case "All":
+                        break;
+                    case "Player1":
+                        privateColor = colAustria;
+                        break;
+                    case "Player2":
+                        privateColor = colEngland;
+                        break;
+                    case "Player3":
+                        privateColor = colFrance;
+                        break;
+                    case "Player4":
+                        privateColor = colGermany;
+                        break;
+                    case "Player5":
+                        privateColor = colItaly;
+                        break;
+                    case "Player6":
+                        privateColor = colRussia;
+                        break;
+                    case "Player7":
+                        privateColor = colTurkey;
+                        break;
+                }
 
-        for(String bericht : messageArraylist){
+                //if (toPlayer.equals("All") || toPlayer.equals(selectedUnit)) {
+                    Label berichtLabel = new Label(bericht);
+                    berichtLabel.setStyle("-fx-text-inner-background: green; -fx-text-fill: rgb(" + toRGB(privateColor) + ");");
+                    messagesList.getItems().add(messagesList.getItems().size(), berichtLabel);
+                    messagesList.scrollTo(berichtLabel);
+                //}
 
-            messagesList.getItems().add(messagesList.getItems().size(), bericht);
-            messagesList.scrollTo(bericht);
-
-            LogManager.getLogManager().reset();
+                LogManager.getLogManager().reset();
+            }
         }
+    }
+
+    public String toRGB(Color color) {
+        int r = (int) Math.round(color.getRed() * 255);
+        int g = (int) Math.round(color.getGreen() * 255);
+        int b = (int) Math.round(color.getBlue() * 255);
+        return r + "," + g + "," + b;
     }
 
     @FXML
@@ -237,11 +292,12 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         mediaplayer.setAutoPlay(true);
         comboxAction.getItems().addAll("Hold", "Support", "Move");
         comboxProv1.getItems().addAll("Select Province");
-        comboxPrivateChat.getItems().addAll("Player2", "Player3", "Player4", "Player5");
+        comboxPrivateChat.getItems().addAll("All", "currentPlayer", "Player2", "Player3", "Player4", "Player5", "Player6", "Player7");
         // Set all dropdowns to first item.
         comboxAction.getSelectionModel().select(0);
         comboxProv1.getSelectionModel().select(0);
         comboxProv1.setDisable(true);
+        comboxPrivateChat.getSelectionModel().select(0);
         // Enable DEL key to delete selected orders from list.
         lvOrders.setOnKeyPressed(new EventHandler<KeyEvent>()
         {
@@ -261,19 +317,25 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         {
             public void handle(final KeyEvent keyEvent )
             {
-                if (textInput.getText().length() > 0)
+                if (keyEvent.getCode().equals(KeyCode.ENTER) )
                 {
-                    if (keyEvent.getCode().equals(KeyCode.ENTER) )
-                    {
-                        sendChatMessage();
-                    }
+                    sendChatMessage();
                 }
+            }
+        });
+        tabChat.setOnSelectionChanged(new EventHandler<Event>() {
+            @Override
+            public void handle(Event t) {
+                if (tabChat.isSelected()) {
+                    pChatMessage.setDisable(false);
+                }
+                else { pChatMessage.setDisable(true); }
             }
         });
     }
 
     // Temporary variable to REPRESENT a clicked unit.
-    private String selectedUnit = "currentPlayer";
+    private String selectedUnit = "Player2";
     public void setOrderMenu() {
         if (!selectedUnit.equals("currentPlayer")) {
             pOrderSettings.setDisable(true);
@@ -412,14 +474,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     //Hier wordt de FXML file ingeladen en voegt hij de methode createPage eraan toe.
     @FXML
     private void spelRegelsView() throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SPEL_REGELS));
-//        fxmlLoader.setController(this);
-//        Parent contentRegels = (Parent) fxmlLoader.load();
-//        Stage stage = new Stage();
-//        stage.setScene(new Scene(contentRegels));
-//        stage.show();
-//        stage.setTitle("Spelregels");
-
         box.setVisible(!box.isVisible());
         paginationrules.setVisible(!paginationrules.isVisible());
 

@@ -1,10 +1,12 @@
 package controllers;
 
 import javafx.stage.Stage;
+import models.GameModel;
 import models.SuperModel;
 import services.FirebaseService;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MainController {
 
@@ -13,6 +15,11 @@ public class MainController {
     private FirebaseService fb;
     private String currentGameUID;
     private boolean gameUIDIsReady = false;
+
+    public GameModel passGameModel(){
+        GameModel gamemodel = gameController.giveGameModel();
+        return gamemodel;
+    }
 
     public MainController(Stage primaryStage) {
         superModel = new SuperModel(primaryStage, this);
@@ -59,8 +66,9 @@ public class MainController {
         return GameIDs;
     }
 
-//    public void fillingLobbyMainControl() {
-//        gameController.addPlayersAndCountriesLobby();
-//    }
+    public ArrayList<Map> getPlayersList(String gameUID){
+        ArrayList<Map> playerlist = fb.getPlayerInformation(gameUID);
+        return playerlist;
+    }
 
 }

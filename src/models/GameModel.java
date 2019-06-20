@@ -12,6 +12,7 @@ import observers.GameViewObservable;
 import observers.GameViewObserver;
 import observers.OrderObservable;
 import observers.OrderObserver;
+import services.FirebaseService;
 import utilities.KeyHandler;
 import views.GameView;
 
@@ -46,9 +47,11 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     private boolean removeVisualPoints = false;
     private boolean disableOrderMenu = false;
     private ArrayList<String> provComboBoxValues;
+    private FirebaseService firebase;
 
     public GameModel(Stage stage, GameController gameController) {
         this.gameView = new GameView(stage, gameController);
+        firebase = FirebaseService.getInstance();
     }
 
     public void show() {
@@ -183,6 +186,14 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         String gameUID = KeyHandler.generateKey(8);
         Game game = new Game(gameUID, gameName, turnTime, 1);
 
+        this.lobbyGame = game;
+    }
+
+    public void joinLobby(String gameUID) {
+        String gameName = firebase.getGameName(gameUID);
+        int turnTime = firebase.getGameTurnTime(gameUID);
+        int turn = firebase.getGameTurn(gameUID);
+        Game game = new Game(gameUID, gameName, turnTime, turn);
         this.lobbyGame = game;
     }
 

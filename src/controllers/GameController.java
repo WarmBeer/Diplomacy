@@ -42,6 +42,10 @@ public class GameController  {
         this.mainController = mainController;
     }
 
+    public GameModel giveGameModel(){
+        return this.gameModel;
+    }
+
     public void saveToFirebase() {
         GameJSON gameJSON = saveGameToJSON();
         fb.saveGame(gameJSON);
@@ -163,7 +167,7 @@ public class GameController  {
     }
 
     public void addMessage(String message) {
-        chatbox.addChatMessage(message, Main.getKEY(), gameModel.getActiveGame().getGameUID());
+        chatbox.addChatMessage("Mick", message, Main.getKEY(), gameModel.getActiveGame().getGameUID());
     }
 
     public void sendFirstMessage() {
