@@ -293,14 +293,6 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
                 province.setOwner(independent);
             }
 
-            switch(province.getProvinceType()){
-                case SEA:
-                    province.setImage(new Image("Point coastal.png"));
-                    break;
-                case LAND:
-                    province.setImage(new Image("Point.png"));
-                    break;
-            }
         }
 
         createUnitsPerPlayer();

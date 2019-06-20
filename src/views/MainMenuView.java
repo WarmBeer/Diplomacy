@@ -66,6 +66,8 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML private Button afsluitenButton;
     @FXML private Button laadGameButton;
     @FXML private Button createCustomGame;
+    @FXML private TextField gameName;
+    @FXML private ComboBox turnTime;
 
     @FXML
     public void clickedOptions() {
@@ -134,6 +136,13 @@ public class MainMenuView implements MainMenuViewObserver {
     }
 
     @FXML
+    private void createCustomGame() {
+        int turn_time = (turnTime.getValue() != null) ? (int)turnTime.getValue() : 5;
+        String game_name = (gameName.getText() != null) ? gameName.getText() : "This is a game of Diplomacy!";
+        mainController.gameController.giveGameModel().createLobby(game_name, turn_time);
+    }
+
+    @FXML
     private void showGamesList() {
         listGamesAnchor.setVisible(!listGamesAnchor.isVisible());
 //        listGames.setVisible(!listGames.isVisible());
@@ -199,7 +208,7 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML
     private void showHostGame() {
         hostGameAnchor.setVisible(!hostGameAnchor.isVisible());
-        aantalTijd.getItems().addAll("", "5 min", "10 min", "15 min", "20 min");
+        aantalTijd.getItems().addAll("5 min", "10 min", "15 min", "20 min");
         aantalTijd.getSelectionModel().select(0);
     }
 

@@ -98,7 +98,7 @@ public class GameController  {
             UnitJSON unitJSON = new UnitJSON();
 
             if (province.getUnit() != null) {
-                unitJSON.unitType = province.getUnit().getUnitType();
+                unitJSON.unitType = (province.getProvinceType() == Province.ProvinceType.SEA) ? Main.unitType.FLEET : Main.unitType.ARMY;
                 unitJSON.orderType = province.getUnit().getCurrentOrder();
                 unitJSON.orderTarget = province.getUnit().getTargetProvince().getAbbreviation();
             }

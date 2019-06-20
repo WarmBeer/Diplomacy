@@ -1,12 +1,9 @@
 package application;
 
-import controllers.GameController;
 import controllers.MainController;
 import javafx.application.Application;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import utilities.KeyHandler;
-import views.GameView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
