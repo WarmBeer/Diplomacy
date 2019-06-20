@@ -160,6 +160,7 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML
     public void handleMouseClick(MouseEvent arg0) {
         String gameID = getChooseGameID();
+
         lobbyAnchor.setVisible(true);
         mainController.passGameModel().joinLobby(gameID);
 
@@ -192,7 +193,8 @@ public class MainMenuView implements MainMenuViewObserver {
     }
 
     public void updateJoinedPlayersinformation() {
-        ArrayList<Map> playerinfo = mainController.getPlayersList();
+        String gameUID = getChooseGameID();
+        ArrayList<Map> playerinfo = mainController.getPlayersList(gameUID);
     }
 
     public void initLobbyLabels(){

@@ -69,11 +69,9 @@ public class MainController {
 //    public void fillingLobbyMainControl() {
 //        fb.getPlayerInformation(getGameID());
 //    }
-
-    // TODO: 19-6-2019 GAME ID IS NOG FIXED DOOR BUG!!! 
-    public ArrayList<Map> getPlayersList(){
-        String gameUID = getGameID();
-        ArrayList<Map> playerlist = fb.getPlayerInformation("11111111");
+    
+    public ArrayList<Map> getPlayersList(String gameUID){
+        ArrayList<Map> playerlist = fb.getPlayerInformation(gameUID);
         return playerlist;
     }
 
