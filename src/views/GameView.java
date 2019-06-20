@@ -51,11 +51,11 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private Province selectedProvince;
     // COLORS (country/player)
     private Color colAustria = Color.SANDYBROWN;
-    private Color colEngland = Color.SLATEGRAY;
+    private Color colEngland = Color.STEELBLUE;
     private Color colFrance = Color.SKYBLUE;
-    private Color colGermany = Color.DARKGRAY;
-    private Color colItaly = Color.YELLOWGREEN;
-    private Color colRussia = Color.BEIGE;
+    private Color colGermany = Color.SLATEGRAY;
+    private Color colItaly = Color.OLIVEDRAB;
+    private Color colRussia = Color.DARKGRAY;
     private Color colTurkey = Color.DARKGOLDENROD;
 
     public GameView(Stage stage, GameController gameController){
