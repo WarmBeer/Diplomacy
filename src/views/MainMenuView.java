@@ -175,7 +175,6 @@ public class MainMenuView implements MainMenuViewObserver {
         //Vul labels met shit
         updateJoinedPlayersinformation();
 
-
         //mainController.clickedJoinGame(gameID);
     }
 

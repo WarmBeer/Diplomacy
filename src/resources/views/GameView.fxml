@@ -38,14 +38,14 @@
                                 <tabs>
                                   <Tab text="Player Chat">
                                        <content>
-                                          <ListView fx:id="messagesList" prefHeight="301.0" prefWidth="330.0" style="-fx-background-color: #fce5c4;"/>
+                                          <ListView fx:id="messagesList" prefHeight="301.0" prefWidth="330.0" style="-fx-background-color: #fce5c4;" />
                                        </content>
                                   </Tab>
                                   <Tab text="Players">
                                     <content>
                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
-                                                <ListView fx:id="playersList" prefHeight="680.0" prefWidth="405.0" style="-fx-background-color: #fce5c4;"/>
+                                                <ListView fx:id="playersList" prefHeight="680.0" prefWidth="405.0" style="-fx-background-color: #fce5c4;" />
                                              </children>
                                           </AnchorPane>
                                     </content>
@@ -56,7 +56,7 @@
                               <Button fx:id="sendButton" layoutX="362.0" layoutY="729.0" mnemonicParsing="false" onAction="#addChatMessage" prefHeight="26.0" prefWidth="46.0" text="Send" />
                               <Pane fx:id="pOrderMenu" layoutY="763.0" prefHeight="254.0" prefWidth="421.0" style="-fx-border-color: darkgray;">
                                  <children>
-                                    <ListView fx:id="lvOrders" style="-fx-background-color: #fce5c4;" layoutX="8.0" layoutY="61.0" prefHeight="155.0" prefWidth="407.0" />
+                                    <ListView fx:id="lvOrders" layoutX="8.0" layoutY="61.0" prefHeight="155.0" prefWidth="407.0" style="-fx-background-color: #fce5c4;" />
                                     <Button layoutX="332.0" layoutY="221.0" mnemonicParsing="false" onAction="#clickedSendOrder" text="Send Orders" />
                                     <Pane fx:id="pOrderSettings" layoutX="1.0" layoutY="1.0" prefHeight="60.0" prefWidth="420.0">
                                        <children>
@@ -97,7 +97,7 @@
 
                   <VBox fx:id="MainMenu" layoutX="711.0" layoutY="184.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="400.0" visible="false">
                      <children>
-                        <Button fx:id="OpslaanKnop" cache="true" mnemonicParsing="false" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Save Game" translateX="50.0">
+                        <Button fx:id="OpslaanKnop" cache="true" mnemonicParsing="false" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Save Game (host only)" translateX="50.0">
                            <VBox.margin>
                               <Insets top="33.0" />
                            </VBox.margin>
