@@ -18,6 +18,7 @@ import views.GameView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static application.Main.unitType;
 
@@ -29,8 +30,8 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     public enum Countries {
         FRANCE,
         GERMANY,
-        ENGLAND,
         AUSTRIA,
+        ENGLAND,
         TURKEY,
         RUSSIA,
         ITALY,
@@ -48,6 +49,8 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     private boolean disableOrderMenu = false;
     private ArrayList<String> provComboBoxValues;
     private FirebaseService firebase;
+    private ArrayList<String> unavailableCountries = new ArrayList<>();
+    private ArrayList<String> availableCountries = new ArrayList<>();
 
     public GameModel(Stage stage, GameController gameController) {
         this.gameView = new GameView(stage, gameController);
@@ -58,7 +61,50 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         this.removeVisualPoints = false;
         this.gameView.init();
     }
-    
+
+
+
+    // TODO: 20/06/2019 Return a vailid something, not null. This is pure ****
+    public Countries giveAvailableCountry(String gameUID){
+        updateAvailableAndUnavailbleCountries(gameUID);
+        for(Countries country : Countries.values()){
+            if(country.name().equals(availableCountries.get(0))){
+                return country;
+            }
+        }
+
+        Countries country = null;
+        return country;
+
+        //Get all choosen country from firebase
+        //Check with ones are choosen
+        //Make a list of available ones
+        //choose a availble one, return it (later in the prosses, this one needs to be set as choosen!
+        //return country;
+    }
+
+    private void updateAvailableAndUnavailbleCountries(String gameUID){
+        ArrayList<String> choosenCountryNames = firebase.getChoosenCountriesNames(gameUID);
+
+        for(Countries country : Countries.values()){
+            availableCountries.add(country.name());
+            for(String ChoosenCountry : choosenCountryNames){
+                if(country.name().equals(ChoosenCountry)){
+                    //System.out.println(country.name());
+                    unavailableCountries.add(country.name());
+                }
+            }
+        }
+
+        for(Countries country : Countries.values()){
+            for(String unavaible : unavailableCountries){
+                if(country.name().equals(unavaible)){
+                    availableCountries.remove(unavaible);
+                }
+            }
+        }
+    }
+
     public Game getActiveGame() {
         return  this.activeGame;
     }
@@ -168,20 +214,34 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
     }
 
-    public void playerJoined(String uid, String name, Countries owner) {
-        if (this.lobbyGame.getPlayers().size() < 7) {
-            Player player = new Player();
-            player.setId(this.lobbyGame.getPlayers().size());
-            player.setCountry(owner);
-            player.setName(name);
-            player.setUID(uid);
+    public void playerJoined(String gameUID, String uid, String name, Countries owner) {
+        //DOEN
+        boolean playerJoinedBefore = false;
+        ArrayList<String> activePlayers = firebase.getActivePlayerUIDS(gameUID);
 
-            this.lobbyGame.addPlayer(player);
-
-            Country country = new Country(player.getCountry());
-            country.setPlayer(player);
-            this.lobbyGame.addCountry(country);
+        for(String activePlayer : activePlayers){
+            if(uid.equals(activePlayer)){
+                playerJoinedBefore = true;
+            }
         }
+
+        if(playerJoinedBefore == false){
+            if (this.lobbyGame.getPlayers().size() < 7) {
+                Player player = new Player();
+                player.setId(this.lobbyGame.getPlayers().size());
+                player.setCountry(owner);
+                player.setName(name);
+                player.setUID(uid);
+
+                this.lobbyGame.addPlayer(player);
+
+                Country country = new Country(player.getCountry());
+                country.setPlayer(player);
+                this.lobbyGame.addCountry(country);
+                firebase.addPlayerInFirebase(player, gameUID);
+            }
+        }
+
     }
 
     @FXML

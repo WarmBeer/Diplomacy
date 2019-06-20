@@ -9,6 +9,7 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.annotations.Nullable;
 import domains.GameJSON;
+import domains.Player;
 import domains.Province;
 import domains.Unit;
 
@@ -33,7 +34,8 @@ public class FirebaseService {
     private String getGameName;
     private int getGameTurnTime;
     private int getGameTurn;
-
+    private ArrayList<String> countrynames = new ArrayList<>();
+    private final String PLAYERDOCUMENT = "allPlayers";
 
     public FirebaseService() {
         makeFirebaseConnection();
@@ -187,6 +189,16 @@ public class FirebaseService {
         }
     }
 
+    public void addPlayerInFirebase(Player newPlayer, String gameUID) {
+        try {
+            GameJSON gameJSON = getGame(gameUID);
+            gameJSON.Players.add(newPlayer);
+            saveGame(gameJSON);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Geeft een update naar de meegeleverde controller
@@ -227,8 +239,31 @@ public class FirebaseService {
             EE.printStackTrace();
             System.out.println("Iets fout in firebase service...");
         }
-
         return gameNames;
+    }
+
+    public ArrayList<String> getActivePlayerUIDS(String gameUID) {
+        GameJSON gameJSON = getGame(gameUID);
+        ArrayList<String> activePlayerUIDs = new ArrayList<>();
+
+        for(int index = 0; index < gameJSON.Players.size(); index++){
+            String userUID = gameJSON.Players.get(index).getUID();
+            activePlayerUIDs.add(userUID);
+        }
+
+        return activePlayerUIDs;
+    }
+
+    public ArrayList<String> getActivePlayerNames(String gameUID) {
+        GameJSON gameJSON = getGame(gameUID);
+        ArrayList<String> activePlayerNames = new ArrayList<>();
+
+        for(int index = 0; index < gameJSON.Players.size(); index++){
+            String userName = gameJSON.Players.get(index).getUID();
+            activePlayerNames.add(userName);
+        }
+
+        return activePlayerNames;
     }
 
     public ArrayList<String> getGameIDs() {
@@ -277,6 +312,35 @@ public class FirebaseService {
             EE.printStackTrace();
             System.out.println("Iets fout in firebase service...");
             return players;
+        }
+    }
+
+    public ArrayList<String> getChoosenCountriesNames(String gameID){
+        try{
+            //Get right document from firebase
+            DocumentReference docRef = db.collection("Games").document(gameID);
+            ApiFuture<DocumentSnapshot> future = docRef.get();
+            DocumentSnapshot document = future.get();
+
+            ArrayList<Map> playerinfo = (ArrayList<Map>) document.getData().get("Players");
+            countrynames = new ArrayList<>();
+
+            for(int x = 0; x < playerinfo.size(); x++){
+                String country = (String) playerinfo.get(x).get("country");
+                countrynames.add(country);
+            }
+
+            return countrynames;
+        }
+        catch (InterruptedException IE){
+            IE.printStackTrace();
+            System.out.println("Iets fout in firebase service...");
+            return countrynames;
+        }
+        catch (ExecutionException EE){
+            EE.printStackTrace();
+            System.out.println("Iets fout in firebase service...");
+            return countrynames;
         }
     }
 
@@ -353,4 +417,52 @@ public class FirebaseService {
             return getGameTurn;
         }
     }
+
+    // TODO: 20/06/2019 deze converterfunctie moet nog gefixt worden! 
+    //DIT WERKT NOG NIET!
+//    public String playernameToPlayerUID(String playerName) throws ExecutionException, InterruptedException {
+//        //Get right document from firebase
+//        DocumentReference docRef = db.collection("Players").document(PLAYERDOCUMENT);
+//        ApiFuture<DocumentSnapshot> future = docRef.get();
+//        DocumentSnapshot document = future.get();
+//
+//        //Get the hashmap
+//        Map<String, Object> messagesInHashmap = document.getData();
+//
+//        //Get the arraylist as object from the hastmap
+//        String playerUID = (String)messagesInHashmap.get(playerName);
+//
+//        return playerUID;
+//    }
+
+    public String playerUIDtoPlayername(String playerUID) throws ExecutionException, InterruptedException {
+        //Get right document from firebase
+        DocumentReference docRef = db.collection("Players").document(PLAYERDOCUMENT);
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+
+        //Get the hashmap
+        Map<String, Object> messagesInHashmap = document.getData();
+
+        //Get the arraylist as object from the hastmap
+        String playerName = (String)messagesInHashmap.get(playerUID);
+
+        return playerName;
+    }
+
+
+    public void addNewPlayerInFirebase(String playerUID,String playerName) {
+        try {
+            DocumentReference players = db.collection("Players").document(PLAYERDOCUMENT);
+            ApiFuture<WriteResult> writeResult = players.update(playerUID,playerName);
+            System.out.println("Player added send. - time : " + writeResult.get());
+        } catch (ExecutionException EE) {
+            System.out.println("In de firebaseservice is een Excecution Exception opgetreden!");
+            EE.printStackTrace();
+        } catch (InterruptedException IE) {
+            System.out.println("In de firebaseservice is een Interrupted Exception opgetreden!");
+            IE.printStackTrace();
+        }
+    }
+
 }

@@ -1,5 +1,6 @@
 package controllers;
 
+import domains.Country;
 import javafx.stage.Stage;
 import models.GameModel;
 import models.SuperModel;
@@ -19,6 +20,11 @@ public class MainController {
     public GameModel passGameModel(){
         GameModel gamemodel = gameController.giveGameModel();
         return gamemodel;
+    }
+
+    public GameModel.Countries  getAvailableCountry(String gameUID){
+        GameModel.Countries  availableCountry = gameController.giveAvailableCountry(gameUID);
+        return availableCountry;
     }
 
     public MainController(Stage primaryStage) {

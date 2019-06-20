@@ -1,5 +1,6 @@
 package views;
 
+import application.Main;
 import controllers.MainController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -85,7 +86,7 @@ public class MainMenuView implements MainMenuViewObserver {
             lobbyAnchor.setVisible(false);
             int gameIDIndex = listGames.getSelectionModel().getSelectedIndex();
             gameIDS = mainController.getGameIDS();
-            String gameID = gameIDS.get(gameIDIndex);
+            String gameID = getChooseGameID();
 
             System.out.println(gameID);
             mainController.clickedJoinGame(gameID);
@@ -105,7 +106,7 @@ public class MainMenuView implements MainMenuViewObserver {
         loader.setController(this);
         Parent content = loader.load();
 
-        primaryStage.setTitle("Diplomacy v0.2");
+        primaryStage.setTitle("Diplomacy v1.0f");
         scene = new Scene( content, 1280, 720 );
         primaryStage.setResizable(false);
 
@@ -150,24 +151,25 @@ public class MainMenuView implements MainMenuViewObserver {
 
 
 
-    // TODO: 19-6-2019 Parameter zijn nu nog hardcoded, moet gefixt worden (om game te starten)
+    // TODO: 19-6-2019 Name is nog hardcoded, player moet naar firebase als ie geregistreerd is
     @FXML
     public void handleMouseClick(MouseEvent arg0) {
         String gameID = getChooseGameID();
+        String playerUID = Main.getKEY();
+        GameModel.Countries playerCountry = mainController.getAvailableCountry(gameID);
+        String playerName = "Rick"; //DIT MOET NOG WORDEN VERBETERD, NU FIXED VALUE
 
         lobbyAnchor.setVisible(true);
         mainController.passGameModel().joinLobby(gameID);
 
-        //playerJoined moet hier
-        GameModel.Countries test = GameModel.Countries.RUSSIA;
-        mainController.passGameModel().playerJoined(gameID,"Thomas", test);
+        //registreer speler
+        mainController.passGameModel().playerJoined(gameID,playerUID,playerName,playerCountry );
 
         initLobbyLabels();
 
+
         //Vul labels met shit
         updateJoinedPlayersinformation();
-
-        //mainController.clickedJoinGame(gameID);
     }
     @FXML
     private void returnLobby() {
