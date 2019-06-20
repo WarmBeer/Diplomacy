@@ -51,6 +51,11 @@ public class GameController  {
         fb.saveGame(gameJSON);
     }
 
+    public GameModel.Countries  giveAvailableCountry(String gameID){
+        GameModel.Countries country = gameModel.giveAvailableCountry(gameID);
+        return country;
+    }
+
     public void addUnitOrder(Unit unit) {
         if (orderedUnits.indexOf(unit) < 0) {
             orderedUnits.add(unit);
@@ -252,6 +257,7 @@ public class GameController  {
         }
         sendOrders();
     }
+
 
     private void processOrders() {
         try {
