@@ -322,6 +322,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                 }
             }
         });
+
         tabChat.setOnSelectionChanged(new EventHandler<Event>() {
             @Override
             public void handle(Event t) {
@@ -331,6 +332,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                 else { pChatMessage.setDisable(true); }
             }
         });
+
     }
 
     // Temporary variable to REPRESENT a clicked unit.
@@ -365,7 +367,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     @Override
     public void update(GameViewObservable gameViewObservable) {
-        System.out.println("NEXT TURN");
         troops.getChildren().removeAll(troops.getChildren());
         troops.getChildren().addAll(gameViewObservable.getTroopsGroup());
 

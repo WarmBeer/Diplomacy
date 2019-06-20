@@ -79,6 +79,11 @@ public class Unit extends ImageView {
         }
     }
 
+    public void reset() {
+        this.targetProvince = this.province;
+        this.currentOrder = orderType.HOLD;
+    }
+
     public void destroy() {
         this.dead = true;
     }

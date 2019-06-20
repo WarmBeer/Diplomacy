@@ -253,33 +253,45 @@ public class GameController  {
     }
 
     private void processOrders() {
-        for (Unit unit : gameModel.getActiveGame().getUnits()) {
-            orderedUnits.add(unit);
-        }
-        List<Unit> supportOrders = new ArrayList<>();
-        List<Unit> moveOrders = new ArrayList<>();
-        for (int i = 0;i<orderedUnits.size();i++) {
-            switch (orderedUnits.get(i).getCurrentOrder()) {
-                case SUPPORT:
-                    supportOrders.add(orderedUnits.get(i));
-                    break;
-                case MOVE:
-                    moveOrders.add(orderedUnits.get(i));
-                    break;
+        try {
+            requestLoadGame(gameModel.getActiveGame().getGameUID());
+        } finally {
+            orderedUnits = new ArrayList<>();
+            for (int i = 0; i < gameModel.getActiveGame().getUnits().size(); i++) {
+                orderedUnits.add(gameModel.getActiveGame().getUnits().get(i));
             }
-        }
 
-        for (int i = 0;i<supportOrders.size();i++) {
-            supportOrders.get(i).doOrder();
-        }
-        for (int i = 0;i<moveOrders.size();i++) {
-            moveOrders.get(i).doOrder();
-        }
+            List<Unit> supportOrders = new ArrayList<>();
+            List<Unit> moveOrders = new ArrayList<>();
+            for (int i = 0; i < orderedUnits.size(); i++) {
+                switch (orderedUnits.get(i).getCurrentOrder()) {
+                    case SUPPORT:
+                        supportOrders.add(orderedUnits.get(i));
+                        break;
+                    case MOVE:
+                        moveOrders.add(orderedUnits.get(i));
+                        break;
+                }
+            }
 
-        gameModel.setPointsChanged();
-        gameModel.notifyGameViewObservers();
-        gameModel.getActiveGame().nextTurn();
-        saveToFirebase();
+            for (int i = 0; i < supportOrders.size(); i++) {
+                supportOrders.get(i).doOrder();
+            }
+            for (int i = 0; i < moveOrders.size(); i++) {
+                moveOrders.get(i).doOrder();
+            }
+
+            for (int i = 0; i < gameModel.getActiveGame().getUnits().size(); i++) {
+                gameModel.getActiveGame().getUnits().get(i).reset();
+            }
+
+            orderedUnits = new ArrayList<>();
+            gameModel.setPointsChanged();
+            gameModel.notifyGameViewObservers();
+            gameModel.getActiveGame().nextTurn();
+            saveToFirebase();
+            requestLoadGame(gameModel.getActiveGame().getGameUID());
+        }
     }
 
     public void refresChat(){
