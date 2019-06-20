@@ -169,14 +169,16 @@ public class FirebaseService {
         return gameJSON;
     }
 
-    public void sendOrders(String gameUID, Unit unit) {
+    public void sendOrders(String gameUID, List<Unit> units) {
         try {
             GameJSON gameJSON = getGame(gameUID);
-            for (int i = 0; i < gameJSON.Provinces.size(); i++) {
-                if (gameJSON.Provinces.get(i).abbr.equals( unit.getProvince().getAbbreviation()) ) {
-                    Province province = unit.getTargetProvince();
-                    gameJSON.Provinces.get(i).stationed.orderTarget = province.getAbbreviation();
-                    gameJSON.Provinces.get(i).stationed.orderType = unit.getCurrentOrder();
+            for (Unit unit : units){
+                for (int i = 0; i < gameJSON.Provinces.size(); i++) {
+                    if (gameJSON.Provinces.get(i).abbr.equals(unit.getProvince().getAbbreviation())) {
+                        Province province = unit.getTargetProvince();
+                        gameJSON.Provinces.get(i).stationed.orderTarget = province.getAbbreviation();
+                        gameJSON.Provinces.get(i).stationed.orderType = unit.getCurrentOrder();
+                    }
                 }
             }
             saveGame(gameJSON);
@@ -255,10 +257,10 @@ public class FirebaseService {
         return gameIDs;
     }
 
-    public ArrayList<Map> getPlayerInformation(String gameID){
+    public ArrayList<Map> getPlayerInformation(String gameUID){
         try{
             //Get right document from firebase
-            DocumentReference docRef = db.collection("Games").document(gameID);
+            DocumentReference docRef = db.collection("Games").document(gameUID);
             ApiFuture<DocumentSnapshot> future = docRef.get();
             DocumentSnapshot document = future.get();
 
