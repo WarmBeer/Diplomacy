@@ -25,4 +25,8 @@ public interface GameViewObservable {
     boolean doRemoveAllPoints();
 
     boolean getDisableOrderMenu();
+
+    String[] privateChatValues();
+
+    boolean firstUpdate();
 }

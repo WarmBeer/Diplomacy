@@ -1,6 +1,7 @@
 package views;
 
 import controllers.GameController;
+import domains.Player;
 import domains.Province;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -24,6 +25,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import models.GameModel;
 import observers.*;
 import sun.awt.Symbol;
 
@@ -164,7 +166,9 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private void sendChatMessage() {
         if (textInput.getText().length() > 0) {
             String newMessage = (textInput.getText());
-            gameController.addMessage(newMessage);
+            String toPrivate = comboxPrivateChat.getValue().toString();
+            gameController.addMessage(application.Main.getKEY(), toPrivate, newMessage);
+
             textInput.clear();
         }
     }
@@ -178,40 +182,50 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         for (String bericht : messageArraylist) {
             Color privateColor = Color.BLACK;
             if (bericht.contains("_")) {
-                String toPlayer = bericht.split("_")[0];
-                bericht = bericht.split("_")[1];
+                String[] berichtSplit = bericht.split("_");
+                String fromPlayerUID = berichtSplit[0];
+                String toPlayer = berichtSplit[1];
+
+                Player thisPlayer = gameController.giveGameModel().getThisPlayer();
+                if(thisPlayer.getUID().equals(fromPlayerUID) && !toPlayer.equals("ALL")) {
+                    toPlayer = thisPlayer.getCountry().toString();
+                }
+
+                bericht = berichtSplit[2];
                 switch (toPlayer) {
-                    case "All":
+                    case "ALL":
                         break;
-                    case "Player1":
+                    case "AUSTRALIA":
                         privateColor = colAustria;
                         break;
-                    case "Player2":
+                    case "ENGLAND":
                         privateColor = colEngland;
                         break;
-                    case "Player3":
+                    case "FRANCE":
                         privateColor = colFrance;
                         break;
-                    case "Player4":
+                    case "GERMANY":
                         privateColor = colGermany;
                         break;
-                    case "Player5":
+                    case "ITALY":
                         privateColor = colItaly;
                         break;
-                    case "Player6":
+                    case "RUSSIA":
                         privateColor = colRussia;
                         break;
-                    case "Player7":
+                    case "TURKEY":
                         privateColor = colTurkey;
                         break;
                 }
 
-                //if (toPlayer.equals("All") || toPlayer.equals(selectedUnit)) {
+
+                if (toPlayer.equals("ALL") ||
+                        toPlayer.equals(thisPlayer.getCountry().name())) {
                     Label berichtLabel = new Label(bericht);
                     berichtLabel.setStyle("-fx-text-inner-background: green; -fx-text-fill: rgb(" + toRGB(privateColor) + ");");
                     messagesList.getItems().add(messagesList.getItems().size(), berichtLabel);
                     messagesList.scrollTo(berichtLabel);
-                //}
+                }
 
                 LogManager.getLogManager().reset();
             }
@@ -291,7 +305,8 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         mediaplayer.setAutoPlay(true);
         comboxAction.getItems().addAll("Hold", "Support", "Move");
         comboxProv1.getItems().addAll("Select Province");
-        comboxPrivateChat.getItems().addAll("All", "currentPlayer", "Player2", "Player3", "Player4", "Player5", "Player6", "Player7");
+        comboxPrivateChat.getItems().addAll("All");
+
         // Set all dropdowns to first item.
         comboxAction.getSelectionModel().select(0);
         comboxProv1.getSelectionModel().select(0);
@@ -371,6 +386,12 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         troops.getChildren().addAll(gameViewObservable.getTroopsGroup());
 
         pOrderSettings.setDisable(gameViewObservable.getDisableOrderMenu());
+
+        if(gameViewObservable.firstUpdate()){
+            comboxPrivateChat.getItems().removeAll(comboxPrivateChat.getItems());
+            comboxPrivateChat.getItems().setAll(gameViewObservable.privateChatValues());
+            comboxPrivateChat.getSelectionModel().select(0);
+        }
 
         if(gameViewObservable.pointsChanged()){
             points.getChildren().removeAll(points.getChildren());

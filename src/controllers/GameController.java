@@ -18,10 +18,7 @@ import utilities.KeyHandler;
 import views.GameView;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class GameController  {
@@ -172,8 +169,8 @@ public class GameController  {
         chatbox.makeNewChat(gameModel.getActiveGame().getGameUID());
     }
 
-    public void addMessage(String message) {
-        chatbox.addChatMessage("Mick", message, Main.getKEY(), gameModel.getActiveGame().getGameUID());
+    public void addMessage(String fromUID, String sendTo, String message) {
+        chatbox.addChatMessage(fromUID, sendTo, message, Main.getKEY(), gameModel.getActiveGame().getGameUID());
     }
 
     public void sendFirstMessage() {
@@ -250,9 +247,27 @@ public class GameController  {
 
 
     private void processOrders() {
+
         try {
             requestLoadGame(gameModel.getActiveGame().getGameUID());
         } finally {
+//            for(Province province : gameModel.getProvinces()) {
+//                if(province.getUnit() != null)
+//                    continue;
+//
+//                for(Unit unit : gameModel.getActiveGame().getUnits()) {
+//
+//                    if(unit.province.getOwner().getLeader().getName().equals("Stefan")) {
+//                        if(province.getCountry() == GameModel.Countries.FRANCE && Math.random() > 0.5){
+//                            System.out.println(province.getName() + " unit: " + unit);
+//                            province.addUnit(null);
+//                            Country c = new Country(GameModel.Countries.INDEPENDENT);
+//                            province.setOwner(c);
+//                            }
+//                    }
+//                }
+//            }
+
             orderedUnits = new ArrayList<>();
             for (int i = 0; i < gameModel.getActiveGame().getUnits().size(); i++) {
                 orderedUnits.add(gameModel.getActiveGame().getUnits().get(i));

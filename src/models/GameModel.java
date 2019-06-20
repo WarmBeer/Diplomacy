@@ -47,6 +47,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     private boolean hasComboBoxes = false;
     private boolean removeVisualPoints = false;
     private boolean disableOrderMenu = false;
+    private boolean firstUpdate = false;
     private ArrayList<String> provComboBoxValues;
     private FirebaseService firebase;
     private ArrayList<String> unavailableCountries = new ArrayList<>();
@@ -58,6 +59,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     }
 
     public void show() {
+        firstUpdate = true;
         this.removeVisualPoints = false;
         this.gameView.init();
     }
@@ -902,6 +904,40 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     @Override
     public boolean getDisableOrderMenu() {
         return disableOrderMenu;
+    }
+
+    @Override
+    public String[] privateChatValues() {
+        ArrayList<String> chatValues = new ArrayList<>();
+        chatValues.add("ALL");
+        Player thisPlayer = getThisPlayer();
+        for(Countries country : Countries.values()) {
+            if(thisPlayer != null &&
+                 //   thisPlayer.getCountry() != country &&
+                    country != Countries.INDEPENDENT) {
+                chatValues.add(country.name());
+            }
+        }
+
+        return chatValues.toArray(new String[]{});
+    }
+
+    @Override
+    public boolean firstUpdate() {
+        if(firstUpdate) {
+            firstUpdate = false;
+            return true;
+        }
+
+        return false;
+    }
+
+    public Player getThisPlayer() {
+        for(Player player : activeGame.getPlayers()) {
+            if(player.isThisLocalPlayer())
+                return player;
+        }
+        return null;
     }
 
     @Override
