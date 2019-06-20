@@ -129,7 +129,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML public Pagination paginationrules;
     @FXML private TabPane tabPane;
     @FXML private Tab tabChat;
-    @FXML private Pane chatPane;
     @FXML private Pane pChatMessage;
     @FXML private TextField textInput;
     @FXML private Button sendButton;

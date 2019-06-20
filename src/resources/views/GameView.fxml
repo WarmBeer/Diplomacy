@@ -19,8 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<VBox prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #fce5c4;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #fce5c4;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
   <children>
       <BorderPane prefHeight="1010.0" prefWidth="640.0">
          <center>
@@ -37,7 +36,7 @@
                            <children>
                               <TabPane layoutX="7.0" prefHeight="721.0" prefWidth="405.0" style="-fx-border-color: gray;" tabClosingPolicy="UNAVAILABLE">
                                 <tabs>
-                                  <Tab text="Player Chat">
+                                  <Tab fx:id="tabChat" text="Player Chat">
                                        <content>
                                           <ListView fx:id="messagesList" prefHeight="301.0" prefWidth="330.0" style="-fx-background-color: #fce5c4;" />
                                        </content>
@@ -53,12 +52,10 @@
                                   </Tab>
                                 </tabs>
                               </TabPane>
-                              <TextField fx:id="textInput" layoutX="7.0" layoutY="729.0" minHeight="-Infinity" prefHeight="26.0" prefWidth="259.0" promptText="Typ hier uw bericht..." />
-                              <Button fx:id="sendButton" layoutX="362.0" layoutY="729.0" mnemonicParsing="false" onAction="#addChatMessage" prefHeight="26.0" prefWidth="46.0" text="Send" />
-                              <Pane fx:id="pOrderMenu" layoutX="7.0" layoutY="763.0" prefHeight="254.0" prefWidth="406.0" style="-fx-border-color: #93661d;">
+                              <Pane fx:id="pOrderMenu" layoutX="7.0" layoutY="763.0" prefHeight="249.0" prefWidth="406.0" style="-fx-border-color: #93661d;">
                                  <children>
-                                    <ListView fx:id="lvOrders" layoutX="8.0" layoutY="66.0" prefHeight="150.0" prefWidth="389.0" style="-fx-background-color: #fce5c4;" />
-                                    <Button layoutX="289.0" layoutY="209.0" mnemonicParsing="false" onAction="#clickedSendOrder" text="Send Orders" />
+                                    <ListView fx:id="lvOrders" layoutX="8.0" layoutY="59.0" prefHeight="150.0" prefWidth="389.0" style="-fx-background-color: #fce5c4;" />
+                                    <Button layoutX="315.0" layoutY="215.0" mnemonicParsing="false" onAction="#clickedSendOrder" text="Send Orders" />
                                     <Pane fx:id="pOrderSettings" layoutX="1.0" layoutY="1.0" prefHeight="60.0" prefWidth="420.0">
                                        <children>
                                           <Label layoutX="5.0" prefWidth="106.0" text="OrderMenu">
@@ -66,15 +63,21 @@
                                                 <Font name="System Bold" size="18.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="comboxAction" layoutX="6.0" layoutY="27.0" onAction="#checkAction" prefHeight="25.0" prefWidth="94.0" />
-                                          <ComboBox fx:id="comboxProv1" layoutX="105.0" layoutY="27.0" prefHeight="31.0" prefWidth="200.0" />
-                                          <Button fx:id="bOrder" layoutX="315.0" layoutY="27.0" mnemonicParsing="false" onAction="#clickedAddOrder" prefHeight="25.0" prefWidth="75.0" text="Add Order" />
+                                          <ComboBox fx:id="comboxAction" layoutX="6.0" layoutY="27.0" onAction="#checkAction" prefHeight="25.0" prefWidth="107.0" />
+                                          <ComboBox fx:id="comboxProv1" layoutX="117.0" layoutY="27.0" prefHeight="25.0" prefWidth="200.0" />
+                                          <Button fx:id="bOrder" layoutX="321.0" layoutY="27.0" mnemonicParsing="false" onAction="#clickedAddOrder" prefHeight="25.0" prefWidth="75.0" text="Add Order" />
                                        </children>
                                     </Pane>
-                                    <Button layoutX="14.0" layoutY="209.0" mnemonicParsing="false" onAction="#clickedEndTurn" text="End turn" />
+                                    <Button layoutX="8.0" layoutY="215.0" mnemonicParsing="false" onAction="#clickedEndTurn" text="End turn" />
                                  </children>
                               </Pane>
-                              <ComboBox fx:id="comboxPrivateChat" layoutX="270.0" layoutY="729.0" prefHeight="25.0" prefWidth="85.0" promptText="Speler" />
+                              <Pane fx:id="pChatMessage" layoutX="7.0" layoutY="721.0" prefHeight="42.0" prefWidth="405.0">
+                                 <children>
+                                    <TextField fx:id="textInput" layoutY="8.0" minHeight="-Infinity" prefHeight="26.0" prefWidth="264.0" promptText="Typ hier uw bericht..." />
+                                    <Button fx:id="sendButton" layoutX="359.0" layoutY="8.0" mnemonicParsing="false" onAction="#addChatMessage" prefHeight="26.0" prefWidth="46.0" text="Send" />
+                                    <ComboBox fx:id="comboxPrivateChat" layoutX="269.0" layoutY="8.0" prefHeight="25.0" prefWidth="85.0" promptText="Speler" />
+                                 </children>
+                              </Pane>
                            </children>
                         </Pane>
                      </children>
