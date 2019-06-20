@@ -91,6 +91,7 @@ public class GameController  {
             ProvinceJSON provinceJSON = new ProvinceJSON();
             provinceJSON.abbr = province.getAbbreviation();
             provinceJSON.owner = province.getOwner().getName();
+            provinceJSON.provinceType = province.getProvinceType();
 
             UnitJSON unitJSON = new UnitJSON();
 

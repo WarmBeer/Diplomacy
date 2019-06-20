@@ -122,11 +122,14 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
                     if (province.getOwner() != null && provinceJSON.stationed != null) {
                         UnitJSON unitJSON = provinceJSON.stationed;
-                        switch (provinceJSON.stationed.unitType) {
-                            case ARMY:
+                        switch (province.getProvinceType()) {
+                            case LAND:
                                 stationed = new Army(province);
                                 break;
-                            case FLEET:
+                            case COASTAL:
+                                stationed = new Army(province);
+                                break;
+                            case SEA:
                                 stationed = new Fleet(province);
                                 break;
                         }
@@ -717,15 +720,16 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         switch (unit) {
             case ARMY:
                 troop = new Army(province);
+                moveUnit(troop, province.getX(), province.getY());
                 break;
             case FLEET:
                 troop = new Fleet(province);
+                moveUnit(troop, province.getX(), province.getY()+20d);
                 break;
         }
 
         province.addUnit(troop);
         troops.getChildren().add(troop);
-        moveUnit(troop, province.getX(), province.getY());
     }
 
     public void moveUnit(Unit unit, double x, double y) {
