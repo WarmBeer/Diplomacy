@@ -177,6 +177,11 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
 
     @FXML
+    public void clickedEndTurn() {
+        gameController.clickedEndTurn();
+    }
+
+    @FXML
     public void clickedAddOrder() {
         if(selectedProvince == null)
             return;
@@ -230,7 +235,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         Media gameSound = new Media(new File(gameSoundFile).toURI().toString());
         mediaplayer = new MediaPlayer(gameSound);
         mediaplayer.setAutoPlay(true);
-        comboxAction.getItems().addAll("Action", "Move", "Support", "Hold");
+        comboxAction.getItems().addAll("Hold", "Support", "Move");
         comboxProv1.getItems().addAll("Select Province");
         comboxPrivateChat.getItems().addAll("Player2", "Player3", "Player4", "Player5");
         // Set all dropdowns to first item.
@@ -299,6 +304,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     @Override
     public void update(GameViewObservable gameViewObservable) {
+        System.out.println("NEXT TURN");
         troops.getChildren().removeAll(troops.getChildren());
         troops.getChildren().addAll(gameViewObservable.getTroopsGroup());
 

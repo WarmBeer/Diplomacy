@@ -48,7 +48,13 @@ public class GameController  {
     }
 
     public void addUnitOrder(Unit unit) {
-        orderedUnits.add(unit);
+        if (orderedUnits.indexOf(unit) < 0) {
+            orderedUnits.add(unit);
+        }
+    }
+
+    public void clickedEndTurn() {
+        processOrders();
     }
 
     private GameJSON retrieveGameJSON(String gameUID) {
@@ -158,7 +164,6 @@ public class GameController  {
 
     public void addMessage(String message) {
         chatbox.addChatMessage(message, Main.getKEY(), gameModel.getActiveGame().getGameUID());
-        //processOrders();
     }
 
     public void sendFirstMessage() {
@@ -168,9 +173,7 @@ public class GameController  {
 
 
     public void sendOrders() {
-        for (Unit unit : orderedUnits) {
-            fb.sendOrders(gameModel.getActiveGame().getGameUID(), unit);
-        }
+        fb.sendOrders(gameModel.getActiveGame().getGameUID(), orderedUnits);
     }
 
     public void hideVisualPoints(Boolean hide) {
@@ -227,7 +230,7 @@ public class GameController  {
     public void clickedSendOrder(ListView ordersList) {
         for(Object order : ordersList.getItems()) {
             String[] orderSplit = order.toString().split("_");
-            String orderType = orderSplit[0];
+            Unit.orderType order_type = Unit.orderType.valueOf(orderSplit[0].toUpperCase());
             String province1Name = orderSplit[1];
             String province2Name = "";
             if(orderSplit.length > 2) {
@@ -236,7 +239,7 @@ public class GameController  {
             if(gameModel.getProvinceFromName(province1Name).getUnit() == null) {
                 System.out.println("Unit is null! you added an order from a province without unit");
             } else {
-                gameModel.getProvinceFromName(province1Name).getUnit().addOrder(gameModel.getProvinceFromName(province1Name).getUnit().getCurrentOrder(), gameModel.getProvinceFromName(province2Name));
+                gameModel.getProvinceFromName(province1Name).getUnit().addOrder(order_type, gameModel.getProvinceFromName(province2Name));
                 System.out.println(gameModel.getProvinceFromName(province1Name).getUnit().getCurrentOrder() + gameModel.getProvinceFromName(province2Name).getAbbreviation());
                 addUnitOrder(gameModel.getProvinceFromName(province1Name).getUnit());
             }
@@ -245,7 +248,6 @@ public class GameController  {
         sendOrders();
     }
 
-    //TODO: Fix deze shit.
     private void processOrders() {
         for (Unit unit : gameModel.getActiveGame().getUnits()) {
             orderedUnits.add(unit);
@@ -269,7 +271,10 @@ public class GameController  {
         for (int i = 0;i<moveOrders.size();i++) {
             moveOrders.get(i).doOrder();
         }
+
+        gameModel.setPointsChanged();
         gameModel.notifyGameViewObservers();
+        gameModel.getActiveGame().nextTurn();
         saveToFirebase();
     }
 

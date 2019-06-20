@@ -64,11 +64,11 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         provComboBoxValues = new ArrayList<>();
 
         hasComboBoxes = true;
-        Player provinceLeader = selectedProvince.getOwner().getLeader();
-        boolean isThisClient = provinceLeader.isThisLocalPlayer();
+        boolean isThisClient =  (selectedProvince.getOwner().getLeader() != null) ? selectedProvince.getOwner().getLeader().isThisLocalPlayer() : false;
+        boolean hasUnit = (selectedProvince.getUnit() != null) ? true : false;
 
         //the player slected a province that isn't theirs
-        if(!isThisClient) {
+        if(!isThisClient || !hasUnit) {
             setDisableOrderMenu(true);
         } else {
             setDisableOrderMenu(false);
@@ -786,7 +786,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         return this.points;
     }
 
-    private void setPointsChanged() {
+    public void setPointsChanged() {
         this.pointsChanged = true;
     }
 
