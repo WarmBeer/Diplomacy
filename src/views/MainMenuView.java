@@ -28,6 +28,8 @@ public class MainMenuView implements MainMenuViewObserver {
     private static String STYLESHEET_FILE = "/resources/MainMenu.css";
     private MainController mainController;
     private ArrayList<String> gameIDS;
+    ArrayList<Label> playerLabelsLobby = new ArrayList<>();
+    ArrayList<Label> countryLabelsLobby = new ArrayList<>();
 
     //FXML Variables
     @FXML private Label player1;
@@ -195,23 +197,39 @@ public class MainMenuView implements MainMenuViewObserver {
     public void updateJoinedPlayersinformation() {
         String gameUID = getChooseGameID();
         ArrayList<Map> playerinfo = mainController.getPlayersList(gameUID);
+
+        for(int x = 0; x < playerinfo.size(); x++){
+            String playername = (String) playerinfo.get(x).get("name");
+            String country = (String) playerinfo.get(x).get("country");
+            playerLabelsLobby.get(x).setText(playername);
+            countryLabelsLobby.get(x).setText(country);
+
+        }
     }
 
     public void initLobbyLabels(){
-        player1.setText("Empty");
-        country1.setText("Empty");
-        player2.setText("Empty");
-        country2.setText("Empty");
-        player3.setText("Empty");
-        country3.setText("Empty");
-        player4.setText("Empty");
-        country4.setText("Empty");
-        player5.setText("Empty");
-        country5.setText("Empty");
-        player6.setText("Empty");
-        country6.setText("Empty");
-        player7.setText("Empty");
-        country7.setText("Empty");
+        playerLabelsLobby.add(player1);
+        playerLabelsLobby.add(player2);
+        playerLabelsLobby.add(player3);
+        playerLabelsLobby.add(player4);
+        playerLabelsLobby.add(player5);
+        playerLabelsLobby.add(player6);
+        playerLabelsLobby.add(player7);
+        countryLabelsLobby.add(country1);
+        countryLabelsLobby.add(country2);
+        countryLabelsLobby.add(country3);
+        countryLabelsLobby.add(country4);
+        countryLabelsLobby.add(country5);
+        countryLabelsLobby.add(country6);
+        countryLabelsLobby.add(country7);
+
+        for(int x = 0; x < playerLabelsLobby.size(); x++){
+            final String DEFAULTPLAYERNAME =  "Still empty";
+            final String DEFAULTCOUNTRYNAME = "Still empty";
+            playerLabelsLobby.get(x).setText(DEFAULTPLAYERNAME);
+            countryLabelsLobby.get(x).setText(DEFAULTCOUNTRYNAME);
+
+        }
     }
 
 }

@@ -66,10 +66,6 @@ public class MainController {
         return GameIDs;
     }
 
-//    public void fillingLobbyMainControl() {
-//        fb.getPlayerInformation(getGameID());
-//    }
-    
     public ArrayList<Map> getPlayersList(String gameUID){
         ArrayList<Map> playerlist = fb.getPlayerInformation(gameUID);
         return playerlist;

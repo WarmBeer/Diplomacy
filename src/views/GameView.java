@@ -455,14 +455,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     //Hier wordt de FXML file ingeladen en voegt hij de methode createPage eraan toe.
     @FXML
     private void spelRegelsView() throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(SPEL_REGELS));
-//        fxmlLoader.setController(this);
-//        Parent contentRegels = (Parent) fxmlLoader.load();
-//        Stage stage = new Stage();
-//        stage.setScene(new Scene(contentRegels));
-//        stage.show();
-//        stage.setTitle("Spelregels");
-
         box.setVisible(!box.isVisible());
         paginationrules.setVisible(!paginationrules.isVisible());
 
