@@ -129,4 +129,20 @@ public class Province extends ImageView {
     public ArrayList<Province> getBorders() {
         return this.borderedProvinces;
     }
+
+    public void spawnUnit() {
+        if (this.stationed == null && isSupplyCenter && getOwner().getName() != GameModel.Countries.INDEPENDENT) {
+            switch (provinceType) {
+                case LAND:
+                    this.stationed = new Army(this);
+                    break;
+                case COASTAL:
+                    this.stationed = new Army(this);
+                    break;
+                case SEA:
+                    this.stationed = new Fleet(this);
+                    break;
+            }
+        }
+    }
 }

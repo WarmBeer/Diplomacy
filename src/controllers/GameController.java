@@ -222,16 +222,6 @@ public class GameController  {
         gameModel.changedComboBox(action, selectedProvince, comboBox1);
     }
 
-    private Boolean provinceExists(Province province) {
-        for (Object o : gameModel.getActiveGame().getProvinces()) {
-            // use utility function from java.util to deal with nulls
-            if (Objects.equals(o, province)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void clickedSendOrder(ListView ordersList) {
         for(Object order : ordersList.getItems()) {
             String[] orderSplit = order.toString().split("_");
@@ -284,6 +274,12 @@ public class GameController  {
 
             for (int i = 0; i < gameModel.getActiveGame().getUnits().size(); i++) {
                 gameModel.getActiveGame().getUnits().get(i).reset();
+            }
+
+            if (gameModel.getActiveGame().getTurn() % 3 == 0) {
+                for (int i = 0;i< gameModel.getActiveGame().getProvinces().size();i++) {
+                    gameModel.getProvinces().get(i).spawnUnit();
+                }
             }
 
             orderedUnits = new ArrayList<>();
