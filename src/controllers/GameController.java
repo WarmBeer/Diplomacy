@@ -45,6 +45,7 @@ public class GameController  {
 
     public void createLobby(String gameName, int turnTime) {
         gameModel.createLobby(gameName, turnTime);
+        chatbox.makeNewChat(gameModel.getActiveGame().getGameUID());
         Player player = new Player();
         player.setUID(Main.getKEY());
         player.setId(0);
