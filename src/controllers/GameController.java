@@ -39,8 +39,19 @@ public class GameController  {
         this.mainController = mainController;
     }
 
-    public GameModel giveGameModel(){
+    public GameModel getGamemodel(){
         return this.gameModel;
+    }
+
+    public void createLobby(String gameName, int turnTime) {
+        gameModel.createLobby(gameName, turnTime);
+        Player player = new Player();
+        player.setUID(Main.getKEY());
+        player.setId(0);
+        player.setName("Player " + player.getId());
+        player.setCountry(GameModel.Countries.GERMANY);
+        gameModel.getActiveGame().addPlayer(player);
+        saveToFirebase();
     }
 
     public void saveToFirebase() {
@@ -63,7 +74,7 @@ public class GameController  {
         processOrders();
     }
 
-    private GameJSON retrieveGameJSON(String gameUID) {
+    public GameJSON retrieveGameJSON(String gameUID) {
 
         GameJSON gameJSON = fb.getGame(gameUID);
 
@@ -75,6 +86,25 @@ public class GameController  {
         */
         return gameJSON;
     }
+
+    private List<GameModel.Countries> getFreeCountries(GameJSON gameJSON) {
+        List<GameModel.Countries> freeCountries = new ArrayList<>();
+        List<GameModel.Countries> takenCountries = new ArrayList<>();
+
+        for (Player player : gameJSON.Players) {
+            takenCountries.add(player.getCountry());
+        }
+
+        for (GameModel.Countries countries : GameModel.Countries.values()) {
+            if (countries == GameModel.Countries.INDEPENDENT) {continue;}
+            if (takenCountries.indexOf(countries) < 0) {
+                freeCountries.add(countries);
+            }
+        }
+
+        return freeCountries;
+    }
+
 
     public GameJSON saveGameToJSON() {
 
@@ -88,6 +118,8 @@ public class GameController  {
         gameJSON.turnTime = gameModel.getActiveGame().getTurnTime();
         gameJSON.Players = gameModel.getActiveGame().getPlayers();
         gameJSON.Provinces = new ArrayList<>();
+        gameJSON.freeCountries = getFreeCountries(gameJSON);
+        gameJSON.inLobby = gameModel.getActiveGame().getLobby();
 
         for (Province province : gameModel.getActiveGame().getProvinces()) {
             ProvinceJSON provinceJSON = new ProvinceJSON();
@@ -139,6 +171,7 @@ public class GameController  {
 
             gameModel.initGame(gameJSON);
             chatbox.notifyChatObservers();
+            //sendFirstMessage();
 
         }
         catch(Exception E){
@@ -174,8 +207,7 @@ public class GameController  {
     }
 
     public void sendFirstMessage() {
-        String gameUID = mainController.getGameID();
-        chatbox.addFirstMessage(Main.getKEY(), gameUID);
+        chatbox.addFirstMessage(Main.getKEY(), gameModel.getActiveGame().getGameUID());
     }
 
 
@@ -316,17 +348,31 @@ public class GameController  {
         chatbox.notifyChatObservers();
     }
 
-    public ArrayList<Map> getPlayersList(){
-        String gameUID = mainController.getGameID();
-        ArrayList<Map> playerlist = fb.getPlayerInformation(gameUID);
+    public List<Player> getPlayersList(String gameUID){
+        List<Player> playerlist = fb.getPlayerInformation(gameUID);
         return playerlist;
     }
 
+    public void updatePlayers() {
+        GameJSON gameJSON = retrieveGameJSON(gameModel.getActiveGame().getGameUID());
 
+        for (Player player : gameJSON.Players) {
+            if (gameModel.getActiveGame().getPlayers().indexOf(player) < 0) {
+                gameModel.getActiveGame().addPlayer(player);
+            }
+        }
+    }
+
+    public void startLobby() {
+        updatePlayers();
+        gameModel.startLobby();
+        saveToFirebase();
+        requestLoadGame(gameModel.getActiveGame().getGameUID());
+    }
 
     public ArrayList<String> getAllMessages(){
         try{
-            String gameUID = mainController.getGameID();
+            String gameUID = mainController.gameController.getGamemodel().getActiveGame().getGameUID();
             messageArraylist = fb.getMessages(gameUID);
             return messageArraylist;
         } catch(ExecutionException EE) {
@@ -345,7 +391,10 @@ public class GameController  {
 //        gameModel.startLobby();
 //    }
 
-    public void createLobbyGController() {
-
+    public void joinLobby(String gameUID) {
+        fb.addPlayer(gameUID, Main.getKEY());
+        fb.startLobbyListener(gameUID);
     }
+
+
 }

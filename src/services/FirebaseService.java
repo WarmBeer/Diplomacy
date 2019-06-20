@@ -12,6 +12,7 @@ import domains.GameJSON;
 import domains.Player;
 import domains.Province;
 import domains.Unit;
+import models.GameModel;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -292,27 +293,26 @@ public class FirebaseService {
         return gameIDs;
     }
 
-    public ArrayList<Map> getPlayerInformation(String gameUID){
+    public List<Player> getPlayerInformation(String gameUID){
+        List<Player> players = new ArrayList<>();
         try{
             //Get right document from firebase
             DocumentReference docRef = db.collection("Games").document(gameUID);
             ApiFuture<DocumentSnapshot> future = docRef.get();
             DocumentSnapshot document = future.get();
 
-            players = (ArrayList<Map>) document.getData().get("Players");
+            players = (ArrayList<Player>)document.getData().get("Players");
 
-            return players;
         }
         catch (InterruptedException IE){
             IE.printStackTrace();
             System.out.println("Iets fout in firebase service...");
-            return players;
         }
         catch (ExecutionException EE){
             EE.printStackTrace();
             System.out.println("Iets fout in firebase service...");
-            return players;
         }
+        return players;
     }
 
     public ArrayList<String> getChoosenCountriesNames(String gameID){
@@ -434,6 +434,43 @@ public class FirebaseService {
             System.out.println("In de firebaseservice is een Interrupted Exception opgetreden!");
             IE.printStackTrace();
         }
+    }
+
+    public void addPlayer(String gameUID, String playerKey) {
+        try {
+            GameJSON gameJSON = getGame(gameUID);
+            Player player = new Player();
+            player.setUID(playerKey);
+            player.setId(gameJSON.Players.size());
+            player.setName("Player " + player.getId());
+            player.setCountry(gameJSON.freeCountries.get(0));
+            gameJSON.Players.add(player);
+            gameJSON.freeCountries.remove(0);
+            saveGame(gameJSON);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void startLobbyListener(String gameUID) {
+        DocumentReference docRef = db.collection("Games").document(gameUID);
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot snapshot,
+                                @Nullable FirestoreException e) {
+                if (e != null) {
+                    System.err.println("Listen failed: " + e);
+                    return;
+                }
+
+                if (snapshot != null && snapshot.exists()) {
+                    System.out.println("Current data: " + snapshot.getData());
+                } else {
+                    System.out.print("Current data: null");
+                }
+            }
+        });
+
     }
 
 }

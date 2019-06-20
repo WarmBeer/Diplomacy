@@ -12,6 +12,7 @@ public class Game {
     private int turnTime;
     private String host;
     private int turn;
+    private boolean inLobby;
 
     private List<Country> Countries;
     private List<Province> Provinces;
@@ -25,6 +26,7 @@ public class Game {
         Countries = new ArrayList<>();
         Provinces = new ArrayList<>();
         Players = new ArrayList<>();
+        inLobby = false;
     }
 
     public void nextTurn() {
@@ -73,6 +75,14 @@ public class Game {
 
     public List<Province> getProvinces() {
         return Provinces;
+    }
+
+    public void setLobby(boolean bool) {
+        inLobby = bool;
+    }
+
+    public boolean getLobby() {
+        return inLobby;
     }
 
     public List<Unit> getUnits() {

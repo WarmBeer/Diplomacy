@@ -1,6 +1,8 @@
 package models;
 
+import application.Main;
 import controllers.GameController;
+import controllers.MainController;
 import domains.*;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -111,11 +113,15 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         return  this.activeGame;
     }
 
+    public boolean isThisLocalPlayer(Player player) {
+        return application.Main.getKEY().equals(player.getUID());
+    }
+
     public void changedComboBox(String action, Province selectedProvince, ComboBox provComboBox) {
         provComboBoxValues = new ArrayList<>();
 
         hasComboBoxes = true;
-        boolean isThisClient =  (selectedProvince.getOwner().getLeader() != null) ? selectedProvince.getOwner().getLeader().isThisLocalPlayer() : false;
+        boolean isThisClient =  (selectedProvince.getOwner().getLeader() != null) ? isThisLocalPlayer(selectedProvince.getOwner().getLeader()) : false;
         boolean hasUnit = (selectedProvince.getUnit() != null) ? true : false;
 
         //the player slected a province that isn't theirs
@@ -253,41 +259,33 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     public void createLobby(String gameName, int turnTime) {
         String gameUID = KeyHandler.generateKey(8);
         Game game = new Game(gameUID, gameName, turnTime, 1);
+        game.setLobby(true);
 
-        this.lobbyGame = game;
-    }
+        this.activeGame = game;
 
-    public void joinLobby(String gameUID) {
-        String gameName = firebase.getGameName(gameUID);
-        int turnTime = firebase.getGameTurnTime(gameUID);
-        int turn = firebase.getGameTurn(gameUID);
-        Game game = new Game(gameUID, gameName, turnTime, turn);
-        this.lobbyGame = game;
+        //playerJoined(lobbyGame.getGameUID(), Main.getKEY(), "YEETUS DELETUS");
     }
 
     public void startLobby() {
-        points = new Group();
-        troops = new Group();
-        initProvinces(this.lobbyGame);
+        initProvinces(activeGame);
 
         Country independent = new Country(Countries.INDEPENDENT);
-        this.lobbyGame.addCountry(independent);
+        activeGame.addCountry(independent);
 
-        for(Player player : this.lobbyGame.getPlayers()) {
+        for(Player player : activeGame.getPlayers()) {
             Country country = new Country(player.getCountry());
             country.setPlayer(player);
-            this.lobbyGame.addCountry(country);
+            activeGame.addCountry(country);
 
-            for (int i = 0;i < this.lobbyGame.getProvinces().size();i++) {
-                if (this.lobbyGame.getProvinces().get(i).getCountry().equals(player.getCountry())) {
-                    this.lobbyGame.getProvinces().get(i).setOwner(country);
+            for (int i = 0;i < activeGame.getProvinces().size();i++) {
+                if (activeGame.getProvinces().get(i).getCountry().equals(player.getCountry())) {
+                    activeGame.getProvinces().get(i).setOwner(country);
                 }
             }
         }
 
         //Maak troepen aan
-        for(Province province: this.lobbyGame.getProvinces()){
-            points.getChildren().add(province);
+        for(Province province: activeGame.getProvinces()){
 
             if (province.getOwner() == null) {
                 province.setOwner(independent);
@@ -296,11 +294,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         }
 
         createUnitsPerPlayer();
-
-        this.activeGame = this.lobbyGame;
-        this.lobbyGame = null;
-        this.setPointsChanged();
-        this.notifyGameViewObservers();
+        activeGame.setLobby(false);
     }
 
     public void initProvinces(Game game) {
@@ -757,7 +751,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
             for(Player player : activeGame.getPlayers()){
                 if(province.getCountry() == player.getCountry()) {
                     if(province.isSupplyCenter()) {
-                        createUnit(unitType.ARMY, province);
+                        province.addUnit(new Army(province));
 
                     }
                 }
@@ -929,7 +923,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
     public Player getThisPlayer() {
         for(Player player : activeGame.getPlayers()) {
-            if(player.isThisLocalPlayer())
+            if(isThisLocalPlayer(player))
                 return player;
         }
         return null;

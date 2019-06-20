@@ -2,6 +2,8 @@ package views;
 
 import application.Main;
 import controllers.MainController;
+import domains.GameJSON;
+import domains.Player;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,13 +13,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import models.GameModel;
 import observers.MainMenuViewObservable;
 import observers.MainMenuViewObserver;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.LogManager;
 
@@ -77,13 +79,9 @@ public class MainMenuView implements MainMenuViewObserver {
     }
 
     @FXML
-    public void clickedHostGame() {
-        lobbyAnchor.setVisible(true);
-        mainController.clickedHostGame();
-    }
-
-    @FXML
     public void clickedStartGameHost() {
+        mainController.gameController.startLobby();
+        /*
         boolean isHost = true;
 
         if(isHost == true){
@@ -98,6 +96,7 @@ public class MainMenuView implements MainMenuViewObserver {
         else{
             System.out.println("Nope");
         }
+         */
 
     }
 
@@ -139,9 +138,12 @@ public class MainMenuView implements MainMenuViewObserver {
 
     @FXML
     private void createCustomGame() {
+        lobbyAnchor.setVisible(true);
         int turn_time = (turnTime.getValue() != null) ? (int)turnTime.getValue() : 5;
         String game_name = (gameName.getText() != null) ? gameName.getText() : "This is a game of Diplomacy!";
-        mainController.gameController.giveGameModel().createLobby(game_name, turn_time);
+        mainController.gameController.createLobby(game_name, turn_time);
+        initLobbyLabels();
+        //updateJoinedPlayersinformation(mainController.gameController.getGamemodel().getActiveGame().getGameUID());
     }
 
     @FXML
@@ -160,6 +162,16 @@ public class MainMenuView implements MainMenuViewObserver {
         }
     }
 
+    private boolean playerInGame(GameJSON gameJSON) {
+        boolean player_in_game = false;
+        for (Player player : gameJSON.Players) {
+            if (player.getUID().equals(Main.getKEY())) {
+                player_in_game = true;
+            }
+        }
+        return player_in_game;
+    }
+
 
 
     // TODO: 19-6-2019 Name is nog hardcoded, player moet naar firebase als ie geregistreerd is
@@ -168,19 +180,19 @@ public class MainMenuView implements MainMenuViewObserver {
         String gameID = getChooseGameID();
         String playerUID = Main.getKEY();
 
-        String playerName = playerNamee;
-
-        lobbyAnchor.setVisible(true);
-        mainController.passGameModel().joinLobby(gameID);
-
-        //registreer speler
-        mainController.passGameModel().playerJoined(gameID,playerUID,playerName);
-
-        initLobbyLabels();
+        GameJSON gameJSON = mainController.gameController.retrieveGameJSON(gameID);
 
 
-        //Vul labels met shit
-        updateJoinedPlayersinformation();
+        if (!gameJSON.inLobby && playerInGame(gameJSON)) {
+            mainController.gameController.requestLoadGame(gameID);
+        } else if (gameJSON.Players.size() < 7){
+
+            lobbyAnchor.setVisible(true);
+            mainController.gameController.joinLobby(gameID);
+            initLobbyLabels();
+            updateJoinedPlayersinformation(getChooseGameID());
+
+        }
     }
     @FXML
     private void returnLobby() {
@@ -223,21 +235,24 @@ public class MainMenuView implements MainMenuViewObserver {
     }
 
     @FXML
-    private void showHostGame() {
-        hostGameAnchor.setVisible(!hostGameAnchor.isVisible());
-        aantalTijd.getItems().addAll("5 min", "10 min", "15 min", "20 min");
-        aantalTijd.getSelectionModel().select(0);
+    private void toggleHostGame() {
+        hostGameAnchor.setVisible(false);
     }
 
-    public void updateJoinedPlayersinformation() {
-        String gameUID = getChooseGameID();
-        ArrayList<Map> playerinfo = mainController.getPlayersList(gameUID);
+    @FXML
+    private void clickedHostGame() {
+        hostGameAnchor.setVisible(!hostGameAnchor.isVisible());
+        turnTime.getItems().addAll(5, 10, 15, 20);
+        turnTime.getSelectionModel().select(0);
+    }
 
-        for(int x = 0; x < playerinfo.size(); x++){
-            String playername = (String) playerinfo.get(x).get("name");
-            String country = (String) playerinfo.get(x).get("country");
-            playerLabelsLobby.get(x).setText(playername);
-            countryLabelsLobby.get(x).setText(country);
+    public void updateJoinedPlayersinformation(String gameUID) {
+
+        List<Player> playerinfo = mainController.gameController.getPlayersList(gameUID);
+
+        for(Player player : playerinfo){
+            playerLabelsLobby.get(player.getId()).setText(player.getName());
+            countryLabelsLobby.get(player.getId()).setText(player.getCountry().toString());
 
         }
     }

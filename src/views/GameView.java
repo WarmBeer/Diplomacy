@@ -24,14 +24,10 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import models.GameModel;
 import observers.*;
-import sun.awt.Symbol;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 import java.util.logging.LogManager;
@@ -99,8 +95,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             primaryStage.setScene(scene);
             primaryStage.setMaximized(true);
             primaryStage.show();
-            updatePlayerInformation();
-            firstMessage();
         }
         catch(IOException IOE){
             IOE.printStackTrace();
@@ -186,7 +180,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                 String fromPlayerUID = berichtSplit[0];
                 String toPlayer = berichtSplit[1];
 
-                Player thisPlayer = gameController.giveGameModel().getThisPlayer();
+                Player thisPlayer = gameController.getGamemodel().getThisPlayer();
                 if(thisPlayer.getUID().equals(fromPlayerUID) && !toPlayer.equals("ALL")) {
                     toPlayer = thisPlayer.getCountry().toString();
                 }
@@ -514,11 +508,11 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
 
 
-    public void updatePlayerInformation() {
-        ArrayList<Map> playerlist = gameController.getPlayersList();
+    public void updatePlayerInformation(String gameUID) {
+        List<Player> playerlist = gameController.getPlayersList(gameUID);
 
-        for(int x = 0; x < playerlist.size(); x++){
-            String playerinfo = ((String) playerlist.get(x).get("name") +"  plays as:   " + (String) playerlist.get(x).get("country"));
+        for(Player player : playerlist){
+            String playerinfo = player.getName() + "  plays as:   " + player.getCountry();
             playersList.getItems().add(playerinfo);
         }
     };

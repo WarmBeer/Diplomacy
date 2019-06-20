@@ -37,10 +37,6 @@ public class Player {
         this.country = country;
     }
 
-    public boolean isThisLocalPlayer() {
-        return application.Main.getKEY().equals(UID);
-    }
-
     public Player() {
 
     }

@@ -1,12 +1,9 @@
 package controllers;
 
-import domains.Country;
 import javafx.stage.Stage;
 import models.GameModel;
 import models.SuperModel;
 import services.FirebaseService;
-import utilities.KeyHandler;
-import views.MainMenuView;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -18,11 +15,6 @@ public class MainController {
     private FirebaseService fb;
     private String currentGameUID;
     private boolean gameUIDIsReady = false;
-
-    public GameModel passGameModel(){
-        GameModel gamemodel = gameController.giveGameModel();
-        return gamemodel;
-    }
 
     public GameModel.Countries  getAvailableCountry(String gameUID){
         GameModel.Countries  availableCountry = gameController.giveAvailableCountry(gameUID);
@@ -45,13 +37,6 @@ public class MainController {
         gameUIDIsReady = true;
     }
 
-    public String getGameID(){
-        return currentGameUID;
-    }
-
-    public void clickedHostGame() {
-    }
-
     public void dontShowMainMenu() {
         this.superModel.dontShowMainMenu();
     }
@@ -68,11 +53,6 @@ public class MainController {
     public ArrayList<String> getGameIDS(){
         ArrayList<String> GameIDs = fb.getGameIDs();
         return GameIDs;
-    }
-
-    public ArrayList<Map> getPlayersList(String gameUID){
-        ArrayList<Map> playerlist = fb.getPlayerInformation(gameUID);
-        return playerlist;
     }
 
     public void createLoginName() {
