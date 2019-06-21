@@ -68,4 +68,5 @@ public class MainController {
         System.out.println(getKEY + playerName);
         fb.addNewPlayerInFirebase(getKEY, playerName);
     }
+
 }

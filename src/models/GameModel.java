@@ -68,7 +68,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
 
 
-    // TODO: 20/06/2019 Return a vailid something, not null. This is pure ****
+    // TODO: 20/06/2019 Return a vailid something, not null...
     public Countries giveAvailableCountry(String gameUID){
         updateAvailableAndUnavailbleCountries(gameUID);
         for(Countries country : Countries.values()){
@@ -79,12 +79,6 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
         Countries country = null;
         return country;
-
-        //Get all choosen country from firebase
-        //Check with ones are choosen
-        //Make a list of available ones
-        //choose a availble one, return it (later in the prosses, this one needs to be set as choosen!
-        //return country;
     }
 
     private void updateAvailableAndUnavailbleCountries(String gameUID){

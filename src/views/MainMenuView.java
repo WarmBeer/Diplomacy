@@ -173,27 +173,23 @@ public class MainMenuView implements MainMenuViewObserver {
     }
 
 
-
-    // TODO: 19-6-2019 Name is nog hardcoded, player moet naar firebase als ie geregistreerd is
     @FXML
     public void handleMouseClick(MouseEvent arg0) {
+
         String gameID = getChooseGameID();
-        String playerUID = Main.getKEY();
 
         GameJSON gameJSON = mainController.gameController.retrieveGameJSON(gameID);
-
 
         if (!gameJSON.inLobby && playerInGame(gameJSON)) {
             mainController.gameController.requestLoadGame(gameID);
         } else if (gameJSON.Players.size() < 7){
-
             lobbyAnchor.setVisible(true);
             mainController.gameController.joinLobby(gameID);
             initLobbyLabels();
             updateJoinedPlayersinformation(getChooseGameID());
-
         }
     }
+
     @FXML
     private void returnLobby() {
         lobbyAnchor.setVisible(false);
@@ -211,13 +207,10 @@ public class MainMenuView implements MainMenuViewObserver {
         }
         String getKEY = Main.getKEY();
         mainController.addPlayerToGame(getKEY, playerNamee);
-
     }
 
-    // TODO: 20-6-2019
     @FXML
     public void showLoginScreen() {
-//        mainController.createKey();
         loginScreenAnchor.setVisible(!loginScreenAnchor.isVisible());
         if (loginScreenAnchor.isVisible() == true) {
             joinGameButton.setDisable(true);
@@ -253,7 +246,6 @@ public class MainMenuView implements MainMenuViewObserver {
         for(Player player : playerInfo){
             playerLabelsLobby.get(player.getId()).setText(player.getName());
             countryLabelsLobby.get(player.getId()).setText(player.getCountry().toString());
-
         }
     }
 
