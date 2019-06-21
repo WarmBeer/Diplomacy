@@ -181,6 +181,11 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                 String toPlayer = berichtSplit[1];
 
                 Player thisPlayer = gameController.getGamemodel().getThisPlayer();
+                if(thisPlayer == null){
+                    System.out.println("uhm de player is null? Kan het bericht nu niet plaatsten ");
+                    return;
+                }
+
                 if(thisPlayer.getUID().equals(fromPlayerUID) && !toPlayer.equals("ALL")) {
                     toPlayer = thisPlayer.getCountry().toString();
                 }
