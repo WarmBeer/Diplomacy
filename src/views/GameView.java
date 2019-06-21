@@ -1,5 +1,6 @@
 package views;
 
+import application.Main;
 import controllers.GameController;
 import domains.Player;
 import domains.Province;
@@ -48,6 +49,9 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private Stage stage;
     private Province selectedProvince;
 
+    @FXML
+    private Button endTurn;
+
     // COLORS (country/player)
     private Color colAustria = Color.SANDYBROWN;
     private Color colEngland = Color.STEELBLUE;
@@ -66,6 +70,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         chatboxLaunch(stage);
         pressedStart();
         updatePlayerInformation();
+        configureButtons();
     }
 
     private void pressedStart() {
@@ -74,7 +79,13 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         gameController.registerGameObserver(this);
     }
 
-
+    private void configureButtons() {
+        if (gameController.getGamemodel().getActiveGame().getHost().equals(Main.getKEY())) {
+            endTurn.setVisible(true);
+        } else {
+            endTurn.setVisible(false);
+        }
+    }
 
     public void chatboxLaunch(Stage primaryStage) {
         try{

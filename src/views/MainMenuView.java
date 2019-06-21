@@ -165,13 +165,14 @@ public class MainMenuView implements MainMenuViewObserver {
         mainController.gameController.createLobby(game_name, turn_time);
         initLobbyLabels();
         try {
-            TimeUnit.SECONDS.sleep(5);
+            TimeUnit.SECONDS.sleep(3);
         } catch (InterruptedException ie) {
             ie.printStackTrace();
         }
         updateJoinedPlayersinformation();
         mainController.gameController.startLobbyListener();
         this.state = States.LOBBY;
+        configureStartGame();
     }
 
     @FXML
@@ -218,6 +219,7 @@ public class MainMenuView implements MainMenuViewObserver {
             initLobbyLabels();
             updateJoinedPlayersinformation();
             mainController.gameController.startLobbyListener();
+            configureStartGame();
         }
     }
 

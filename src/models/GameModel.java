@@ -149,6 +149,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     @FXML
     public void initGame(GameJSON gameJSON) {
         Game game = new Game(gameJSON.gameUID, gameJSON.name, gameJSON.turnTime, gameJSON.turn);
+        game.setHost(gameJSON.host);
         points = new Group();
         troops = new Group();
         initProvinces(game);
