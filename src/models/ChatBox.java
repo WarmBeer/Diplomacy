@@ -30,6 +30,9 @@ public class ChatBox implements ChatObservable {
         firebaseservice.makeChatInFirebase(GameUID);
     }
 
+    public void listenToChat(String GemUID) {
+        firebaseservice.listenToChat(GemUID, this);
+    }
 
     private String makeNewMessage(String fromUID, String toPlayer, String message, String userName){
         String systemNameAndTimestamp = ("(" + (new SimpleDateFormat("HH:mm:ss").format(new Date())) + ") " + userName);
@@ -61,8 +64,8 @@ public class ChatBox implements ChatObservable {
     public void addChatMessage(String fromUID, String toPlayer, String nieuwBericht, String userName, String GameUID) {
         String newMessage = makeNewMessage(fromUID, toPlayer, nieuwBericht, userName);
         firebaseservice.addMessage(newMessage, GameUID);
-        updateArrayListWithMessages(GameUID);
-        notifyChatObservers();
+        //updateArrayListWithMessages(GameUID);
+        //notifyChatObservers();
     }
 
     public void addFirstMessage(String userName, String GameUID) {
@@ -98,4 +101,8 @@ public class ChatBox implements ChatObservable {
         return updatedMessageArraylist;
     }
 
+    public void updateChat(ArrayList<String> messages) {
+        this.updatedMessageArraylist = messages;
+        this.notifyChatObservers();
+    }
 }

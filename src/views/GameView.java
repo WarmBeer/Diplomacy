@@ -212,12 +212,11 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                         break;
                 }
 
-
                 if (toPlayer.equals("ALL") ||
                         toPlayer.equals(thisPlayer.getCountry().name())) {
                     Label berichtLabel = new Label(bericht);
                     berichtLabel.setStyle("-fx-text-inner-background: green; -fx-text-fill: rgb(" + toRGB(privateColor) + ");");
-                    messagesList.getItems().add(messagesList.getItems().size(), berichtLabel);
+                    messagesList.getItems().add(berichtLabel);
                     messagesList.scrollTo(berichtLabel);
                 }
 
@@ -429,7 +428,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         target.setScaleY(0.5);
         gameController.changedComboBox(comboxAction.getValue().toString(), selectedProvince, comboxProv1);
     }
-
 
     @FXML
     private void OpenMenu() {

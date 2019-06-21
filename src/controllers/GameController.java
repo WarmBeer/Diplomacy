@@ -44,7 +44,7 @@ public class GameController  {
         orderedUnits = new ArrayList<>();
         fb = FirebaseService.getInstance();
         this.chatbox = new ChatBox(fb);
-        this.gameModel = new GameModel(stage, this);
+        this.gameModel = new GameModel(stage, this, chatbox);
         this.mainController = mainController;
         this.listenState = ListenState.NON;
     }
