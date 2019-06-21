@@ -139,6 +139,8 @@ public class MainMenuView implements MainMenuViewObserver {
     public void update(MainMenuViewObservable mainMenuViewObservable) {
         if (state == States.LOBBY) {
             updateJoinedPlayersinformation();
+        } else {
+            mainController.gameController.stopLobbyListener();
         }
         if(mainMenuViewObservable.doShowMainMenu()) {
             this.show();
@@ -205,6 +207,8 @@ public class MainMenuView implements MainMenuViewObserver {
         if (!gameJSON.inLobby && playerInGame(gameJSON)) {
             mainController.gameController.requestLoadGame(gameID);
         } else if (gameJSON.Players.size() < 7){
+            this.state = States.LOBBY;
+            mainController.gameController.getGamemodel().initGame(gameJSON);
             lobbyAnchor.setVisible(true);
             mainController.gameController.joinLobby(gameID);
             initLobbyLabels();
