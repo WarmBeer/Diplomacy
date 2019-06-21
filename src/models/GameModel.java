@@ -59,10 +59,12 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
     private FirebaseService firebase;
     private ArrayList<String> unavailableCountries = new ArrayList<>();
     private ArrayList<String> availableCountries = new ArrayList<>();
+    private ChatBox chatBox;
 
-    public GameModel(Stage stage, GameController gameController) {
+    public GameModel(Stage stage, GameController gameController, ChatBox chatBox) {
         this.gameView = new GameView(stage, gameController);
         firebase = FirebaseService.getInstance();
+        this.chatBox = chatBox;
     }
 
     public void show() {
@@ -71,7 +73,8 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         this.gameView.init();
     }
 
-    // TODO: 20/06/2019 Return a vailid something, not null. This is pure ****
+
+    // TODO: 20/06/2019 Return a vailid something, not null.This is pure ****
     public Countries giveAvailableCountry(String gameUID){
         updateAvailableAndUnavailbleCountries(gameUID);
         for(Countries country : Countries.values()){
@@ -221,6 +224,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         this.setPointsChanged();
         this.notifyGameViewObservers();
         //firebase.addGameListener(game.getGameUID(), this);
+        chatBox.listenToChat(game.getGameUID());
 
     }
 

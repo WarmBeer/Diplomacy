@@ -14,6 +14,7 @@ import domains.Player;
 import domains.Province;
 import domains.Unit;
 import javafx.application.Platform;
+import models.ChatBox;
 import models.GameModel;
 import models.SuperModel;
 
@@ -42,6 +43,7 @@ public class FirebaseService {
     private final String PLAYERDOCUMENT = "allPlayers";
     private ListenerRegistration registration = null;
     private ListenerRegistration lobbyListener = null;
+    private ListenerRegistration chatBoxListener;
 
     public FirebaseService() {
         makeFirebaseConnection();
@@ -111,7 +113,7 @@ public class FirebaseService {
 
 
     /**
-     * Get all messages as an arraylist from the firebase document
+     * Get firebase messages document
      *
      * @author Thomas Zijl
      */
@@ -210,14 +212,15 @@ public class FirebaseService {
      * Geeft een update naar de meegeleverde controller
      * op het moment dat er een wijziging in het firebase document plaatsvindt.
      */
-    private void listen(String GameUID) {
+    public void listenToChat(String GameUID, ChatBox chatBox) {
 
         DocumentReference chatbox = db.collection("Chats").document(GameUID);
-        chatbox.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        if(chatBoxListener != null)
+            chatBoxListener.remove();
+        chatBoxListener = chatbox.addSnapshotListener(new EventListener<DocumentSnapshot>() {
 
             public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirestoreException e) {
-                System.out.println("Update chat");
-                //Notify all observers in chat?
+                Platform.runLater(() -> chatBox.updateChat(getMessagesFromDocument(snapshot)));
             }
         });
     }

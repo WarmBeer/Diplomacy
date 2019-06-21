@@ -138,7 +138,7 @@ public class MainMenuView implements MainMenuViewObserver {
     @Override
     public void update(MainMenuViewObservable mainMenuViewObservable) {
         if (state == States.LOBBY) {
-            updateJoinedPlayersinformation(mainController.gameController.getGamemodel().getActiveGame().getGameUID());
+            updateJoinedPlayersinformation();
         }
         if(mainMenuViewObservable.doShowMainMenu()) {
             this.show();
@@ -264,9 +264,8 @@ public class MainMenuView implements MainMenuViewObserver {
         turnTime.getSelectionModel().select(0);
     }
 
-    public void updateJoinedPlayersinformation(String gameUID) {
-
-        List<Player> playerInfo = mainController.gameController.getPlayersList(gameUID);
+    public void updateJoinedPlayersinformation() {
+        List<Player> playerInfo = mainController.gameController.getPlayersList();
 
         for(Player player : playerInfo){
             playerLabelsLobby.get(player.getId()).setText(player.getName());

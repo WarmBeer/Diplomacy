@@ -47,6 +47,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     private GameController gameController;
     private Stage stage;
     private Province selectedProvince;
+
     // COLORS (country/player)
     private Color colAustria = Color.SANDYBROWN;
     private Color colEngland = Color.STEELBLUE;
@@ -64,15 +65,13 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     public void init() {
         chatboxLaunch(stage);
         pressedStart();
+        updatePlayerInformation();
     }
 
     private void pressedStart() {
         gameController.registerOrderObserver(this);
         gameController.registerChatObserver(this);
         gameController.registerGameObserver(this);
-        //gamecontroller.refresChat();
-        //gameController.requestLoadGame("11111111");
-        //gameController.saveToFirebase();
     }
 
 
@@ -102,6 +101,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         catch(Exception E){
             E.printStackTrace();
         }
+
         /*
         //Als host true is, maak dan een chatsavelocatie aan in firebase. Sorry Henk.
         if(host){
@@ -212,12 +212,11 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                         break;
                 }
 
-
                 if (toPlayer.equals("ALL") ||
                         toPlayer.equals(thisPlayer.getCountry().name())) {
                     Label berichtLabel = new Label(bericht);
                     berichtLabel.setStyle("-fx-text-inner-background: green; -fx-text-fill: rgb(" + toRGB(privateColor) + ");");
-                    messagesList.getItems().add(messagesList.getItems().size(), berichtLabel);
+                    messagesList.getItems().add(berichtLabel);
                     messagesList.scrollTo(berichtLabel);
                 }
 
@@ -430,7 +429,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         gameController.changedComboBox(comboxAction.getValue().toString(), selectedProvince, comboxProv1);
     }
 
-
     @FXML
     private void OpenMenu() {
         MainMenu.setVisible(!MainMenu.isVisible());
@@ -506,8 +504,8 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
 
 
-    public void updatePlayerInformation(String gameUID) {
-        List<Player> playerlist = gameController.getPlayersList(gameUID);
+    public void updatePlayerInformation() {
+        List<Player> playerlist = gameController.getPlayersList();
 
         for(Player player : playerlist){
             String playerinfo = player.getName() + "  plays as:   " + player.getCountry();
