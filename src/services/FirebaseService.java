@@ -217,6 +217,13 @@ public class FirebaseService {
         });
     }
 
+    public void addGameListener(String gameUID, GameModel gameModel) {
+        DocumentReference games = db.collection("Games").document(gameUID);
+        games.addSnapshotListener((snapshot, e) -> {
+            gameModel.gameFirebaseUpdated(snapshot, e);
+        });
+    }
+
 
     public ArrayList<String> getGameName() {
         ArrayList<String> gameNames = new ArrayList<>();
