@@ -13,6 +13,7 @@ import domains.GameJSON;
 import domains.Player;
 import domains.Province;
 import domains.Unit;
+import javafx.application.Platform;
 import models.GameModel;
 import models.SuperModel;
 
@@ -231,10 +232,19 @@ public class FirebaseService {
 
     public void startLobbyListener(String gameUID, SuperModel superModel) {
         DocumentReference games = db.collection("Games").document(gameUID);
-        registration = games.addSnapshotListener((snapshot, e) -> {
+        lobbyListener = games.addSnapshotListener((snapshot, e) -> {
             GameJSON gameJSON = snapshot.toObject(GameJSON.class);
-            superModel.onLobbyEvent(gameJSON);
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    superModel.onLobbyEvent(gameJSON);
+                }
+            });
         });
+    }
+
+    public void stopLobbyListener() {
+        lobbyListener = null;
     }
 
 
@@ -249,7 +259,6 @@ public class FirebaseService {
 
             for(int i = 0; i < documentCount; i++){
                 gameNames.add("Game " + (i + 1) +": " + futures.get().getDocuments().get(i).getData().get("name") + " - ID: " + futures.get().getDocuments().get(i).getId());
-                System.out.println();
             }
         }
         catch (InterruptedException IE){
@@ -298,7 +307,6 @@ public class FirebaseService {
 
             for(int i = 0; i < documentCount; i++){
                 gameIDs.add(futures.get().getDocuments().get(i).getId());
-                System.out.println();
             }
         }
         catch (InterruptedException IE){

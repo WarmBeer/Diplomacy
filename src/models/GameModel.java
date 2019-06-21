@@ -262,6 +262,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         String gameUID = KeyHandler.generateKey(8);
         Game game = new Game(gameUID, gameName, turnTime, 1);
         game.setLobby(true);
+        game.setHost(Main.getKEY());
 
         this.activeGame = game;
 

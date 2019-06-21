@@ -56,15 +56,30 @@ public class GameController  {
     public void createLobby(String gameName, int turnTime) {
         gameModel.createLobby(gameName, turnTime);
         chatbox.makeNewChat(gameModel.getActiveGame().getGameUID());
+        String playerKey = Main.getKEY();
         Player player = new Player();
         player.setUID(Main.getKEY());
         player.setId(0);
-        player.setName("Player " + player.getId());
+        try {
+            player.setName("Player " + player.getId() + " - " + mainController.gameController.fb.playerUIDtoPlayername(playerKey));
+        } catch (ExecutionException ee) {
+            ee.printStackTrace();
+        }
+        catch (InterruptedException ie) {
+            ie.printStackTrace();
+        }
         player.setCountry(GameModel.Countries.GERMANY);
         gameModel.getActiveGame().addPlayer(player);
         saveToFirebase();
         listenState = ListenState.LOBBY;
+    }
+
+    public void startLobbyListener() {
         fb.startLobbyListener(gameModel.getActiveGame().getGameUID(), mainController.getSuperModel());
+    }
+
+    public void stopLobbyListener() {
+        fb.stopLobbyListener();
     }
 
     public void gameFirebaseUpdated(GameJSON gameJSON, FirestoreException e) {
@@ -129,7 +144,7 @@ public class GameController  {
 
         GameJSON gameJSON = new GameJSON();
         gameJSON.gameUID = gameModel.getActiveGame().getGameUID();
-        gameJSON.host = Main.getKEY();
+        gameJSON.host = gameModel.getActiveGame().getHost();
         gameJSON.name = gameModel.getActiveGame().getName();
         gameJSON.turn = gameModel.getActiveGame().getTurn();
         gameJSON.turnTime = gameModel.getActiveGame().getTurnTime();

@@ -101,26 +101,19 @@ public class MainMenuView implements MainMenuViewObserver {
     }
 
     @FXML
+    public void configureStartGame() {
+        if (mainController.gameController.getGamemodel().getActiveGame().getHost().equals(Main.getKEY())) {
+            startGameHost.setVisible(true);
+        } else {
+            startGameHost.setVisible(false);
+        }
+    }
+
+    @FXML
     public void clickedStartGameHost() {
         this.state = States.NONE;
         mainController.gameController.startLobby();
-        /*
-        boolean isHost = true;
-
-        if(isHost == true){
-            lobbyAnchor.setVisible(false);
-            int gameIDIndex = listGames.getSelectionModel().getSelectedIndex();
-            gameIDS = mainController.getGameIDS();
-            String gameID = getChooseGameID();
-
-            System.out.println(gameID);
-            mainController.clickedJoinGame(gameID);
-        }
-        else{
-            System.out.println("Nope");
-        }
-         */
-
+        mainController.gameController.stopLobbyListener();
     }
 
     public MainMenuView(Stage primaryStage, MainController mainController) throws IOException {
@@ -138,8 +131,6 @@ public class MainMenuView implements MainMenuViewObserver {
     }
 
     public void show() {
-        //stage.hide();
-        //stage.setFullScreen(true);
         stage.setScene(scene);
         stage.show();
     }
@@ -173,6 +164,7 @@ public class MainMenuView implements MainMenuViewObserver {
             ie.printStackTrace();
         }
         updateJoinedPlayersinformation(mainController.gameController.getGamemodel().getActiveGame().getGameUID());
+        mainController.gameController.startLobbyListener();
         this.state = States.LOBBY;
     }
 
@@ -217,6 +209,7 @@ public class MainMenuView implements MainMenuViewObserver {
             mainController.gameController.joinLobby(gameID);
             initLobbyLabels();
             updateJoinedPlayersinformation(getChooseGameID());
+            mainController.gameController.startLobbyListener();
         }
     }
 
@@ -224,6 +217,7 @@ public class MainMenuView implements MainMenuViewObserver {
     private void returnLobby() {
         this.state = States.NONE;
         lobbyAnchor.setVisible(false);
+        mainController.gameController.stopLobbyListener();
     }
 
     @FXML

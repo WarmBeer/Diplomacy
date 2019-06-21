@@ -85,6 +85,14 @@ public class Game {
         return inLobby;
     }
 
+    public String getHost() {
+        return this.host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
     public List<Unit> getUnits() {
         List<Unit> units = new ArrayList<>();
 
