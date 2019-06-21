@@ -356,6 +356,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         bur.addBorder(gas);
         bur.addBorder(mar);
         gas.addBorder(mar);
+        mun.addBorder(bur);
 
 
         //----ITALY//----
