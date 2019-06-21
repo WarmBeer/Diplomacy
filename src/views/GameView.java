@@ -292,11 +292,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     @FXML
     public void initialize(URL url, ResourceBundle rb) {
-        //Testdata om dropdownmenu te testen
-        String gameSoundFile = "src/resources/Darude - Sandstorm.mp3";
-        Media gameSound = new Media(new File(gameSoundFile).toURI().toString());
-        mediaplayer = new MediaPlayer(gameSound);
-        mediaplayer.setAutoPlay(true);
+        // Vullen van Order dropdowns.
         comboxAction.getItems().addAll("Hold", "Support", "Move");
         comboxProv1.getItems().addAll("Select Province");
         comboxPrivateChat.getItems().addAll("All");
@@ -446,11 +442,13 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         if (geluidsKnop.isSelected()) {
             geluidsKnop.setText("Uit");
             geluidsKnop.setAlignment(Pos.CENTER);
-            mediaplayer.pause();
+            //mediaplayer.pause();
+            gameController.getMainController().TurnMusicOn(false);
         } else {
             geluidsKnop.setText("Aan");
             geluidsKnop.setAlignment(Pos.CENTER);
-            mediaplayer.play();
+            //mediaplayer.play();
+            gameController.getMainController().TurnMusicOn(true);
         }
     }
 

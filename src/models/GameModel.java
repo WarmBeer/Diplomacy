@@ -11,6 +11,8 @@ import javafx.scene.Group;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import observers.GameViewObservable;
 import observers.GameViewObserver;
@@ -20,6 +22,7 @@ import services.FirebaseService;
 import utilities.KeyHandler;
 import views.GameView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -68,9 +71,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         this.gameView.init();
     }
 
-
-
-    // TODO: 20/06/2019 Return a vailid something, not null...
+    // TODO: 20/06/2019 Return a vailid something, not null. This is pure ****
     public Countries giveAvailableCountry(String gameUID){
         updateAvailableAndUnavailbleCountries(gameUID);
         for(Countries country : Countries.values()){

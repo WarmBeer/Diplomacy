@@ -1,10 +1,14 @@
 package controllers;
 
+import javafx.fxml.FXML;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import models.GameModel;
 import models.SuperModel;
 import services.FirebaseService;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -15,6 +19,10 @@ public class MainController {
     private FirebaseService fb;
     private String currentGameUID;
     private boolean gameUIDIsReady = false;
+
+    String gameSoundFile = "src/resources/Darude - Sandstorm.mp3";
+    Media gameSound = new Media(new File(gameSoundFile).toURI().toString());
+    MediaPlayer mediaplayer = new MediaPlayer(gameSound);
 
     public GameModel.Countries  getAvailableCountry(String gameUID){
         GameModel.Countries  availableCountry = gameController.giveAvailableCountry(gameUID);
@@ -69,4 +77,8 @@ public class MainController {
         fb.addNewPlayerInFirebase(getKEY, playerName);
     }
 
+    public void TurnMusicOn(boolean turnon) {
+        if(turnon) { mediaplayer.play(); System.out.println("Maincontroller: zet geluid aan."); }
+        else { mediaplayer.pause(); System.out.println("Maincontroller: zet geluid uit."); }
+    }
 }

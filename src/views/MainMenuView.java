@@ -11,11 +11,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import observers.MainMenuViewObservable;
 import observers.MainMenuViewObserver;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -79,6 +82,18 @@ public class MainMenuView implements MainMenuViewObserver {
     }
 
     @FXML
+    private void blabla() {
+        if (geluidsKnop.isSelected()) {
+            geluidsKnop.setText("Uit");
+            mainController.TurnMusicOn(false);
+        }
+        else {
+            geluidsKnop.setText("Aan");
+            mainController.TurnMusicOn(true);
+        }
+    }
+
+    @FXML
     public void clickedStartGameHost() {
         mainController.gameController.startLobby();
         /*
@@ -112,8 +127,6 @@ public class MainMenuView implements MainMenuViewObserver {
         primaryStage.setTitle("Diplomacy v1.0f");
         scene = new Scene( content, 1280, 720 );
         primaryStage.setResizable(false);
-
-
     }
 
     public void show() {
