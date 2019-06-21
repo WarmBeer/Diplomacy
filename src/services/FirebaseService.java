@@ -143,7 +143,6 @@ public class FirebaseService {
 
         //Convert the object to een arraylist
         ArrayList<String> messagesInArraylist = ((ArrayList<String>) messagesAsObject);
-
         return messagesInArraylist;
     }
 
