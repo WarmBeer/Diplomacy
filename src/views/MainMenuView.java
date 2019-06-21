@@ -163,7 +163,7 @@ public class MainMenuView implements MainMenuViewObserver {
         } catch (InterruptedException ie) {
             ie.printStackTrace();
         }
-        updateJoinedPlayersinformation(mainController.gameController.getGamemodel().getActiveGame().getGameUID());
+        updateJoinedPlayersinformation();
         mainController.gameController.startLobbyListener();
         this.state = States.LOBBY;
     }
@@ -208,7 +208,7 @@ public class MainMenuView implements MainMenuViewObserver {
             lobbyAnchor.setVisible(true);
             mainController.gameController.joinLobby(gameID);
             initLobbyLabels();
-            updateJoinedPlayersinformation(getChooseGameID());
+            updateJoinedPlayersinformation();
             mainController.gameController.startLobbyListener();
         }
     }

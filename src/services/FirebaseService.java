@@ -111,6 +111,26 @@ public class FirebaseService {
         }
     }
 
+    /**
+     *  from a DocumentSnapshot, get all messages as an arraylist
+     *
+     * @author Thomas Zijl
+     *
+     * @param document
+     * @return ArrayList<String>
+     */
+    public ArrayList<String> getMessagesFromDocument(DocumentSnapshot document) {
+        //Get the hashmap
+        Map<String, Object> messagesInHashmap = document.getData();
+
+        //Get the arraylist as object from the hastmap
+        Object messagesAsObject = messagesInHashmap.get(ARRAYNAME);
+
+        //Convert the object to een arraylist
+        ArrayList<String> messagesInArraylist = ((ArrayList<String>) messagesAsObject);
+        return messagesInArraylist;
+    }
+
 
     /**
      * Get firebase messages document
@@ -123,15 +143,7 @@ public class FirebaseService {
         ApiFuture<DocumentSnapshot> future = docRef.get();
         DocumentSnapshot document = future.get();
 
-        //Get the hashmap
-        Map<String, Object> messagesInHashmap = document.getData();
-
-        //Get the arraylist as object from the hastmap
-        Object messagesAsObject = messagesInHashmap.get(ARRAYNAME);
-
-        //Convert the object to een arraylist
-        ArrayList<String> messagesInArraylist = ((ArrayList<String>) messagesAsObject);
-        return messagesInArraylist;
+        return getMessagesFromDocument(document);
     }
 
 
