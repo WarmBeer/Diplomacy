@@ -76,7 +76,7 @@ public class GameController  {
         fb.saveGame(gameJSON);
     }
 
-    public GameModel.Countries  giveAvailableCountry(String gameID){
+    public GameModel.Countries giveAvailableCountry(String gameID){
         GameModel.Countries country = gameModel.giveAvailableCountry(gameID);
         return country;
     }
@@ -369,7 +369,8 @@ public class GameController  {
         return mainController;
     }
 
-    public List<Player> getPlayersList(String gameUID){
+    public List<Player> getPlayersList(){
+        String gameUID = gameModel.getActiveGame().getGameUID();
         List<Player> playerlist = fb.getPlayersFromFB(gameUID);
         return playerlist;
     }
