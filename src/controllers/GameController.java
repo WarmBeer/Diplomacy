@@ -215,6 +215,11 @@ public class GameController  {
         //gameModel.createUnitsPerPlayer();
     }
 
+    public boolean inLobby() {
+        GameJSON gameJSON = fb.getGame(gameModel.getActiveGame().getGameUID());
+        return gameJSON.inLobby;
+    }
+
     public void checkOrder(ListView lvOrders, String order) {
         gameModel.checkDuplicateUnitOrder(lvOrders, order);
     }
