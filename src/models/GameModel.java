@@ -225,7 +225,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         this.activeGame = game;
         this.setPointsChanged();
         this.notifyGameViewObservers();
-        firebase.addGameListener(game.getGameUID(), this);
+        //firebase.addGameListener(game.getGameUID(), this);
 
     }
 

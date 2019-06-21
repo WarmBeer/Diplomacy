@@ -27,6 +27,10 @@ public class MainController {
         this.fb = FirebaseService.getInstance();
     }
 
+    public SuperModel getSuperModel() {
+        return this.superModel;
+    }
+
     public void clickedJoinGame(String gameUID) {
         setGameID(gameUID);
         gameController.requestLoadGame(this.currentGameUID);

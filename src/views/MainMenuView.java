@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.LogManager;
 
 public class MainMenuView implements MainMenuViewObserver {
@@ -31,9 +32,15 @@ public class MainMenuView implements MainMenuViewObserver {
     private static String STYLESHEET_FILE = "/resources/MainMenu.css";
     private MainController mainController;
     private ArrayList<String> gameIDS;
-    ArrayList<Label> playerLabelsLobby = new ArrayList<>();
-    ArrayList<Label> countryLabelsLobby = new ArrayList<>();
+    private ArrayList<Label> playerLabelsLobby = new ArrayList<>();
+    private ArrayList<Label> countryLabelsLobby = new ArrayList<>();
     private String playerNamee;
+    private States state = States.NONE;
+
+    enum States {
+        LOBBY,
+        NONE
+    }
 
     //FXML Variables
     @FXML private Label player1;
@@ -80,6 +87,7 @@ public class MainMenuView implements MainMenuViewObserver {
 
     @FXML
     public void clickedStartGameHost() {
+        this.state = States.NONE;
         mainController.gameController.startLobby();
         /*
         boolean isHost = true;
@@ -125,6 +133,9 @@ public class MainMenuView implements MainMenuViewObserver {
 
     @Override
     public void update(MainMenuViewObservable mainMenuViewObservable) {
+        if (state == States.LOBBY) {
+            updateJoinedPlayersinformation(mainController.gameController.getGamemodel().getActiveGame().getGameUID());
+        }
         if(mainMenuViewObservable.doShowMainMenu()) {
             this.show();
         }
@@ -143,7 +154,13 @@ public class MainMenuView implements MainMenuViewObserver {
         String game_name = (gameName.getText() != null) ? gameName.getText() : "This is a game of Diplomacy!";
         mainController.gameController.createLobby(game_name, turn_time);
         initLobbyLabels();
-        //updateJoinedPlayersinformation(mainController.gameController.getGamemodel().getActiveGame().getGameUID());
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException ie) {
+            ie.printStackTrace();
+        }
+        updateJoinedPlayersinformation(mainController.gameController.getGamemodel().getActiveGame().getGameUID());
+        this.state = States.LOBBY;
     }
 
     @FXML
@@ -196,6 +213,7 @@ public class MainMenuView implements MainMenuViewObserver {
     }
     @FXML
     private void returnLobby() {
+        this.state = States.NONE;
         lobbyAnchor.setVisible(false);
     }
 

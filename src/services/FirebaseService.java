@@ -8,11 +8,13 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.annotations.Nullable;
+import controllers.GameController;
 import domains.GameJSON;
 import domains.Player;
 import domains.Province;
 import domains.Unit;
 import models.GameModel;
+import models.SuperModel;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -37,6 +39,8 @@ public class FirebaseService {
     private int getGameTurn;
     private ArrayList<String> countrynames = new ArrayList<>();
     private final String PLAYERDOCUMENT = "allPlayers";
+    private ListenerRegistration registration = null;
+    private ListenerRegistration lobbyListener = null;
 
     public FirebaseService() {
         makeFirebaseConnection();
@@ -217,10 +221,19 @@ public class FirebaseService {
         });
     }
 
-    public void addGameListener(String gameUID, GameModel gameModel) {
+    public void addGameListener(String gameUID, GameController gameController) {
         DocumentReference games = db.collection("Games").document(gameUID);
-        games.addSnapshotListener((snapshot, e) -> {
-            gameModel.gameFirebaseUpdated(snapshot, e);
+        registration = games.addSnapshotListener((snapshot, e) -> {
+            GameJSON gameJSON = snapshot.toObject(GameJSON.class);
+            gameController.gameFirebaseUpdated(gameJSON, e);
+        });
+    }
+
+    public void startLobbyListener(String gameUID, SuperModel superModel) {
+        DocumentReference games = db.collection("Games").document(gameUID);
+        registration = games.addSnapshotListener((snapshot, e) -> {
+            GameJSON gameJSON = snapshot.toObject(GameJSON.class);
+            superModel.onLobbyEvent(gameJSON);
         });
     }
 
@@ -443,27 +456,6 @@ public class FirebaseService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void startLobbyListener(String gameUID) {
-        DocumentReference docRef = db.collection("Games").document(gameUID);
-        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirestoreException e) {
-                if (e != null) {
-                    System.err.println("Listen failed: " + e);
-                    return;
-                }
-
-                if (snapshot != null && snapshot.exists()) {
-                    System.out.println("Current data: " + snapshot.getData());
-                } else {
-                    System.out.print("Current data: null");
-                }
-            }
-        });
-
     }
 
 }

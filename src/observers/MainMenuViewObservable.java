@@ -1,6 +1,8 @@
 package observers;
 
 
+import domains.GameJSON;
+
 import java.util.List;
 
 public interface MainMenuViewObservable {

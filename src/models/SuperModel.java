@@ -1,6 +1,7 @@
 package models;
 
 import controllers.MainController;
+import domains.GameJSON;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import observers.MainMenuViewObservable;
@@ -15,6 +16,7 @@ public class SuperModel implements Model, MainMenuViewObservable {
     ArrayList<MainMenuViewObserver> MainMenuViewObservers = new ArrayList<>();
     private MainMenuView mainMenuView;
     private boolean showMainMenu = false;
+    private GameJSON gameJSON;
 
     public SuperModel(Stage primaryStage, MainController mainController) {
         try {
@@ -25,6 +27,19 @@ public class SuperModel implements Model, MainMenuViewObservable {
         }
 
         setAppIcon(primaryStage);
+    }
+
+    public void setGameJSON(GameJSON gameJSON) {
+        this.gameJSON = gameJSON;
+    }
+
+    public GameJSON getGameJSON() {
+        return gameJSON;
+    }
+
+    public void onLobbyEvent(GameJSON gameJSON) {
+        setGameJSON(gameJSON);
+        notifyMainMenuViewObservers();
     }
 
     private void setAppIcon(Stage primaryStage) {

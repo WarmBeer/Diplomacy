@@ -1,6 +1,8 @@
 package controllers;
 
 import application.Main;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.FirestoreException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -30,6 +32,13 @@ public class GameController  {
     private List<Unit> orderedUnits;
     private final int CHARACTERLIMIT = 50;
     private ArrayList<String> messageArraylist;
+    private ListenState listenState;
+
+    private enum ListenState {
+        NON,
+        LOBBY,
+        GAME
+    }
 
     public GameController(Stage stage, MainController mainController){
         orderedUnits = new ArrayList<>();
@@ -37,6 +46,7 @@ public class GameController  {
         this.chatbox = new ChatBox(fb);
         this.gameModel = new GameModel(stage, this);
         this.mainController = mainController;
+        this.listenState = ListenState.NON;
     }
 
     public GameModel getGamemodel(){
@@ -53,6 +63,12 @@ public class GameController  {
         player.setCountry(GameModel.Countries.GERMANY);
         gameModel.getActiveGame().addPlayer(player);
         saveToFirebase();
+        listenState = ListenState.LOBBY;
+        fb.startLobbyListener(gameModel.getActiveGame().getGameUID(), mainController.getSuperModel());
+    }
+
+    public void gameFirebaseUpdated(GameJSON gameJSON, FirestoreException e) {
+        System.out.println("FIREBASE GAME UPDATED");
     }
 
     public void saveToFirebase() {
@@ -355,10 +371,15 @@ public class GameController  {
     }
 
     public void updatePlayers() {
+        List<Integer> ids = new ArrayList<>();
         GameJSON gameJSON = retrieveGameJSON(gameModel.getActiveGame().getGameUID());
 
+        for (Player player : gameModel.getActiveGame().getPlayers()) {
+            ids.add(player.getId());
+        }
+
         for (Player player : gameJSON.Players) {
-            if (gameModel.getActiveGame().getPlayers().indexOf(player) < 0) {
+            if (ids.indexOf(player.getId()) < 0) {
                 gameModel.getActiveGame().addPlayer(player);
             }
         }
@@ -394,7 +415,7 @@ public class GameController  {
 
     public void joinLobby(String gameUID) {
         fb.addPlayer(gameUID, Main.getKEY());
-        fb.startLobbyListener(gameUID);
+        //fb.startLobbyListener(gameUID);
     }
 
 

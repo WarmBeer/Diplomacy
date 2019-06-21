@@ -73,7 +73,9 @@ public class Unit extends ImageView {
                     }
                     break;
                 case SUPPORT:
-                    targetProvince.getUnit().addSupporter(this);
+                    if (targetProvince.getUnit() != null) {
+                        targetProvince.getUnit().addSupporter(this);
+                    }
                     break;
             }
         }
