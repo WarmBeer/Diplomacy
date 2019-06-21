@@ -137,6 +137,7 @@ public class MainMenuView implements MainMenuViewObserver {
 
     @Override
     public void update(MainMenuViewObservable mainMenuViewObservable) {
+        System.out.println("BIG CRASH");
         if (state == States.LOBBY) {
             updateJoinedPlayersinformation();
         } else {

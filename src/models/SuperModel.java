@@ -52,6 +52,10 @@ public class SuperModel implements Model, MainMenuViewObservable {
         notifyMainMenuViewObservers();
     }
 
+    public void hide() {
+        showMainMenu = false;
+    }
+
     public void dontShowMainMenu() {
         this.showMainMenu = false;
     }

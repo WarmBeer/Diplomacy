@@ -50,7 +50,7 @@ public class MainController {
     }
 
     public void dontShowMainMenu() {
-        this.superModel.dontShowMainMenu();
+        this.superModel.hide();
     }
 
     public void showMainMenu() {

@@ -198,6 +198,7 @@ public class GameController  {
 
     public void requestLoadGame(String gameUID){
         try{
+            mainController.getSuperModel().hide();
             gameModel.show();
             GameJSON gameJSON = retrieveGameJSON(gameUID);
 
