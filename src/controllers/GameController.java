@@ -82,10 +82,6 @@ public class GameController  {
         fb.stopLobbyListener();
     }
 
-    public void gameFirebaseUpdated(GameJSON gameJSON, FirestoreException e) {
-        System.out.println("FIREBASE GAME UPDATED");
-    }
-
     public void saveToFirebase() {
         GameJSON gameJSON = saveGameToJSON();
         fb.saveGame(gameJSON);
@@ -137,6 +133,13 @@ public class GameController  {
         return freeCountries;
     }
 
+    public void gameFirebaseUpdated(GameJSON gameJSON, FirestoreException e) {
+        //this means the host increased the turn by 1
+        if(gameModel.getActiveGame() != null&&
+                gameJSON.turn != gameModel.getActiveGame().getTurn()) {
+            requestLoadGame(gameModel.getActiveGame().getGameUID());
+        }
+    }
 
     public GameJSON saveGameToJSON() {
 
@@ -204,6 +207,7 @@ public class GameController  {
 
             gameModel.initGame(gameJSON);
             chatbox.notifyChatObservers();
+            orderedUnits = new ArrayList<>();
             //sendFirstMessage();
 
         }
@@ -211,7 +215,7 @@ public class GameController  {
             System.out.println("Exception while request to load a game");
             E.printStackTrace();
         }
-
+        fb.setGameListener(gameUID, this);
         //gameModel.createUnitsPerPlayer();
     }
 

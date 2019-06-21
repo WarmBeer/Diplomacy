@@ -236,11 +236,16 @@ public class FirebaseService {
         });
     }
 
-    public void addGameListener(String gameUID, GameController gameController) {
+    public void setGameListener(String gameUID, GameController gameController) {
         DocumentReference games = db.collection("Games").document(gameUID);
+        if(registration != null)
+            registration.remove();
         registration = games.addSnapshotListener((snapshot, e) -> {
-            GameJSON gameJSON = snapshot.toObject(GameJSON.class);
-            gameController.gameFirebaseUpdated(gameJSON, e);
+            Platform.runLater(() -> {
+                GameJSON gameJSON = snapshot.toObject(GameJSON.class);
+                gameController.gameFirebaseUpdated(gameJSON, e);
+            });
+
         });
     }
 
