@@ -446,12 +446,12 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             geluidsKnop.setText("Uit");
             geluidsKnop.setAlignment(Pos.CENTER);
             //mediaplayer.pause();
-            gameController.getMainController().TurnMusicOn(false);
+            gameController.getMainController().toggleMusic(false);
         } else {
             geluidsKnop.setText("Aan");
             geluidsKnop.setAlignment(Pos.CENTER);
             //mediaplayer.play();
-            gameController.getMainController().TurnMusicOn(true);
+            gameController.getMainController().toggleMusic(true);
         }
     }
 

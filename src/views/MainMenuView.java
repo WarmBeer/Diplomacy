@@ -92,11 +92,11 @@ public class MainMenuView implements MainMenuViewObserver {
     private void blabla() {
         if (geluidsKnop.isSelected()) {
             geluidsKnop.setText("Uit");
-            mainController.TurnMusicOn(false);
+            mainController.toggleMusic(false);
         }
         else {
             geluidsKnop.setText("Aan");
-            mainController.TurnMusicOn(true);
+            mainController.toggleMusic(true);
         }
     }
 
