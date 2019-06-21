@@ -1,6 +1,8 @@
 package models;
 
 import application.Main;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.FirestoreException;
 import controllers.GameController;
 import controllers.MainController;
 import domains.*;
@@ -79,6 +81,10 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
         Countries country = null;
         return country;
+    }
+
+    public void gameFirebaseUpdated(DocumentSnapshot snapshot, FirestoreException e) {
+        System.out.println("FIREBASE GAME UPDATED");
     }
 
     private void updateAvailableAndUnavailbleCountries(String gameUID){
@@ -213,6 +219,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         this.activeGame = game;
         this.setPointsChanged();
         this.notifyGameViewObservers();
+        firebase.addGameListener(game.getGameUID(), this);
 
     }
 
