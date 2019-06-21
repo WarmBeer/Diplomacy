@@ -26,6 +26,7 @@ public class Main extends Application {
         this.mainController = new MainController(primaryStage);
         setup();
         mainController.showMainMenu();
+        mainController.TurnMusicOn(true);
 
     }
 

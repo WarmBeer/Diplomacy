@@ -365,6 +365,10 @@ public class GameController  {
         chatbox.notifyChatObservers();
     }
 
+    public MainController getMainController() {
+        return mainController;
+    }
+
     public List<Player> getPlayersList(String gameUID){
         List<Player> playerlist = fb.getPlayersFromFB(gameUID);
         return playerlist;

@@ -442,13 +442,28 @@ public class FirebaseService {
         }
     }
 
+    public String playerUIDtoPlayername(String playerUID) throws ExecutionException, InterruptedException {
+        //Get right document from firebase
+        DocumentReference docRef = db.collection("Players").document(PLAYERDOCUMENT);
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+
+        //Get the hashmap
+        Map<String, Object> messagesInHashmap = document.getData();
+        Map<String,String> playerNamesMap = (HashMap)messagesInHashmap.get("Players");
+        String playerName = (String) playerNamesMap.get(playerUID);
+        System.out.println("PLAYERUID: " +playerUID + " AND PLAYERNAME: " + playerName);
+
+        return playerName;
+    }
+
     public void addPlayer(String gameUID, String playerKey) {
         try {
             GameJSON gameJSON = getGame(gameUID);
             Player player = new Player();
             player.setUID(playerKey);
             player.setId(gameJSON.Players.size());
-            player.setName("Player " + player.getId());
+            player.setName("Player " + player.getId() + " - " + playerUIDtoPlayername(playerKey));
             player.setCountry(gameJSON.freeCountries.get(0));
             gameJSON.Players.add(player);
             gameJSON.freeCountries.remove(0);

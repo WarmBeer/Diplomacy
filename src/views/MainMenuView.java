@@ -11,11 +11,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import observers.MainMenuViewObservable;
 import observers.MainMenuViewObserver;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -86,6 +89,18 @@ public class MainMenuView implements MainMenuViewObserver {
     }
 
     @FXML
+    private void blabla() {
+        if (geluidsKnop.isSelected()) {
+            geluidsKnop.setText("Uit");
+            mainController.TurnMusicOn(false);
+        }
+        else {
+            geluidsKnop.setText("Aan");
+            mainController.TurnMusicOn(true);
+        }
+    }
+
+    @FXML
     public void clickedStartGameHost() {
         this.state = States.NONE;
         mainController.gameController.startLobby();
@@ -120,8 +135,6 @@ public class MainMenuView implements MainMenuViewObserver {
         primaryStage.setTitle("Diplomacy v1.0f");
         scene = new Scene( content, 1280, 720 );
         primaryStage.setResizable(false);
-
-
     }
 
     public void show() {
@@ -190,27 +203,23 @@ public class MainMenuView implements MainMenuViewObserver {
     }
 
 
-
-    // TODO: 19-6-2019 Name is nog hardcoded, player moet naar firebase als ie geregistreerd is
     @FXML
     public void handleMouseClick(MouseEvent arg0) {
+
         String gameID = getChooseGameID();
-        String playerUID = Main.getKEY();
 
         GameJSON gameJSON = mainController.gameController.retrieveGameJSON(gameID);
-
 
         if (!gameJSON.inLobby && playerInGame(gameJSON)) {
             mainController.gameController.requestLoadGame(gameID);
         } else if (gameJSON.Players.size() < 7){
-
             lobbyAnchor.setVisible(true);
             mainController.gameController.joinLobby(gameID);
             initLobbyLabels();
             updateJoinedPlayersinformation(getChooseGameID());
-
         }
     }
+
     @FXML
     private void returnLobby() {
         this.state = States.NONE;
@@ -229,13 +238,10 @@ public class MainMenuView implements MainMenuViewObserver {
         }
         String getKEY = Main.getKEY();
         mainController.addPlayerToGame(getKEY, playerNamee);
-
     }
 
-    // TODO: 20-6-2019
     @FXML
     public void showLoginScreen() {
-//        mainController.createKey();
         loginScreenAnchor.setVisible(!loginScreenAnchor.isVisible());
         if (loginScreenAnchor.isVisible() == true) {
             joinGameButton.setDisable(true);
@@ -271,7 +277,6 @@ public class MainMenuView implements MainMenuViewObserver {
         for(Player player : playerInfo){
             playerLabelsLobby.get(player.getId()).setText(player.getName());
             countryLabelsLobby.get(player.getId()).setText(player.getCountry().toString());
-
         }
     }
 
