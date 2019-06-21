@@ -73,7 +73,7 @@
                                           </Label>
                                        </children>
                                     </Pane>
-                                    <Button layoutX="8.0" layoutY="215.0" mnemonicParsing="false" onAction="#clickedEndTurn" text="End turn" />
+                                    <Button fx:id="endTurn" layoutX="8.0" layoutY="215.0" mnemonicParsing="false" onAction="#clickedEndTurn" text="End turn" />
                                  </children>
                               </Pane>
                               <Pane fx:id="pChatMessage" layoutX="7.0" layoutY="721.0" prefHeight="42.0" prefWidth="405.0">
