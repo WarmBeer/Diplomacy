@@ -248,9 +248,9 @@ public class MainMenuView implements MainMenuViewObserver {
 
     public void updateJoinedPlayersinformation(String gameUID) {
 
-        List<Player> playerinfo = mainController.gameController.getPlayersList(gameUID);
+        List<Player> playerInfo = mainController.gameController.getPlayersList(gameUID);
 
-        for(Player player : playerinfo){
+        for(Player player : playerInfo){
             playerLabelsLobby.get(player.getId()).setText(player.getName());
             countryLabelsLobby.get(player.getId()).setText(player.getCountry().toString());
 

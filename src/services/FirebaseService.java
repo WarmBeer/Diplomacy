@@ -300,25 +300,11 @@ public class FirebaseService {
         return gameIDs;
     }
 
-    public List<Player> getPlayerInformation(String gameUID){
-        List<Player> players = new ArrayList<>();
-        try{
-            //Get right document from firebase
-            DocumentReference docRef = db.collection("Games").document(gameUID);
-            ApiFuture<DocumentSnapshot> future = docRef.get();
-            DocumentSnapshot document = future.get();
-
-            players = (ArrayList<Player>)document.getData().get("Players");
-
-        }
-        catch (InterruptedException IE){
-            IE.printStackTrace();
-            System.out.println("Iets fout in firebase service...");
-        }
-        catch (ExecutionException EE){
-            EE.printStackTrace();
-            System.out.println("Iets fout in firebase service...");
-        }
+    public List<Player> getPlayersFromFB(String gameUID){
+        List<Player> players;
+        GameJSON gameJSON = getGame(gameUID);
+        players = gameJSON.Players;
+        System.out.println(players);
         return players;
     }
 
