@@ -20,7 +20,7 @@ public class MainController {
     private String currentGameUID;
     private boolean gameUIDIsReady = false;
 
-    String gameSoundFile = "src/resources/Darude - Sandstorm.mp3";
+    String gameSoundFile = "src/resources/mii.mp3";
     Media gameSound = new Media(new File(gameSoundFile).toURI().toString());
     MediaPlayer mediaplayer = new MediaPlayer(gameSound);
 
