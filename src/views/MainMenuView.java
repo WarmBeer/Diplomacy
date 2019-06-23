@@ -210,6 +210,7 @@ public class MainMenuView implements MainMenuViewObserver {
         GameJSON gameJSON = mainController.gameController.retrieveGameJSON(gameID);
 
         if (!gameJSON.inLobby && playerInGame(gameJSON)) {
+            mainController.gameController.getGamemodel().initGame(gameJSON);
             mainController.gameController.requestLoadGame(gameID);
         } else if (gameJSON.Players.size() < 7){
             this.state = States.LOBBY;

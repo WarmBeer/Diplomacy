@@ -1,7 +1,6 @@
 package controllers;
 
 import application.Main;
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.FirestoreException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -325,23 +324,6 @@ public class GameController  {
         try {
             requestLoadGame(gameModel.getActiveGame().getGameUID());
         } finally {
-//            for(Province province : gameModel.getProvinces()) {
-//                if(province.getUnit() != null)
-//                    continue;
-//
-//                for(Unit unit : gameModel.getActiveGame().getUnits()) {
-//
-//                    if(unit.province.getOwner().getLeader().getName().equals("Stefan")) {
-//                        if(province.getCountry() == GameModel.Countries.FRANCE && Math.random() > 0.5){
-//                            System.out.println(province.getName() + " unit: " + unit);
-//                            province.addUnit(null);
-//                            Country c = new Country(GameModel.Countries.INDEPENDENT);
-//                            province.setOwner(c);
-//                            }
-//                    }
-//                }
-//            }
-
             orderedUnits = new ArrayList<>();
             for (int i = 0; i < gameModel.getActiveGame().getUnits().size(); i++) {
                 orderedUnits.add(gameModel.getActiveGame().getUnits().get(i));
@@ -349,13 +331,18 @@ public class GameController  {
 
             List<Unit> supportOrders = new ArrayList<>();
             List<Unit> moveOrders = new ArrayList<>();
+            List<Unit> attackOrders = new ArrayList<>();
             for (int i = 0; i < orderedUnits.size(); i++) {
                 switch (orderedUnits.get(i).getCurrentOrder()) {
                     case SUPPORT:
                         supportOrders.add(orderedUnits.get(i));
                         break;
                     case MOVE:
-                        moveOrders.add(orderedUnits.get(i));
+                        if (orderedUnits.get(i).getTargetProvince().getUnit() != null) {
+                            attackOrders.add(orderedUnits.get(i));
+                        } else {
+                            moveOrders.add(orderedUnits.get(i));
+                        }
                         break;
                 }
             }
@@ -365,6 +352,9 @@ public class GameController  {
             }
             for (int i = 0; i < moveOrders.size(); i++) {
                 moveOrders.get(i).doOrder();
+            }
+            for (int i = 0; i < attackOrders.size(); i++) {
+                attackOrders.get(i).doOrder();
             }
 
             for (int i = 0; i < gameModel.getActiveGame().getUnits().size(); i++) {
@@ -384,10 +374,6 @@ public class GameController  {
             saveToFirebase();
             requestLoadGame(gameModel.getActiveGame().getGameUID());
         }
-    }
-
-    public void refresChat(){
-        chatbox.notifyChatObservers();
     }
 
     public MainController getMainController() {
@@ -438,10 +424,6 @@ public class GameController  {
         }
 
     }
-
-//    public void addPlayersAndCountriesLobby() {
-//        gameModel.startLobby();
-//    }
 
     public void joinLobby(String gameUID) {
         fb.addPlayer(gameUID, Main.getKEY());
