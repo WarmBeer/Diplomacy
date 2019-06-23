@@ -59,14 +59,7 @@ public class GameController  {
         Player player = new Player();
         player.setUID(Main.getKEY());
         player.setId(0);
-        try {
-            player.setName("Player " + player.getId() + " - " + mainController.gameController.fb.playerUIDtoPlayername(playerKey));
-        } catch (ExecutionException ee) {
-            ee.printStackTrace();
-        }
-        catch (InterruptedException ie) {
-            ie.printStackTrace();
-        }
+        player.setName("Player " + player.getId() + " - " + mainController.gameController.fb.playerUIDtoPlayername(playerKey));
         player.setCountry(GameModel.Countries.GERMANY);
         gameModel.getActiveGame().addPlayer(player);
         saveToFirebase();
