@@ -34,13 +34,13 @@ public class ChatBox implements ChatObservable {
         firebaseservice.listenToChat(GemUID, this);
     }
 
-    private String makeNewMessage(String fromUID, String toPlayer, String message, String userName){
+    public String makeNewMessage(String fromUID, String toPlayer, String message, String userName){
         String systemNameAndTimestamp = ("(" + (new SimpleDateFormat("HH:mm:ss").format(new Date())) + ") " + userName);
         String newMessage = fromUID + "_" + toPlayer + "_" + systemNameAndTimestamp + ": " + message;
         return newMessage;
     }
 
-    private String makeFirstMessage(String userName){
+    public String makeFirstMessage(String userName){
         String systemMessage = ("System: Player  " + userName + "  joined the game!");
         return systemMessage;
     }

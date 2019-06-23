@@ -469,19 +469,34 @@ public class FirebaseService {
         }
     }
 
-    public String playerUIDtoPlayername(String playerUID) throws ExecutionException, InterruptedException {
-        //Get right document from firebase
-        DocumentReference docRef = db.collection("Players").document(PLAYERDOCUMENT);
-        ApiFuture<DocumentSnapshot> future = docRef.get();
-        DocumentSnapshot document = future.get();
+    public String playerUIDtoPlayername(String playerUID) {
 
-        //Get the hashmap
-        Map<String, Object> messagesInHashmap = document.getData();
-        Map<String,String> playerNamesMap = (HashMap)messagesInHashmap.get("Players");
-        String playerName = (String) playerNamesMap.get(playerUID);
-        System.out.println("PLAYERUID: " +playerUID + " AND PLAYERNAME: " + playerName);
+        String playerName = "";
 
-        return playerName;
+        try{
+            //Get right document from firebase
+            DocumentReference docRef = db.collection("Players").document(PLAYERDOCUMENT);
+            ApiFuture<DocumentSnapshot> future = docRef.get();
+            DocumentSnapshot document = future.get();
+
+            //Get the hashmap
+            Map<String, Object> messagesInHashmap = document.getData();
+            Map<String,String> playerNamesMap = (HashMap)messagesInHashmap.get("Players");
+            playerName = (String) playerNamesMap.get(playerUID);
+            System.out.println("PLAYERUID: " +playerUID + " AND PLAYERNAME: " + playerName);
+
+            return playerName;
+        } catch (ExecutionException EE) {
+            System.out.println("In de firebaseservice is een Excecution Exception opgetreden!");
+            EE.printStackTrace();
+            return playerName;
+        } catch (InterruptedException IE) {
+            System.out.println("In de firebaseservice is een Interrupted Exception opgetreden!");
+            IE.printStackTrace();
+            return playerName;
+        }
+
+
     }
 
     public void addPlayer(String gameUID, String playerKey) {
