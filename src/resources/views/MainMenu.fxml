@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane cache="false" minHeight="720.0" minWidth="1280.0" mouseTransparent="false" style="-fx-background-image: url(&quot;background_image.jpg&quot;);&#10;-fx-background-repeat: stretch;&#10;    -fx-background-size: 100%;&#10;    -fx-background-position: left top;&#10;   " xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane cache="false" minHeight="720.0" minWidth="1280.0" mouseTransparent="false" style="-fx-background-image: url(&quot;background_image.jpg&quot;);&#10;-fx-background-repeat: stretch;&#10;    -fx-background-size: 100%;&#10;    -fx-background-position: left top;&#10;   " xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <AnchorPane prefHeight="720.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
          <children>
@@ -39,7 +39,7 @@
                   </Text>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="loginScreenAnchor" layoutX="462.0" layoutY="152.0" prefHeight="410.0" prefWidth="364.0" style="-fx-background-color: rgb(221, 221, 219); -fx-border-color: white; -fx-background-insets: -10px;" visible="false">
+            <AnchorPane fx:id="loginScreenAnchor" layoutX="462.0" layoutY="152.0" prefHeight="410.0" prefWidth="364.0" style="-fx-background-color: lightgrey; -fx-border-color: white; -fx-background-insets: -10px;" visible="false">
                <children>
                   <TextField fx:id="textFieldUserName" layoutX="108.0" layoutY="151.0" />
                   <Text fill="RED" layoutX="139.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="# No key found!" />
@@ -57,7 +57,7 @@
             </AnchorPane>
             <AnchorPane fx:id="hostGameAnchor" layoutX="443.0" layoutY="21.0" prefHeight="672.0" prefWidth="403.0" style="-fx-background-color: rgb(221, 221, 219); -fx-border-color: white; -fx-background-insets: -10px;" visible="false">
                <children>
-                  <Button fx:id="createCustomGame" layoutX="55.0" layoutY="411.0" minHeight="67.0" minWidth="190.0" mnemonicParsing="false" onAction="#clickedHostGame" onMouseClicked="#createCustomGame" prefHeight="67.0" prefWidth="294.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Create custom game">
+                  <Button fx:id="createCustomGame" layoutX="55.0" layoutY="411.0" minHeight="67.0" minWidth="190.0" mnemonicParsing="false" onMouseClicked="#createCustomGame" prefHeight="67.0" prefWidth="294.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Create custom game">
                      <font>
                         <Font name="Gabriola" size="35.0" />
                      </font>
@@ -86,6 +86,11 @@
                   <TextField fx:id="gameName" layoutX="185.0" layoutY="63.0" />
                </children>
             </AnchorPane>
+              <Button fx:id="optionsButton" layoutX="1055.0" layoutY="619.0" minHeight="67.0" minWidth="190.0" mnemonicParsing="false" onAction="#clickedOptions" prefHeight="67.0" prefWidth="190.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Options">
+                  <font>
+                      <Font name="Gabriola" size="35.0" />
+                  </font>
+              </Button>
             <AnchorPane fx:id="gameOpties" layoutX="526.0" layoutY="199.0" prefHeight="194.0" prefWidth="228.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white; -fx-background-color: lightgrey;" visible="false">
                <children>
                   <Button fx:id="returnInGameMenuKnop" layoutX="39.0" layoutY="103.0" mnemonicParsing="false" onAction="#clickedOptions" text="Return to menu">
@@ -93,7 +98,7 @@
                         <Font name="Gabriola" size="24.0" />
                      </font>
                   </Button>
-                  <ToggleButton fx:id="geluidsKnop" layoutX="75.0" layoutY="44.0" mnemonicParsing="false" onAction="#blabla" prefHeight="25.0" prefWidth="79.0" text="Aan" />
+                  <ToggleButton fx:id="geluidsKnop" layoutX="75.0" layoutY="44.0" mnemonicParsing="false" onAction="#geluidUitAan" prefHeight="25.0" prefWidth="79.0" text="Aan" />
                   <Text layoutX="85.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Geluid" wrappingWidth="58.177734375">
                      <font>
                         <Font name="Gabriola" size="24.0" />
@@ -212,11 +217,6 @@
                   </Button>
                </children>
             </AnchorPane>
-              <Button fx:id="optionsButton" layoutX="1055.0" layoutY="619.0" minHeight="67.0" minWidth="190.0" mnemonicParsing="false" onAction="#clickedOptions" prefHeight="67.0" prefWidth="190.0" style="-fx-border-color: white; -fx-background-radius: 15px; -fx-background-insets: -10px;" text="Options">
-                  <font>
-                      <Font name="Gabriola" size="35.0" />
-                  </font>
-              </Button>
          </children>
       </AnchorPane>
    </center>

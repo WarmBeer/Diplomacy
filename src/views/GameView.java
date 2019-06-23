@@ -4,6 +4,7 @@ import application.Main;
 import controllers.GameController;
 import domains.Player;
 import domains.Province;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -40,6 +41,8 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     public final String GAME_VIEW = "/resources/views/GameView.fxml";
     public final String STYLESHEET_FILE = "/Resources/GameView.css";
     private static String SPEL_REGELS = "/views/Spelregels.fxml";
+
+
 
     //Ingame variables
     private Group root; //Kaart en UI render groep
@@ -146,7 +149,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML private Button SpelregelsKnop;
     @FXML private Button OptiesKnop;
     @FXML private Button AfsluitenKnop;
-    @FXML private Button in_GameMenuKnop;
+    @FXML private Button inGameMenuButton;
     @FXML public Button button;
     @FXML public Button border;
     @FXML private Pane pOrderSettings;
@@ -158,6 +161,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML public TextArea taUpdates; // Value injected by FXMLLoader
     @FXML private MediaPlayer mediaplayer;
     @FXML private ListView playersList;
+    @FXML public Label timer;
 
     //FXML Methodes / Listeners
     @FXML private void afsluitenController(){
@@ -451,6 +455,11 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         gameController.hideVisualPoints(MainMenu.isVisible());
     }
 
+    /**
+     * Sets the sound on/off, with the use of a public method, so it can be accessed from both Main Menu and in_game.
+     * @author: Sebas & Edwin
+     * @version: June 2019
+     */
     @FXML
     private void geluidAanUit() {
         if (geluidsKnop.isSelected()) {
@@ -466,14 +475,9 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         }
     }
 
+    //Shows the in_game options and hides the in_game options.
     @FXML
     private void inGameOpties() {
-        gameOpties.setVisible(!gameOpties.isVisible());
-        MainMenu.setVisible(!MainMenu.isVisible());
-    }
-
-    @FXML
-    private void returnInGameMenu() {
         gameOpties.setVisible(!gameOpties.isVisible());
         MainMenu.setVisible(!MainMenu.isVisible());
     }
@@ -484,7 +488,13 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         System.exit(0);
     }
 
-    //Hier worden de pagina's gecreërd met de plaatjes erin.
+    /**
+     * Creates the pages and sets every page of the rulebook to a page.
+     * @param pageIndex
+     * @return Places the created pages inside the VBox.
+     * @author Sebas
+     * @version June 2019
+     */
     @FXML
     public VBox createPage(int pageIndex) {
         VBox box = new VBox();
@@ -498,25 +508,33 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         return box;
     }
 
-    //Hier wordt de FXML file ingeladen en voegt hij de methode createPage eraan toe.
+    /**
+     * This shows Pagination and gives it to createPage.
+     * @throws IOException
+     * @author Sebas
+     * @version June 2019
+     */
     @FXML
     private void spelRegelsView() throws IOException {
         box.setVisible(!box.isVisible());
         paginationrules.setVisible(!paginationrules.isVisible());
+        inGameMenuButton.setDisable(true);
 
         paginationrules.setPageFactory((Integer pageIndex) -> createPage(pageIndex));
     }
 
-    //Dit zorgt ervoor dat je vanuit het spel, terug kan gaan naar het main menu.
+    //Returns you back to the Main Menu from within the active game.
     @FXML
     private void returnToMainMenu() {
         gameController.returnToMain();
     }
 
+    //Hides the gamerules and enables the menu button again.
     @FXML
     private void returnSpelRegels() {
         box.setVisible(!box.isVisible());
         paginationrules.setVisible(!paginationrules.isVisible());
+        inGameMenuButton.setDisable(false);
     }
 
 

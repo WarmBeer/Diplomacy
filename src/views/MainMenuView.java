@@ -2,8 +2,10 @@ package views;
 
 import application.Main;
 import controllers.MainController;
+import domains.Game;
 import domains.GameJSON;
 import domains.Player;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import observers.MainMenuViewObservable;
@@ -39,6 +42,7 @@ public class MainMenuView implements MainMenuViewObserver {
     private ArrayList<Label> countryLabelsLobby = new ArrayList<>();
     private String playerNamee;
     private States state = States.NONE;
+    private Game game;
 
     enum States {
         LOBBY,
@@ -83,13 +87,19 @@ public class MainMenuView implements MainMenuViewObserver {
     @FXML private TextField gameName;
     @FXML private ComboBox turnTime;
 
+
     @FXML
     public void clickedOptions() {
         gameOpties.setVisible(!gameOpties.isVisible());
     }
 
+    /**
+     * Sets the sound on/off, with the use of a public method, so it can be accessed from both Main Menu and in_game.
+     * @author: Sebas & Edwin
+     * @version: June 2019
+     */
     @FXML
-    private void blabla() {
+    private void geluidUitAan() {
         if (geluidsKnop.isSelected()) {
             geluidsKnop.setText("Uit");
             mainController.toggleMusic(false);
@@ -151,7 +161,6 @@ public class MainMenuView implements MainMenuViewObserver {
         }
     }
 
-    //Dit sluit het spel af.
     @FXML
     private void afsluitenView() {
         System.exit(0);
@@ -175,6 +184,12 @@ public class MainMenuView implements MainMenuViewObserver {
         configureStartGame();
     }
 
+    /**
+     * Makes the available games visible and invisible on click.
+     * This method is added to the Join Game and Return Menu button.
+     * @author: Sebas
+     * @version: June 2019
+     */
     @FXML
     private void showGamesList() {
         listGamesAnchor.setVisible(!listGamesAnchor.isVisible());
@@ -243,10 +258,13 @@ public class MainMenuView implements MainMenuViewObserver {
         }
         String getKEY = Main.getKEY();
         mainController.addPlayerToGame(getKEY, playerNamee);
+
     }
 
+    // TODO: 20-6-2019
     @FXML
     public void showLoginScreen() {
+//        mainController.createKey();
         loginScreenAnchor.setVisible(!loginScreenAnchor.isVisible());
         if (loginScreenAnchor.isVisible() == true) {
             joinGameButton.setDisable(true);
@@ -286,6 +304,7 @@ public class MainMenuView implements MainMenuViewObserver {
         for(Player player : playerInfo){
             playerLabelsLobby.get(player.getId()).setText(player.getName());
             countryLabelsLobby.get(player.getId()).setText(player.getCountry().toString());
+
         }
     }
 

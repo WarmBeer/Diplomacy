@@ -2,6 +2,8 @@ package application;
 
 import controllers.MainController;
 import javafx.application.Application;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import utilities.KeyHandler;
 
@@ -15,6 +17,7 @@ public class Main extends Application {
     private static String KEY = "";
     private MainController mainController;
     public enum unitType {ARMY, FLEET}
+    public MediaPlayer mediaplayer;
 
 
     public static void main(String[] args) {
@@ -26,7 +29,7 @@ public class Main extends Application {
         this.mainController = new MainController(primaryStage);
         setup();
         mainController.showMainMenu();
-        mainController.startMusic();
+//        mainController.startMusic();
 
     }
 
