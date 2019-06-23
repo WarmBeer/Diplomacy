@@ -68,6 +68,10 @@ public class ChatBox implements ChatObservable {
         //notifyChatObservers();
     }
 
+    /**
+     * Adds a welcoms messages when player first joins
+     * @author Thomas Zijl
+     */
     public void addFirstMessage(String userName, String GameUID) {
         String newMessage = makeFirstMessage(userName);
         firebaseservice.addMessage(newMessage, GameUID);

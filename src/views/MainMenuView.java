@@ -274,6 +274,11 @@ public class MainMenuView implements MainMenuViewObserver {
         turnTime.getSelectionModel().select(0);
     }
 
+
+    /**
+     * refresh labeltext with playerinformation
+     * @author Thomas Zijl
+     */
     public void updateJoinedPlayersinformation() {
         List<Player> playerInfo = mainController.gameController.getPlayersList();
 
@@ -283,6 +288,11 @@ public class MainMenuView implements MainMenuViewObserver {
         }
     }
 
+
+    /**
+     * add lobby labels to an arraylist and gives them default text.
+     * @author Thomas Zijl
+     */
     public void initLobbyLabels(){
         playerLabelsLobby.add(player1);
         playerLabelsLobby.add(player2);

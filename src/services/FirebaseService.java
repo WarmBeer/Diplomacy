@@ -266,7 +266,10 @@ public class FirebaseService {
         lobbyListener = null;
     }
 
-
+    /**
+     * get a Arraylist with playernames as Strings
+     * @author Thomas Zijl
+     */
     public ArrayList<String> getGameName() {
         ArrayList<String> gameNames = new ArrayList<>();
 
