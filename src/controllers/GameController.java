@@ -58,6 +58,11 @@ public class GameController  {
         return this.gameModel;
     }
 
+    /**
+     * Create lobby as player.
+     * @author Mick van Dijke
+     */
+
     public void createLobby(String gameName, int turnTime) {
         gameModel.createLobby(gameName, turnTime);
         chatbox.makeNewChat(gameModel.getActiveGame().getGameUID());
@@ -210,7 +215,7 @@ public class GameController  {
     }
 
 /**
-* Laadt een game van Firestore en toont hem op het scherm.
+* Loads game from Firestore and shows it on screen.
 *@author Mick van Dijke
 *@version June 2019
 */
@@ -406,6 +411,10 @@ public class GameController  {
         return mainController;
     }
 
+    /**
+     * Get list of players in game.
+     * @author Thomas Zijl, Mick van Dijke
+     */
     public List<Player> getPlayersList(){
         String gameUID = gameModel.getActiveGame().getGameUID();
         List<Player> playerlist = fb.getPlayersFromFB(gameUID);
@@ -426,6 +435,11 @@ public class GameController  {
             }
         }
     }
+
+    /**
+     * Starts the game lobby.
+     * @author Mick van Dijke
+     */
 
     public void startLobby() {
         updatePlayers();
@@ -450,6 +464,11 @@ public class GameController  {
         }
 
     }
+
+    /**
+     * Join a lobby as player.
+     * @author Mick van Dijke
+     */
 
     public void joinLobby(String gameUID) {
         fb.addPlayer(gameUID, Main.getKEY());
