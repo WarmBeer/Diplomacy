@@ -169,6 +169,12 @@ public class MainMenuView implements MainMenuViewObserver {
         System.exit(0);
     }
 
+    /**
+     * Starts lobby and announces it to Firestore.
+     * @author Mick van Dijke
+     * @version June 2019
+     */
+
     @FXML
     private void createCustomGame() {
         lobbyAnchor.setVisible(true);
