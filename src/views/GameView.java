@@ -34,6 +34,10 @@ import java.net.URL;
 import java.util.*;
 import java.util.logging.LogManager;
 
+/**
+ * Class that handles input and output of the FXML file (view) of the game
+ */
+
 public class GameView implements OrderObserver, ChatObserver, Initializable, GameViewObserver {
 
     //Game setup variables
@@ -175,6 +179,10 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         gameController.sendFirstMessage();
     }
 
+    /**
+     * Gets messages and update the listview with messages
+     *@version June 2019
+     */
     private void updateMessages(ArrayList<String> messageArraylist) {
 
         messagesList.getItems().clear();

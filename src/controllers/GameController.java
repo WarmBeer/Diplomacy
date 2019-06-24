@@ -25,7 +25,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Class that handles retrieving, saving and parsing the game.
- * @author Mick van Dijke, Stefan Damen
  */
 
 public class GameController  {

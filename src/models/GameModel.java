@@ -145,6 +145,11 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         notifyGameViewObservers();
     }
 
+    /**
+     * Initialize the game based on the game JSON
+     *@author Mick van Dijke
+     *@version June 2019
+     */
     @FXML
     public void initGame(GameJSON gameJSON) {
         Game game = new Game(gameJSON.gameUID, gameJSON.name, gameJSON.turnTime, gameJSON.turn);
