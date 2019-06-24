@@ -517,6 +517,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         stp.addBorder(fin);
 
 
+
         //-----------spain & africa-------
 
         Province spa = new Province("Spain", "spa", true, 204, 830);
@@ -544,6 +545,8 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
 
         nwy.addBorder(swe);
+        nwy.addBorder(stp);
+        stp.addBorder(nwy);
 
 
         //----independent provinces------
@@ -559,6 +562,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
         kie.addBorder(hol);
         ruh.addBorder(bel);
+        ruh.addBorder(hol);
         ruh.addBorder(bur);
         mun.addBorder(tyr);
         mun.addBorder(boh);
@@ -645,9 +649,12 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
 
         //ZEE
+        ion.addBorder(eas);
+        eas.addBorder(ion);
         bar.addBorder(stp);
         bar.addBorder(swe);
         bar.addBorder(nrg);
+        bar.addBorder(nwy);
         nrg.addBorder(nwy);
         nrg.addBorder(nth);
         nrg.addBorder(edi);
@@ -741,6 +748,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         bla.addBorder(sev);
         bla.addBorder(arm);
         bla.addBorder(ank);
+        nwy.addBorder(bar);
 
         //zet province image attributes
         for(Province province: game.getProvinces()) {
