@@ -149,6 +149,8 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     @FXML private MediaPlayer mediaplayer;
     @FXML private ListView playersList;
     @FXML public Label timer;
+    @FXML private Button sendOrderButton;
+    @FXML private Button bOrder;
 
     //FXML Methodes / Listeners
     @FXML private void afsluitenController(){
@@ -242,6 +244,10 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     @FXML
     public void clickedSendOrder() {
+        sendOrderButton.setDisable(true);
+        comboxAction.setDisable(true);
+        comboxProv1.setDisable(true);
+        bOrder.setDisable(true);
         gameController.clickedSendOrder(lvOrders);
     }
 

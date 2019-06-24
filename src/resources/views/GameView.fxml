@@ -55,7 +55,7 @@
                               <Pane fx:id="pOrderMenu" layoutX="7.0" layoutY="763.0" prefHeight="249.0" prefWidth="406.0" style="-fx-border-color: #93661d;">
                                  <children>
                                     <ListView fx:id="lvOrders" layoutX="8.0" layoutY="59.0" prefHeight="150.0" prefWidth="389.0" style="-fx-background-color: #fce5c4;" />
-                                    <Button layoutX="294.0" layoutY="215.0" mnemonicParsing="false" onAction="#clickedSendOrder" text="Send Orders" />
+                                    <Button fx:id="sendOrderButton" layoutX="294.0" layoutY="215.0" mnemonicParsing="false" onAction="#clickedSendOrder" text="Send Orders" />
                                     <Pane fx:id="pOrderSettings" layoutX="1.0" layoutY="1.0" prefHeight="60.0" prefWidth="420.0">
                                        <children>
                                           <Label layoutX="5.0" prefWidth="106.0" text="OrderMenu">
@@ -115,7 +115,7 @@
                               <Font name="Gabriola" size="35.0" />
                            </font>
                         </Button>
-                        <Button fx:id="ReturnMainMenu" layoutX="43.0" layoutY="330.0" mnemonicParsing="false" onAction="#inGameOpties" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Return Main Menu">
+                        <Button fx:id="ReturnMainMenu" layoutX="43.0" layoutY="330.0" mnemonicParsing="false" onAction="#returnToMainMenu" prefHeight="70.0" prefWidth="300.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white;" text="Return Main Menu">
                            <font>
                               <Font name="Gabriola" size="35.0" />
                            </font>
