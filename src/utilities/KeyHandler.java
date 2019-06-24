@@ -29,7 +29,6 @@ public class KeyHandler {
 
             writer.close();
 
-            System.out.println(key);
             Main.setKEY(key);
         } catch (IOException io) {
             io.printStackTrace();

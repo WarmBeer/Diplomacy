@@ -76,13 +76,7 @@ public class MainController {
         superModel.showLoginScreenModel();
     }
 
-//    public void createKey() {
-//        String jarLocation = KeyHandler.getJarLocation();
-//        KeyHandler.createKeyFile(jarLocation);
-//    }
-
     public void addPlayerToGame(String getKEY, String playerName) {
-        System.out.println(getKEY + playerName);
         fb.addNewPlayerInFirebase(getKEY, playerName);
     }
 

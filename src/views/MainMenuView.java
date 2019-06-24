@@ -38,7 +38,6 @@ public class MainMenuView implements MainMenuViewObserver {
     private Scene scene;
 
     private static String VIEW_FILE = "/resources/views/MainMenu.fxml";
-    private static String STYLESHEET_FILE = "/resources/MainMenu.css";
     private MainController mainController;
     private ArrayList<String> gameIDS;
     private ArrayList<Label> playerLabelsLobby = new ArrayList<>();
@@ -280,7 +279,6 @@ public class MainMenuView implements MainMenuViewObserver {
         int gameIDIndex = listGames.getSelectionModel().getSelectedIndex();
         gameIDS = mainController.getGameIDS();
         String gameID = gameIDS.get(gameIDIndex);
-        System.out.println(gameID);
         return gameID;
     }
 

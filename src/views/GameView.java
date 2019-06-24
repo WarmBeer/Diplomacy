@@ -115,19 +115,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         catch(Exception E){
             E.printStackTrace();
         }
-
-        /*
-        //Als host true is, maak dan een chatsavelocatie aan in firebase. Sorry Henk.
-        if(host){
-            gamecontroller.createChat();
-
-        }
-
-         */
-
-        //Start updaten van nieuwe berichten
-        //gameController.startUpdatingChat();
-
     }
 
     //FXML Variables

@@ -329,11 +329,8 @@ public class GameController  {
             if(orderSplit.length > 2) {
                 province2Name = orderSplit[2];
             }
-            if(gameModel.getProvinceFromName(province1Name).getUnit() == null) {
-                System.out.println("Unit is null! you added an order from a province without unit");
-            } else {
+            if(gameModel.getProvinceFromName(province1Name).getUnit() != null) {
                 gameModel.getProvinceFromName(province1Name).getUnit().addOrder(order_type, gameModel.getProvinceFromName(province2Name));
-                System.out.println(gameModel.getProvinceFromName(province1Name).getUnit().getCurrentOrder() + gameModel.getProvinceFromName(province2Name).getAbbreviation());
                 addUnitOrder(gameModel.getProvinceFromName(province1Name).getUnit());
             }
 

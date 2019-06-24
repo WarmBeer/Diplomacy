@@ -17,8 +17,6 @@ public class Main extends Application {
     private static String KEY = "";
     private MainController mainController;
     public enum unitType {ARMY, FLEET}
-    public MediaPlayer mediaplayer;
-
 
     public static void main(String[] args) {
             launch(args);

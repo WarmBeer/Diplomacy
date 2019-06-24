@@ -91,10 +91,6 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         return country;
     }
 
-    public void gameFirebaseUpdated(DocumentSnapshot snapshot, FirestoreException e) {
-        System.out.println("FIREBASE GAME UPDATED");
-    }
-
     private void updateAvailableAndUnavailbleCountries(String gameUID){
         ArrayList<String> choosenCountryNames = firebase.getChoosenCountriesNames(gameUID);
 
@@ -102,7 +98,6 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
             availableCountries.add(country.name());
             for(String ChoosenCountry : choosenCountryNames){
                 if(country.name().equals(ChoosenCountry)){
-                    //System.out.println(country.name());
                     unavailableCountries.add(country.name());
                 }
             }
@@ -774,14 +769,8 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
                     }
                 }
-                   // System.out.println(province.getName() + " - " + province.getOwner().getName());
             }
         }
-//        for(Player player : this.activeGame.getPlayers()) {
-//
-//            Country playerCountry = player.getCountry();
-//           // playerCountry.
-//        }
     }
 
     public void createUnit(unitType unit, Province province) {
