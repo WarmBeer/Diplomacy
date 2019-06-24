@@ -7,6 +7,10 @@ import javafx.scene.image.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An Unit that extends an ImageView. It can be stationed on a province. This class is used by extending it.
+ * An Unit is always connected to a Province, player and has always got a Type.
+ */
 public class Unit extends ImageView {
 
     public enum orderType {
