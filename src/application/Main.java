@@ -29,7 +29,7 @@ public class Main extends Application {
         this.mainController = new MainController(primaryStage);
         setup();
         mainController.showMainMenu();
-//        mainController.startMusic();
+        mainController.startMusic();
 
     }
 
@@ -41,6 +41,13 @@ public class Main extends Application {
         KEY = key;
     }
 
+
+    /**
+     * Regeelt de inlog aan de hand van een sleutel.
+     * Slaat een sleutel op in KEY.txt indien niet aanwezig.
+     * @author Mick van Dijke
+     * @version June 2019
+     */
 
     public void setup() {
 

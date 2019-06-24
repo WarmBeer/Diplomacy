@@ -13,6 +13,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Class that handles the music and links with the GameController.
+ */
+
 public class MainController {
 
     private SuperModel superModel;
