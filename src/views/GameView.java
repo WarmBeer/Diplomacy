@@ -179,6 +179,10 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         gameController.sendFirstMessage();
     }
 
+    /**
+     * Gets messages and update the listview with messages
+     *@version June 2019
+     */
     private void updateMessages(ArrayList<String> messageArraylist) {
 
         messagesList.getItems().clear();

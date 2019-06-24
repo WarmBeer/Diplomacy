@@ -69,6 +69,11 @@ public class FirebaseService {
     }
 
 
+    /**
+     * Creates a firebase connection use during playing the game
+     *@author Mick van Dijke
+     *@version June 2019
+     */
     private void makeFirebaseConnection() {
         try {
             InputStream serviceAccount = new FileInputStream("src/resources/iipsen-database-firebase-adminsdk-rpnmc-2910ea15ab.json");
@@ -458,6 +463,12 @@ public class FirebaseService {
         }
     }
 
+    /**
+     * Add player in public libary, in combination with his personal key.
+     * Now you can find the Name by key in game and in the main menu.
+     *@author Mick van Dijke
+     *@version June 2019
+     */
     public void addNewPlayerInFirebase(String playerUID,String playerName) {
         try {
             DocumentReference players = db.collection("Players").document(PLAYERDOCUMENT);
