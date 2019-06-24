@@ -557,6 +557,7 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         game.addProvince(bel);
 
         bel.addBorder(hol);
+        hol.addBorder(ruh);
 
         //BORDERS GERMANY -> france and austria (hol & beg);
 
