@@ -352,7 +352,6 @@ public class FirebaseService {
         List<Player> players;
         GameJSON gameJSON = getGame(gameUID);
         players = gameJSON.Players;
-        System.out.println(players);
         return players;
     }
 
