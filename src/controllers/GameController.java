@@ -23,6 +23,10 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Class that handles retrieving, saving and parsing the game.
+ */
+
 public class GameController  {
 
     private GameModel gameModel;
