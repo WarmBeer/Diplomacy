@@ -187,6 +187,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
     }
 
     private void updateMessages(ArrayList<String> messageArraylist) {
+
         messagesList.getItems().clear();
         for (String bericht : messageArraylist) {
             Color privateColor = Color.BLACK;

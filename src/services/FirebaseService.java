@@ -197,6 +197,11 @@ public class FirebaseService {
                 for (int i = 0; i < gameJSON.Provinces.size(); i++) {
                     if (gameJSON.Provinces.get(i).abbr.equals(unit.getProvince().getAbbreviation())) {
                         Province province = unit.getTargetProvince();
+                        System.out.println("gameJSON.Provinces.get(i: " + gameJSON.Provinces.get(i)+ "");
+                        System.out.println(" gameJSON.Provinces.get(i).stationed " +  gameJSON.Provinces.get(i).stationed);
+                        System.out.println("province " + province);
+                        System.out.println("gameJSON.Provinces.get(i).stationed.orderTarget " + gameJSON.Provinces.get(i).stationed.orderTarget);
+                        System.out.println("province.getAbbreviation() " + province.getAbbreviation());
                         gameJSON.Provinces.get(i).stationed.orderTarget = province.getAbbreviation();
                         gameJSON.Provinces.get(i).stationed.orderType = unit.getCurrentOrder();
                     }

@@ -30,6 +30,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.LogManager;
 
+/**
+ * Controller behind the main menu view
+ */
 public class MainMenuView implements MainMenuViewObserver {
     private Stage stage;
     private Scene scene;
