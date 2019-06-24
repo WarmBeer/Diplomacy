@@ -185,7 +185,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                 String fromPlayerUID = berichtSplit[0];
 
                 Player fromPlayer = null;
-                List<Player> players = gameController.getPlayersList();
+                List<Player> players = gameController.getGamemodel().getActiveGame().getPlayers();
                 for(Player player : players) {
                     if(player.getUID().equals(fromPlayerUID)) {
                         fromPlayer =  player;
