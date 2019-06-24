@@ -390,11 +390,11 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             comboxPrivateChat.getSelectionModel().select(0);
         }
 
-        if(gameViewObservable.pointsChanged()){
+        //if(gameViewObservable.pointsChanged()){
             points.getChildren().removeAll(points.getChildren());
             points.getChildren().addAll(gameViewObservable.getPointsGroup());
             addProvinceEvents(gameViewObservable.getProvinces());
-        }
+       // }
 
         if(gameViewObservable.doRemoveAllPoints()) {
             troops.getChildren().removeAll(troops.getChildren());
