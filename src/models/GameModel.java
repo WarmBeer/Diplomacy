@@ -29,6 +29,10 @@ import java.util.concurrent.ExecutionException;
 
 import static application.Main.unitType;
 
+/**
+ * Class that holds the Game and handles game logic.
+ */
+
 public class GameModel implements Model, OrderObservable, GameViewObservable {
 
     private Group troops;
