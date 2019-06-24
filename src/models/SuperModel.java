@@ -11,6 +11,11 @@ import views.MainMenuView;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Class That mostly manages the main menu view
+ *
+ * @author Stefan Damen, Mick Dijke
+ */
 public class SuperModel implements Model, MainMenuViewObservable {
 
     ArrayList<MainMenuViewObserver> MainMenuViewObservers = new ArrayList<>();

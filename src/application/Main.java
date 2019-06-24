@@ -42,6 +42,13 @@ public class Main extends Application {
     }
 
 
+    /**
+     * Regeelt de inlog aan de hand van een sleutel.
+     * Slaat een sleutel op in KEY.txt indien niet aanwezig.
+     * @author Mick van Dijke
+     * @version June 2019
+     */
+
     public void setup() {
 
         String jarLocation = KeyHandler.getJarLocation();

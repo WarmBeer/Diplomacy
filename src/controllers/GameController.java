@@ -23,6 +23,11 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Class that handles retrieving, saving and parsing the game.
+ * @author Mick van Dijke, Stefan Damen
+ */
+
 public class GameController  {
 
     private GameModel gameModel;
@@ -95,6 +100,12 @@ public class GameController  {
         processOrders();
     }
 
+/**
+* Haalt de game op van Firestore.
+*@author Mick van Dijke
+*@version June 2019
+*/
+
     public GameJSON retrieveGameJSON(String gameUID) {
 
         GameJSON gameJSON = fb.getGame(gameUID);
@@ -133,6 +144,12 @@ public class GameController  {
             requestLoadGame(gameModel.getActiveGame().getGameUID());
         }
     }
+
+/**
+* Maakt van JSON een Game object.
+*@author Mick van Dijke
+*@version June 2019
+*/
 
     public GameJSON saveGameToJSON() {
 
@@ -192,6 +209,12 @@ public class GameController  {
         this.gameModel.show();
     }
 
+/**
+* Laadt een game van Firestore en toont hem op het scherm.
+*@author Mick van Dijke
+*@version June 2019
+*/
+
     public void requestLoadGame(String gameUID){
         try{
             mainController.getSuperModel().hide();
@@ -245,6 +268,12 @@ public class GameController  {
         chatbox.addFirstMessage(Main.getKEY(), gameModel.getActiveGame().getGameUID());
     }
 
+
+/**
+* Verstuurt alle orders naar Firestore.
+*@author Mick van Dijke
+*@version June 2019
+*/
 
     public void sendOrders() {
         fb.sendOrders(gameModel.getActiveGame().getGameUID(), orderedUnits);
@@ -312,6 +341,12 @@ public class GameController  {
         sendOrders();
     }
 
+
+/**
+* Haalt de game op van Firestore, verwerkt alle orders en slaat de game vervolgens weer op in Firestore.
+*@author Mick van Dijke
+*@version June 2019
+*/
 
     private void processOrders() {
 

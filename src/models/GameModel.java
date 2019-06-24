@@ -29,6 +29,10 @@ import java.util.concurrent.ExecutionException;
 
 import static application.Main.unitType;
 
+/**
+ * Class that holds the Game and handles game logic.
+ */
+
 public class GameModel implements Model, OrderObservable, GameViewObservable {
 
     private Group troops;
@@ -220,11 +224,9 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
             province.setImage(new Image("sprites/" + province.getOwner().getName() + ".png"));
         }
 
-
         this.activeGame = game;
         this.setPointsChanged();
         this.notifyGameViewObservers();
-        //firebase.addGameListener(game.getGameUID(), this);
         chatBox.listenToChat(game.getGameUID());
 
     }
@@ -305,6 +307,14 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         activeGame.setLobby(false);
     }
 
+    /**
+     * initialize the hard coded provinces,
+     * with the included connections, type, name, abbreviation, position, parent country and supply centers
+     *
+     * @author Stefan Damen
+     *
+     * @param game
+     */
     public void initProvinces(Game game) {
         //----GERMANY//----
         Province kie = new Province("Kiel", "kie", true, 580, 535, Countries.GERMANY);
@@ -880,11 +890,21 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
 
     }
 
+    /**
+     * Hide all points on the map, including province points and Unit points
+     *
+     * @author Stefan Damen
+     */
     public void hideVisualPoints() {
         removeVisualPoints = true;
         notifyGameViewObservers();
     }
 
+    /**
+     * show all points on the map, including province points and Unit points
+     *
+     * @author Stefan Damen
+     */
     public void showVisualPoints() {
         removeVisualPoints = false;
         notifyGameViewObservers();
@@ -930,6 +950,13 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         return false;
     }
 
+    /**
+     * Get the player object associated with the Key on the local machine.
+     *
+     * @author Stefan Damen
+     *
+     * @return Player
+     */
     public Player getThisPlayer() {
         for(Player player : activeGame.getPlayers()) {
             if(isThisLocalPlayer(player))
@@ -956,14 +983,14 @@ public class GameModel implements Model, OrderObservable, GameViewObservable {
         return this.provComboBoxValues;
     }
 
-    public Province getProvinceFromAbbr(String provinceAbbr) {
-        for(Province province : getProvinces()) {
-            if(province.getAbbreviation().equals(provinceAbbr))
-                return province;
-        }
-        return null;
-    }
-
+    /**
+     * Get a province object from the name of the province, returns null if not found.
+     *
+     * @author Stefan Damen
+     *
+     * @param provinceName: String
+     * @return Province
+     */
     public Province getProvinceFromName(String provinceName) {
         for(int i = 0;i < getProvinces().size();i++) {
             if(getProvinces().get(i).getName().equals(provinceName))
