@@ -1,5 +1,6 @@
 package controllers;
 
+import application.Main;
 import javafx.fxml.FXML;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -10,6 +11,8 @@ import models.SuperModel;
 import services.FirebaseService;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -25,9 +28,12 @@ public class MainController {
     private String currentGameUID;
     private boolean gameUIDIsReady = false;
 
-    String gameSoundFile = "src/resources/chipz.mp3";
-    Media gameSound = new Media(new File(gameSoundFile).toURI().toString());
-    MediaPlayer mediaplayer = new MediaPlayer(gameSound);
+//    Reader reader = new BufferedReader(new InputStreamReader(
+//            this.getClass().getResourceAsStream(File.separator + "chipz.mp3")));
+
+    //String gameSoundFile = "src/resources/chipz.mp3";
+    Media gameSound = null;
+    MediaPlayer mediaplayer = null;
 
     public GameModel.Countries  getAvailableCountry(String gameUID){
         GameModel.Countries  availableCountry = gameController.giveAvailableCountry(gameUID);
@@ -35,6 +41,14 @@ public class MainController {
     }
 
     public MainController(Stage primaryStage) {
+        try {
+            URL media = getClass().getClassLoader().getResource("chipz.mp3");
+            System.out.println("media: " + media);
+            gameSound = new Media(media.toString());
+            mediaplayer = new MediaPlayer(gameSound);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         superModel = new SuperModel(primaryStage, this);
         this.gameController = new GameController(primaryStage, this);
         this.fb = FirebaseService.getInstance();

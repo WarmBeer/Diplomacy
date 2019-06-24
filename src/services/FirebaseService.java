@@ -21,6 +21,7 @@ import models.SuperModel;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
@@ -76,7 +77,9 @@ public class FirebaseService {
      */
     private void makeFirebaseConnection() {
         try {
-            InputStream serviceAccount = new FileInputStream("src/resources/iipsen-database-firebase-adminsdk-rpnmc-2910ea15ab.json");
+            InputStream serviceAccount = //new FileInputStream(
+                    getClass().getClassLoader().getResourceAsStream("iipsen-database-firebase-adminsdk-rpnmc-2910ea15ab.json");
+            //);
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
             FirebaseOptions options = new FirebaseOptions.Builder().setCredentials(credentials).build();
             FirebaseApp.initializeApp(options);
