@@ -248,6 +248,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         comboxAction.setDisable(true);
         comboxProv1.setDisable(true);
         bOrder.setDisable(true);
+        lvOrders.setDisable(true);
         gameController.clickedSendOrder(lvOrders);
     }
 
