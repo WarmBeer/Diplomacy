@@ -183,6 +183,15 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
             if (bericht.contains("_")) {
                 String[] berichtSplit = bericht.split("_");
                 String fromPlayerUID = berichtSplit[0];
+
+                Player fromPlayer = null;
+                List<Player> players = gameController.getPlayersList();
+                for(Player player : players) {
+                    if(player.getUID().equals(fromPlayerUID)) {
+                        fromPlayer =  player;
+                    }
+                }
+
                 String toPlayer = berichtSplit[1];
 
                 Player thisPlayer = gameController.getGamemodel().getThisPlayer();
@@ -196,6 +205,9 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
                 }
 
                 bericht = berichtSplit[2];
+                if(fromPlayer != null)
+                    bericht = bericht.replace(fromPlayerUID, fromPlayer.getCountry().name());
+
                 switch (toPlayer) {
                     case "ALL":
                         break;
