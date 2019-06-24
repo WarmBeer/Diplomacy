@@ -476,6 +476,12 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
         }
     }
 
+    @FXML
+    private void returnInGameMenu() {
+        gameOpties.setVisible(!gameOpties.isVisible());
+        MainMenu.setVisible(!MainMenu.isVisible());
+    }
+
     //Shows the in_game options and hides the in_game options.
     @FXML
     private void inGameOpties() {
