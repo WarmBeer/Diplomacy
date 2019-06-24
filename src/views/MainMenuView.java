@@ -31,8 +31,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.LogManager;
 
 /**
- * Controller behind the main menu view
+ * Class that handles input and output of the FXML file (view) of the main menu
  */
+
 public class MainMenuView implements MainMenuViewObserver {
     private Stage stage;
     private Scene scene;

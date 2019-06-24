@@ -34,6 +34,10 @@ import java.net.URL;
 import java.util.*;
 import java.util.logging.LogManager;
 
+/**
+ * Class that handles input and output of the FXML file (view) of the game
+ */
+
 public class GameView implements OrderObserver, ChatObserver, Initializable, GameViewObserver {
 
     //Game setup variables

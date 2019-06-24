@@ -13,8 +13,6 @@ import java.util.ArrayList;
 
 /**
  * Class That mostly manages the main menu view
- *
- * @author Stefan Damen, Mick Dijke
  */
 public class SuperModel implements Model, MainMenuViewObservable {
 

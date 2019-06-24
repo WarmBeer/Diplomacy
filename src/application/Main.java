@@ -11,6 +11,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * Starts the diplomacy application, creates the personal key
+ */
 
 public class Main extends Application {
 
