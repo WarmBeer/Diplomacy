@@ -90,7 +90,7 @@
                   <Button fx:id="inGameMenuButton" layoutX="22.0" layoutY="14.0" mnemonicParsing="false" onAction="#OpenMenu" text="Menu" />
                   <AnchorPane fx:id="gameOpties" layoutX="831.0" layoutY="318.0" prefHeight="158.0" prefWidth="181.0" style="-fx-background-radius: 15px; -fx-background-insets: -10px; -fx-border-color: white; -fx-background-color: lightgrey;" visible="false">
                      <children>
-                        <Button fx:id="returnInGameMenuKnop" layoutX="16.0" layoutY="98.0" mnemonicParsing="false" onAction="#returnInGameMenu" text="Return to menu">
+                        <Button fx:id="returnInGameMenuKnop" layoutX="16.0" layoutY="98.0" mnemonicParsing="false" text="Return to menu">
                            <font>
                               <Font name="Gabriola" size="24.0" />
                            </font>
