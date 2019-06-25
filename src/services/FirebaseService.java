@@ -121,11 +121,8 @@ public class FirebaseService {
 
     /**
      *  from a DocumentSnapshot, get all messages as an arraylist
-     *
      * @author Thomas Zijl
-     *
      * @param document
-     * @return ArrayList<String>
      */
     public ArrayList<String> getMessagesFromDocument(DocumentSnapshot document) {
         //Get the hashmap

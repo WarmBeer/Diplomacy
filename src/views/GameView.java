@@ -509,7 +509,6 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     /**
      * Creates the pages and sets every page of the rulebook to a page.
-     * @param pageIndex
      * @return Places the created pages inside the VBox.
      * @author Sebas
      * @version June 2019
