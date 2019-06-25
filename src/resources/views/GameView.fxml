@@ -27,7 +27,7 @@
                <children>
                   <ImageView fitHeight="1017.0" fitWidth="1500.0" pickOnBounds="true">
                      <image>
-                        <Image url="@/resources/DiplomacyMapOriginal.png" />
+                        <Image url="@/DiplomacyMapOriginal.png" />
                      </image>
                   </ImageView>
                   <VBox layoutX="1500.0" layoutY="6.0" prefHeight="1017.0" prefWidth="420.0">

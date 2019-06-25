@@ -4,7 +4,6 @@ import application.Main;
 import controllers.GameController;
 import domains.Player;
 import domains.Province;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -22,13 +21,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import observers.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -42,8 +39,8 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
     //Game setup variables
     private Parent content;
-    public final String GAME_VIEW = "/resources/views/GameView.fxml";
-    public final String STYLESHEET_FILE = "/Resources/GameView.css";
+    public final String GAME_VIEW = "/views/GameView.fxml";
+    public final String STYLESHEET_FILE = "GameView.css";
     private static String SPEL_REGELS = "/views/Spelregels.fxml";
 
 
@@ -107,7 +104,7 @@ public class GameView implements OrderObserver, ChatObserver, Initializable, Gam
 
             primaryStage.setTitle("Diplomacy v0.2");
             Scene scene = new Scene( root, 1920, 1080 );
-            scene.getStylesheets().add(getClass().getResource(STYLESHEET_FILE).toExternalForm());
+            scene.getStylesheets().add (GameView.class.getResource(STYLESHEET_FILE).toExternalForm());
             root.getChildren().addAll(content, troops, points);
             primaryStage.setScene(scene);
             primaryStage.setMaximized(true);
